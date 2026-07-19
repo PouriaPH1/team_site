@@ -1,0 +1,99 @@
+@model TeamPortfolio.Web.ViewModels.Team.TeamIndexViewModel
+@{
+    ViewData["Title"] = "Our Team";
+}
+
+<section class="section-wrapper">
+    <div class="container-main">
+        <div class="text-center mb-5">
+            <p class="section-eyebrow"><i class="fa-solid fa-users me-2" aria-hidden="true"></i>The People</p>
+            <h1 class="section-title">Meet Our Team</h1>
+            <p class="section-subtitle">Talented engineers dedicated to crafting exceptional software.</p>
+        </div>
+
+        <!-- Search -->
+        <div class="d-flex justify-content-center mb-5">
+            <div style="position:relative;width:100%;max-width:400px;">
+                <i class="fa-solid fa-magnifying-glass" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);" aria-hidden="true"></i>
+                <input type="text"
+                       id="member-search"
+                       class="form-control"
+                       style="padding-left:40px;"
+                       placeholder="Search by name or role..."
+                       value="@Model.SearchQuery"
+                       aria-label="Search team members" />
+            </div>
+        </div>
+
+        @if (Model.Members.Any())
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="members-grid">
+                @foreach (var member in Model.Members)
+                {
+                    <div class="col member-card-col" data-name="@member.FullName.ToLower()" data-role="@member.Role.ToLower()">
+                        <div class="card h-100" style="text-align:center;">
+                            @if (!string.IsNullOrEmpty(member.ProfilePhotoPath))
+                            {
+                                <img src="@member.ProfilePhotoPath" alt="@member.FullName"
+                                     style="width:88px;height:88px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;border:3px solid var(--color-border);"
+                                     loading="lazy" />
+                            }
+                            else
+                            {
+                                <div style="width:88px;height:88px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.75rem;color:white;font-weight:700;">
+                                    @member.FirstName[0]@member.LastName[0]
+                                </div>
+                            }
+                            <h3 style="font-size:1.1rem;margin-bottom:0.25rem;">@member.FullName</h3>
+                            <span class="badge badge-primary mb-3">@member.Role</span>
+                            @if (!string.IsNullOrEmpty(member.Biography))
+                            {
+                                <p style="color:var(--color-text-secondary);font-size:0.875rem;line-height:1.6;margin-bottom:1.25rem;">
+                                    @(member.Biography.Length > 100 ? member.Biography[..100] + "…" : member.Biography)
+                                </p>
+                            }
+                            <a asp-controller="Team" asp-action="Profile" asp-route-slug="@member.Slug"
+                               class="btn-secondary mt-auto" style="cursor:pointer;">
+                                <i class="fa-solid fa-user fa-fw" aria-hidden="true"></i> View Profile
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div id="no-results" style="display:none;text-align:center;padding:3rem;color:var(--color-text-muted);">
+                <i class="fa-solid fa-magnifying-glass" style="font-size:2.5rem;display:block;margin-bottom:1rem;" aria-hidden="true"></i>
+                <p>No team members match your search.</p>
+            </div>
+        }
+        else
+        {
+            <div class="text-center" style="padding:4rem;color:var(--color-text-muted);">
+                <i class="fa-solid fa-users" style="font-size:3rem;display:block;margin-bottom:1rem;" aria-hidden="true"></i>
+                <p>Team members coming soon.</p>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+<script>
+(function() {
+    var input = document.getElementById('member-search');
+    if (!input) return;
+    input.addEventListener('input', function() {
+        var q = input.value.toLowerCase().trim();
+        var cols = document.querySelectorAll('.member-card-col');
+        var visible = 0;
+        cols.forEach(function(col) {
+            var name = col.getAttribute('data-name') || '';
+            var role = col.getAttribute('data-role') || '';
+            var show = !q || name.includes(q) || role.includes(q);
+            col.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        var noResults = document.getElementById('no-results');
+        if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+    });
+})();
+</script>
+}

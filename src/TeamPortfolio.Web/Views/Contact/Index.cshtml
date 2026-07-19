@@ -1,0 +1,122 @@
+@model TeamPortfolio.Web.ViewModels.Contact.ContactViewModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<section class="section-wrapper">
+    <div class="container-main">
+        <div class="text-center mb-5">
+            <p class="section-eyebrow"><i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>Get In Touch</p>
+            <h1 class="section-title">Contact Us</h1>
+            <p class="section-subtitle">Have a question or project idea? We'd love to hear from you.</p>
+        </div>
+
+        @if (TempData["ContactSuccess"] != null)
+        {
+            <div class="card" style="border-left:4px solid var(--color-success);cursor:default;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto;">
+                <p style="margin:0;color:var(--color-success);">
+                    <i class="fa-solid fa-circle-check me-2" aria-hidden="true"></i>@TempData["ContactSuccess"]
+                </p>
+            </div>
+        }
+
+        <div class="row g-5 align-items-start">
+            <!-- Contact Form -->
+            <div class="col-lg-7">
+                <div class="card" style="cursor:default;">
+                    <h2 style="font-size:1.25rem;margin-bottom:1.5rem;">
+                        <i class="fa-solid fa-paper-plane me-2" style="color:var(--color-primary);" aria-hidden="true"></i>Send a Message
+                    </h2>
+                    <form asp-action="Submit" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FullName" class="form-label" style="font-size:0.875rem;color:var(--color-text-secondary);">Full Name *</label>
+                                <input asp-for="FullName" class="form-control" placeholder="Your full name" />
+                                <span asp-validation-for="FullName" style="color:var(--color-danger);font-size:0.8rem;"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label" style="font-size:0.875rem;color:var(--color-text-secondary);">Email *</label>
+                                <input asp-for="Email" class="form-control" placeholder="your@email.com" type="email" />
+                                <span asp-validation-for="Email" style="color:var(--color-danger);font-size:0.8rem;"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Subject" class="form-label" style="font-size:0.875rem;color:var(--color-text-secondary);">Subject *</label>
+                            <input asp-for="Subject" class="form-control" placeholder="What's this about?" />
+                            <span asp-validation-for="Subject" style="color:var(--color-danger);font-size:0.8rem;"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Body" class="form-label" style="font-size:0.875rem;color:var(--color-text-secondary);">Message *</label>
+                            <textarea asp-for="Body" class="form-control" rows="5" placeholder="Tell us about your project or question..."></textarea>
+                            <span asp-validation-for="Body" style="color:var(--color-danger);font-size:0.8rem;"></span>
+                        </div>
+                        <button type="submit" class="btn-primary" style="cursor:pointer;">
+                            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-5">
+                <div class="card mb-4" style="cursor:default;">
+                    <h3 style="font-size:1rem;margin-bottom:1.25rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em;">Contact Info</h3>
+                    <div style="display:flex;flex-direction:column;gap:1rem;">
+                        <div style="display:flex;align-items:flex-start;gap:12px;">
+                            <i class="fa-solid fa-location-dot fa-fw" style="color:var(--color-primary);margin-top:2px;" aria-hidden="true"></i>
+                            <div>
+                                <div style="font-weight:500;margin-bottom:2px;">Address</div>
+                                <div style="color:var(--color-text-secondary);font-size:0.9rem;">Tehran, Iran</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:12px;">
+                            <i class="fa-solid fa-envelope fa-fw" style="color:var(--color-primary);margin-top:2px;" aria-hidden="true"></i>
+                            <div>
+                                <div style="font-weight:500;margin-bottom:2px;">Email</div>
+                                <a href="mailto:team@example.com" style="color:var(--color-text-secondary);font-size:0.9rem;cursor:pointer;">team@example.com</a>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:12px;">
+                            <i class="fa-solid fa-phone fa-fw" style="color:var(--color-primary);margin-top:2px;" aria-hidden="true"></i>
+                            <div>
+                                <div style="font-weight:500;margin-bottom:2px;">Phone</div>
+                                <a href="tel:+989120000000" style="color:var(--color-text-secondary);font-size:0.9rem;cursor:pointer;">+98 912 000 0000</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="border-color:var(--color-border);margin:1.25rem 0;">
+                    <div style="display:flex;gap:10px;">
+                        <a href="#" class="footer-social-link" aria-label="GitHub" style="cursor:pointer;">
+                            <i class="fa-brands fa-github" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn" style="cursor:pointer;">
+                            <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="footer-social-link" aria-label="Telegram" style="cursor:pointer;">
+                            <i class="fa-brands fa-telegram" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div style="border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--color-border);">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d207364.32994654044!2d51.22769!3d35.69439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e00491ff3dcd9%3A0xf0b3697c567024bc!2sTehran%2C+Tehran+Province%2C+Iran!5e0!3m2!1sen!2s!4v1"
+                        width="100%" height="220"
+                        style="border:0;display:block;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Team location map"
+                        aria-label="Google Maps showing team location">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

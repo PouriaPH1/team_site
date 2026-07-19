@@ -1,0 +1,11 @@
+@{ ViewData["Title"] = "403 – Access Denied"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+<section class="section-wrapper text-center">
+    <div class="container-main">
+        <div style="font-size:5rem;font-weight:700;" class="text-gradient">403</div>
+        <h1 style="font-size:clamp(1.5rem,3vw,2rem);margin:1rem 0 0.75rem;">Access Denied</h1>
+        <p style="color:var(--color-text-secondary);margin-bottom:2rem;">You don't have permission to access this page.</p>
+        <a asp-controller="Home" asp-action="Index" class="btn-primary" style="cursor:pointer;">
+            <i class="fa-solid fa-house" aria-hidden="true"></i> Back to Home
+        </a>
+    </div>
+</section>

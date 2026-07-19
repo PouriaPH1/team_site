@@ -1,0 +1,82 @@
+@model TeamPortfolio.Web.ViewModels.Blog.BlogIndexViewModel
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<section class="section-wrapper">
+    <div class="container-main">
+        <div class="text-center mb-5">
+            <p class="section-eyebrow">
+                <i class="fa-solid fa-newspaper me-2" aria-hidden="true"></i>Knowledge Base
+            </p>
+            <h1 class="section-title">Blog</h1>
+            <p class="section-subtitle">Technical articles, tutorials, and insights from our team.</p>
+        </div>
+
+        @if (Model.Posts.Any())
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var post in Model.Posts)
+                {
+                    <div class="col">
+                        <a asp-action="Post" asp-route-slug="@post.Slug"
+                           class="card d-block text-decoration-none"
+                           style="height:100%;cursor:pointer;">
+                            @if (!string.IsNullOrEmpty(post.CoverImagePath))
+                            {
+                                <img src="@post.CoverImagePath"
+                                     alt="@post.Title"
+                                     style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md);margin-bottom:1rem;"
+                                     loading="lazy" />
+                            }
+                            <span class="badge badge-primary mb-2">@post.CategoryName</span>
+                            <h3 style="font-size:1.05rem;margin-bottom:0.5rem;">@post.Title</h3>
+                            <div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--color-border);display:flex;justify-content:space-between;align-items:center;">
+                                <span style="font-size:0.8rem;color:var(--color-text-muted);">
+                                    <i class="fa-solid fa-user fa-fw" aria-hidden="true"></i> @post.AuthorName
+                                </span>
+                                <span style="font-size:0.8rem;color:var(--color-text-muted);">
+                                    <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i> @post.ViewCount
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+
+            @if (Model.TotalPages > 1)
+            {
+                <nav aria-label="Blog pagination" class="mt-5 d-flex justify-content-center align-items-center gap-2">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.Page - 1)"
+                           asp-route-categoryId="@Model.ActiveCategoryId"
+                           class="btn-ghost" style="cursor:pointer;">
+                            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Prev
+                        </a>
+                    }
+                    <span style="color:var(--color-text-muted);font-size:0.875rem;">
+                        Page @Model.Page of @Model.TotalPages
+                    </span>
+                    @if (Model.HasNextPage)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.Page + 1)"
+                           asp-route-categoryId="@Model.ActiveCategoryId"
+                           class="btn-ghost" style="cursor:pointer;">
+                            Next <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                        </a>
+                    }
+                </nav>
+            }
+        }
+        else
+        {
+            <div class="text-center" style="padding:4rem;color:var(--color-text-muted);">
+                <i class="fa-solid fa-newspaper"
+                   style="font-size:3rem;display:block;margin-bottom:1rem;"
+                   aria-hidden="true"></i>
+                <p>Blog posts coming soon.</p>
+            </div>
+        }
+    </div>
+</section>

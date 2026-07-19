@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+      (function() {
+        var THEME_KEY = 'tp-theme';
+        var saved = localStorage.getItem(THEME_KEY);
+        var preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', saved || preferred);
+      })();
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin | TeamPortfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uu0qcPxh4Plh7eecsDwtR3PTxyYDAfuZJHoYOPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" />
+    <link rel="stylesheet" href="~/css/design-system.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Head", required: false)
+    <style>
+        /* ── Admin Layout ── */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+            background: var(--color-bg);
+        }
+        .admin-sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: var(--color-bg);
+            border-right: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 200;
+            transition: transform 300ms ease;
+            overflow-y: auto;
+        }
+        .admin-sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        .admin-sidebar-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 64px;
+        }
+        .admin-nav-section {
+            padding: 1rem 0.75rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-text-muted);
+        }
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 1rem;
+            margin: 2px 0.75rem;
+            border-radius: var(--radius-md);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+        .admin-nav-link:hover {
+            background: var(--color-surface-raised);
+            color: var(--color-text);
+        }
+        .admin-nav-link.active {
+            background: rgba(59,130,246,0.12);
+            color: var(--color-primary);
+        }
+        .admin-main {
+            flex: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin-left 300ms ease;
+        }
+        .admin-topbar {
+            height: 64px;
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .admin-content {
+            flex: 1;
+            padding: 2rem 1.5rem;
+            background: var(--color-bg);
+        }
+        .admin-sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 199;
+        }
+        .admin-sidebar-overlay.show { display: block; }
+
+        @@media (max-width: 991px) {
+            .admin-sidebar { transform: translateX(-100%); }
+            .admin-sidebar.mobile-open { transform: translateX(0); }
+            .admin-main { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    }
+
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Admin navigation">
+            <div class="admin-sidebar-header">
+                <a asp-area="" asp-controller="Home" asp-action="Index"
+                   class="text-gradient fw-bold text-decoration-none"
+                   style="font-family:var(--font-heading);font-size:1.1rem;cursor:pointer;">
+                    <i class="fa-solid fa-code me-2" aria-hidden="true"></i>TeamPortfolio
+                </a>
+            </div>
+
+            <nav class="flex-1 py-2">
+                <div class="admin-nav-section">Main</div>
+                <a class="admin-nav-link @(currentController == "Dashboard" ? "active" : "")"
+                   asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                    <i class="fa-solid fa-gauge-high fa-fw" aria-hidden="true"></i> Dashboard
+                </a>
+
+                <div class="admin-nav-section">Content</div>
+                <a class="admin-nav-link @(currentController == "TeamMembers" ? "active" : "")"
+                   asp-area="Admin" asp-controller="TeamMembers" asp-action="Index">
+                    <i class="fa-solid fa-users fa-fw" aria-hidden="true"></i> Team Members
+                </a>
+                <a class="admin-nav-link @(currentController == "Portfolio" ? "active" : "")"
+                   asp-area="Admin" asp-controller="Portfolio" asp-action="Index">
+                    <i class="fa-solid fa-briefcase fa-fw" aria-hidden="true"></i> Portfolio
+                </a>
+                <a class="admin-nav-link @(currentController == "Blog" ? "active" : "")"
+                   asp-area="Admin" asp-controller="Blog" asp-action="Index">
+                    <i class="fa-solid fa-newspaper fa-fw" aria-hidden="true"></i> Blog Posts
+                </a>
+
+                <div class="admin-nav-section">Moderation</div>
+                <a class="admin-nav-link @(currentController == "Comments" ? "active" : "")"
+                   asp-area="Admin" asp-controller="Comments" asp-action="Index">
+                    <i class="fa-solid fa-comments fa-fw" aria-hidden="true"></i> Comments
+                </a>
+                <a class="admin-nav-link @(currentController == "Categories" ? "active" : "")"
+                   asp-area="Admin" asp-controller="Categories" asp-action="Index">
+                    <i class="fa-solid fa-tags fa-fw" aria-hidden="true"></i> Categories
+                </a>
+                <a class="admin-nav-link @(currentController == "ContactMessages" ? "active" : "")"
+                   asp-area="Admin" asp-controller="ContactMessages" asp-action="Index">
+                    <i class="fa-solid fa-envelope fa-fw" aria-hidden="true"></i> Messages
+                </a>
+            </nav>
+
+            <div style="padding:1rem 0.75rem;border-top:1px solid var(--color-border);">
+                <a asp-area="" asp-controller="Home" asp-action="Index"
+                   class="admin-nav-link" style="cursor:pointer;">
+                    <i class="fa-solid fa-arrow-left fa-fw" aria-hidden="true"></i> Back to Site
+                </a>
+            </div>
+        </aside>
+
+        <!-- Sidebar overlay (mobile) -->
+        <div class="admin-sidebar-overlay" id="admin-sidebar-overlay"></div>
+
+        <!-- Main area -->
+        <div class="admin-main" id="admin-main">
+            <!-- Top bar -->
+            <header class="admin-topbar">
+                <button id="admin-sidebar-toggle" class="btn-ghost" aria-label="Toggle sidebar" style="cursor:pointer;">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+                <h1 style="font-size:1.1rem;font-weight:600;margin:0;flex:1;">@ViewData["Title"]</h1>
+                <div class="d-flex align-items-center gap-2">
+                    <button id="theme-toggle-btn" class="btn-ghost" aria-label="Toggle theme" style="cursor:pointer;">
+                        <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                    </button>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <span style="font-size:0.875rem;color:var(--color-text-secondary);">
+                            <i class="fa-solid fa-user fa-fw" aria-hidden="true"></i> @User.Identity.Name
+                        </span>
+                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn-ghost" style="cursor:pointer;" aria-label="Logout">
+                                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                                <span class="d-none d-md-inline">Logout</span>
+                            </button>
+                        </form>
+                    }
+                </div>
+            </header>
+
+            <!-- Page content -->
+            <main class="admin-content" role="main">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/theme-toggle.js" asp-append-version="true"></script>
+    <script src="~/js/notifications.js" asp-append-version="true"></script>
+    <script>
+    (function() {
+        var toggle = document.getElementById('admin-sidebar-toggle');
+        var sidebar = document.getElementById('admin-sidebar');
+        var overlay = document.getElementById('admin-sidebar-overlay');
+        function openSidebar() {
+            sidebar.classList.add('mobile-open');
+            overlay.classList.add('show');
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('show');
+        }
+        if (toggle) toggle.addEventListener('click', function() {
+            sidebar.classList.contains('mobile-open') ? closeSidebar() : openSidebar();
+        });
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+    })();
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

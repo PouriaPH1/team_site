@@ -1,0 +1,22 @@
+@{ ViewData["Title"] = "Add Category"; }
+<div class="d-flex align-items-center gap-3 mb-4">
+    <a asp-action="Index" class="btn-ghost" style="cursor:pointer;"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+    <h1 style="font-size:1.5rem;margin:0;">Add Category</h1>
+</div>
+@if (TempData["Error"] != null)
+{ <div class="card mb-3" style="border-left:4px solid var(--color-danger);cursor:default;"><p style="margin:0;color:var(--color-danger);">@TempData["Error"]</p></div> }
+<div class="card" style="cursor:default;max-width:480px;">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label for="name" class="form-label" style="font-size:0.875rem;color:var(--color-text-secondary);">Name *</label>
+            <input type="text" id="name" name="name" class="form-control" required />
+        </div>
+        <div class="mb-4">
+            <label for="description" class="form-label" style="font-size:0.875rem;color:var(--color-text-secondary);">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="cursor:pointer;"><i class="fa-solid fa-plus" aria-hidden="true"></i> Create</button>
+        <a asp-action="Index" class="btn-secondary ms-2" style="cursor:pointer;">Cancel</a>
+    </form>
+</div>

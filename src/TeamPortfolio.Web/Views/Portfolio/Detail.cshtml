@@ -1,0 +1,93 @@
+@model TeamPortfolio.Web.ViewModels.Portfolio.PortfolioDetailViewModel
+@{
+    ViewData["Title"] = Model.Item.Title;
+    var techs = Model.Item.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+}
+
+<section class="section-wrapper">
+    <div class="container-main">
+        <div class="row g-5">
+            <!-- Main content -->
+            <div class="col-lg-8">
+                <!-- Cover image -->
+                @if (!string.IsNullOrEmpty(Model.Item.CoverImagePath))
+                {
+                    <img src="@Model.Item.CoverImagePath" alt="@Model.Item.Title"
+                         style="width:100%;border-radius:var(--radius-lg);margin-bottom:2rem;object-fit:cover;max-height:420px;"
+                         loading="lazy" />
+                }
+
+                <h1 style="font-size:clamp(1.5rem,3vw,2.25rem);margin-bottom:1rem;">@Model.Item.Title</h1>
+
+                <!-- Tech badges -->
+                @if (techs.Any())
+                {
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;" aria-label="Technologies used">
+                        @foreach (var tech in techs)
+                        {
+                            <span class="badge badge-primary">@tech</span>
+                        }
+                    </div>
+                }
+
+                <!-- Description -->
+                <div style="color:var(--color-text-secondary);line-height:1.8;font-size:1.0625rem;">
+                    @Model.Item.Description
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="card" style="cursor:default;position:sticky;top:80px;">
+                    <h3 style="font-size:1rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1.25rem;">
+                        <i class="fa-solid fa-circle-info me-2" aria-hidden="true"></i>Project Info
+                    </h3>
+
+                    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.5rem;">
+                        <div>
+                            <div style="font-size:0.75rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em;">
+                                <i class="fa-regular fa-calendar me-1" aria-hidden="true"></i>Start Date
+                            </div>
+                            <div style="font-weight:500;margin-top:2px;">@Model.Item.StartDate.ToString("MMMM yyyy")</div>
+                        </div>
+
+                        @if (techs.Any())
+                        {
+                            <div>
+                                <div style="font-size:0.75rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em;">
+                                    <i class="fa-solid fa-code me-1" aria-hidden="true"></i>Technologies
+                                </div>
+                                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+                                    @foreach (var tech in techs)
+                                    {
+                                        <span class="badge badge-accent" style="font-size:0.75rem;">@tech</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        @if (!string.IsNullOrEmpty(Model.Item.GitHubUrl))
+                        {
+                            <a href="@Model.Item.GitHubUrl" target="_blank" rel="noopener noreferrer"
+                               class="btn-secondary" style="cursor:pointer;justify-content:center;">
+                                <i class="fa-brands fa-github me-2" aria-hidden="true"></i>View on GitHub
+                            </a>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Item.DemoUrl))
+                        {
+                            <a href="@Model.Item.DemoUrl" target="_blank" rel="noopener noreferrer"
+                               class="btn-primary" style="cursor:pointer;justify-content:center;">
+                                <i class="fa-solid fa-arrow-up-right-from-square me-2" aria-hidden="true"></i>Live Demo
+                            </a>
+                        }
+                        <a asp-action="Index" class="btn-ghost" style="cursor:pointer;justify-content:center;">
+                            <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i>Back to Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

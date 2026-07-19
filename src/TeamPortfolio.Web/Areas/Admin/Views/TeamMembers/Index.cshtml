@@ -1,0 +1,116 @@
+@model IEnumerable<TeamPortfolio.Application.DTOs.TeamMemberDto>
+@{ ViewData["Title"] = "Team Members"; }
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 style="font-size:1.5rem;margin:0;">Team Members</h1>
+    <a asp-action="Create" class="btn-primary" style="cursor:pointer;">
+        <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Member
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="card mb-4" style="border-left:4px solid var(--color-success);cursor:default;">
+        <p style="margin:0;color:var(--color-success);">
+            <i class="fa-solid fa-circle-check me-2" aria-hidden="true"></i>@TempData["Success"]
+        </p>
+    </div>
+}
+
+<div class="card" style="cursor:default;overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <thead>
+            <tr style="border-bottom:1px solid var(--color-border);">
+                <th style="padding:12px 16px;text-align:left;color:var(--color-text-muted);font-weight:600;">Name</th>
+                <th style="padding:12px 16px;text-align:left;color:var(--color-text-muted);font-weight:600;">Role</th>
+                <th style="padding:12px 16px;text-align:left;color:var(--color-text-muted);font-weight:600;">Status</th>
+                <th style="padding:12px 16px;text-align:right;color:var(--color-text-muted);font-weight:600;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="4" style="padding:3rem;text-align:center;color:var(--color-text-muted);">
+                        <i class="fa-solid fa-users fa-2x mb-3" style="display:block;opacity:0.3;" aria-hidden="true"></i>
+                        No members yet.
+                    </td>
+                </tr>
+            }
+            @foreach (var m in Model)
+            {
+                <tr style="border-bottom:1px solid var(--color-border);transition:background 150ms ease;">
+                    <td style="padding:12px 16px;">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            @if (!string.IsNullOrEmpty(m.ProfilePhotoPath))
+                            {
+                                <img src="@m.ProfilePhotoPath" alt="@m.FullName"
+                                     style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--color-border);" />
+                            }
+                            else
+                            {
+                                <div style="width:36px;height:36px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;color:white;font-size:0.85rem;font-weight:700;flex-shrink:0;">
+                                    @(m.FirstName.Length > 0 ? m.FirstName[0].ToString().ToUpper() : "")@(m.LastName.Length > 0 ? m.LastName[0].ToString().ToUpper() : "")
+                                </div>
+                            }
+                            <div style="font-weight:500;">@m.FullName</div>
+                        </div>
+                    </td>
+                    <td style="padding:12px 16px;">
+                        <span class="badge badge-primary">@m.Role</span>
+                    </td>
+                    <td style="padding:12px 16px;">
+                        @if (m.IsActive)
+                        {
+                            <span class="badge" style="background:rgba(16,185,129,0.15);color:#10B981;border:1px solid rgba(16,185,129,0.25);">
+                                <i class="fa-solid fa-circle-dot me-1" style="font-size:0.6rem;" aria-hidden="true"></i>Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid rgba(239,68,68,0.25);">
+                                <i class="fa-solid fa-circle-xmark me-1" style="font-size:0.6rem;" aria-hidden="true"></i>Inactive
+                            </span>
+                        }
+                    </td>
+                    <td style="padding:12px 16px;text-align:right;">
+                        <a asp-action="Edit" asp-route-id="@m.Id" class="btn-ghost"
+                           style="cursor:pointer;margin-right:4px;" aria-label="Edit @m.FullName">
+                            <i class="fa-solid fa-pen fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <button class="btn-ghost" onclick="confirmDelete(@m.Id, '@Html.Raw(m.FullName.Replace("'", "\\'"))')"
+                                style="cursor:pointer;color:var(--color-danger);" aria-label="Delete @m.FullName">
+                            <i class="fa-solid fa-trash fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <form id="delete-form-@m.Id" asp-action="Delete" asp-route-id="@m.Id"
+                              method="post" style="display:none;">
+                            @Html.AntiForgeryToken()
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+function confirmDelete(id, name) {
+    Swal.fire({
+        title: 'Delete Member?',
+        text: 'Are you sure you want to delete "' + name + '"? This cannot be undone.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete',
+        cancelButtonText: 'Cancel',
+        background: 'var(--color-surface)',
+        color: 'var(--color-text)',
+        confirmButtonColor: 'var(--color-danger)',
+        cancelButtonColor: 'var(--color-surface-raised)'
+    }).then(function (result) {
+        if (result.isConfirmed) document.getElementById('delete-form-' + id).submit();
+    });
+}
+</script>
+}

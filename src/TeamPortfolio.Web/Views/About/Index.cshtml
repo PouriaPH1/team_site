@@ -1,0 +1,96 @@
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<!-- Mission -->
+<section class="section-wrapper">
+    <div class="container-main">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <p class="section-eyebrow"><i class="fa-solid fa-circle-info me-2" aria-hidden="true"></i>Who We Are</p>
+                <h1 class="section-title text-start">Building Software That <span class="text-gradient">Matters</span></h1>
+                <p style="color:var(--color-text-secondary);font-size:1.0625rem;line-height:1.8;margin-top:1.25rem;">
+                    We are a team of passionate software engineers focused on delivering modern, scalable, and maintainable software solutions. Our mission is to bridge the gap between complex business problems and elegant technical implementations.
+                </p>
+                <p style="color:var(--color-text-secondary);font-size:1.0625rem;line-height:1.8;margin-top:1rem;">
+                    Founded in 2018, we've grown from a small group of developers into a full-stack team capable of handling everything from system architecture to UI/UX polish.
+                </p>
+                <div class="d-flex gap-3 mt-4 flex-wrap">
+                    <a asp-controller="Team" asp-action="Index" class="btn-primary" style="cursor:pointer;">
+                        <i class="fa-solid fa-users" aria-hidden="true"></i> Meet the Team
+                    </a>
+                    <a asp-controller="Contact" asp-action="Index" class="btn-secondary" style="cursor:pointer;">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i> Get in Touch
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                    <div class="card card-gradient" style="text-align:center;cursor:default;">
+                        <i class="fa-solid fa-bullseye" style="font-size:1.75rem;color:var(--color-primary);margin-bottom:0.75rem;" aria-hidden="true"></i>
+                        <h3 style="font-size:1rem;margin-bottom:0.5rem;">Mission</h3>
+                        <p style="color:var(--color-text-secondary);font-size:0.875rem;">Deliver software that solves real problems with clarity and precision.</p>
+                    </div>
+                    <div class="card card-gradient" style="text-align:center;cursor:default;">
+                        <i class="fa-solid fa-eye" style="font-size:1.75rem;color:var(--color-accent);margin-bottom:0.75rem;" aria-hidden="true"></i>
+                        <h3 style="font-size:1rem;margin-bottom:0.5rem;">Vision</h3>
+                        <p style="color:var(--color-text-secondary);font-size:0.875rem;">Become the most trusted software team for modern web solutions.</p>
+                    </div>
+                    <div class="card card-gradient" style="text-align:center;cursor:default;">
+                        <i class="fa-solid fa-heart" style="font-size:1.75rem;color:var(--color-danger);margin-bottom:0.75rem;" aria-hidden="true"></i>
+                        <h3 style="font-size:1rem;margin-bottom:0.5rem;">Values</h3>
+                        <p style="color:var(--color-text-secondary);font-size:0.875rem;">Quality, transparency, ownership, and continuous learning.</p>
+                    </div>
+                    <div class="card card-gradient" style="text-align:center;cursor:default;">
+                        <i class="fa-solid fa-rocket" style="font-size:1.75rem;color:var(--color-success);margin-bottom:0.75rem;" aria-hidden="true"></i>
+                        <h3 style="font-size:1rem;margin-bottom:0.5rem;">Approach</h3>
+                        <p style="color:var(--color-text-secondary);font-size:0.875rem;">Agile, iterative development with close collaboration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story -->
+<section class="section-wrapper" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
+    <div class="container-main">
+        <div class="text-center mb-5">
+            <p class="section-eyebrow"><i class="fa-solid fa-timeline me-2" aria-hidden="true"></i>Our Story</p>
+            <h2 class="section-title">How We Got Here</h2>
+        </div>
+        <div style="max-width:700px;margin:0 auto;">
+            <div style="position:relative;padding-left:2rem;border-left:2px solid var(--color-border);">
+                @foreach (var item in new[] {
+                    (Year:"2018", Title:"Founded", Desc:"Started as a two-person team building internal tools. Quickly expanded to web applications."),
+                    (Year:"2020", Title:"First Major Client", Desc:"Delivered a full-stack platform for a fintech startup. Built and shipped in 6 months."),
+                    (Year:"2022", Title:"Team Growth", Desc:"Grew to 8 engineers across backend, frontend, and DevOps. Established clean architecture practices."),
+                    (Year:"2024", Title:"Today", Desc:"A full-service team taking on complex projects, from greenfield to legacy modernization.")
+                })
+                {
+                    <div style="margin-bottom:2rem;position:relative;">
+                        <div style="position:absolute;left:-2.45rem;top:4px;width:14px;height:14px;border-radius:50%;background:var(--gradient-primary);border:2px solid var(--color-bg);"></div>
+                        <span style="font-size:0.8rem;color:var(--color-primary);font-weight:600;letter-spacing:0.05em;">@item.Year</span>
+                        <h3 style="font-size:1.05rem;margin:0.25rem 0 0.5rem;">@item.Title</h3>
+                        <p style="color:var(--color-text-secondary);font-size:0.9rem;line-height:1.7;margin:0;">@item.Desc</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Technologies -->
+<section class="section-wrapper">
+    <div class="container-main text-center">
+        <p class="section-eyebrow"><i class="fa-solid fa-microchip me-2" aria-hidden="true"></i>Our Stack</p>
+        <h2 class="section-title">Core Technologies</h2>
+        <p class="section-subtitle mb-5">The tools and platforms we know deeply and use daily.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+            @foreach (var tech in new[] { "ASP.NET Core 9", "C# 13", "Entity Framework Core", "SQL Server", "PostgreSQL", "Redis", "Docker", "Kubernetes", "Azure", "TypeScript", "React", "Tailwind CSS", "GitHub Actions", "Serilog", "xUnit" })
+            {
+                <span class="badge badge-accent" style="padding:8px 16px;font-size:0.875rem;">@tech</span>
+            }
+        </div>
+    </div>
+</section>

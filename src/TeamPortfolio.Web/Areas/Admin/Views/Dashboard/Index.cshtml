@@ -1,0 +1,64 @@
+@model TeamPortfolio.Web.ViewModels.Admin.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row g-4 mb-5">
+    <!-- Stat cards -->
+    <div class="col-6 col-md-4 col-xl">
+        <div class="card card-gradient text-center" style="cursor:default;">
+            <i class="fa-solid fa-users" style="font-size:2rem;color:var(--color-primary);margin-bottom:0.75rem;" aria-hidden="true"></i>
+            <div class="h1-hero text-gradient" style="font-size:2rem;">@Model.TotalMembers</div>
+            <div style="color:var(--color-text-secondary);font-size:0.875rem;margin-top:0.25rem;">Team Members</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="card card-gradient text-center" style="cursor:default;">
+            <i class="fa-solid fa-briefcase" style="font-size:2rem;color:var(--color-accent);margin-bottom:0.75rem;" aria-hidden="true"></i>
+            <div class="h1-hero text-gradient" style="font-size:2rem;">@Model.TotalProjects</div>
+            <div style="color:var(--color-text-secondary);font-size:0.875rem;margin-top:0.25rem;">Projects</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="card card-gradient text-center" style="cursor:default;">
+            <i class="fa-solid fa-newspaper" style="font-size:2rem;color:var(--color-success);margin-bottom:0.75rem;" aria-hidden="true"></i>
+            <div class="h1-hero text-gradient" style="font-size:2rem;">@Model.PublishedPosts</div>
+            <div style="color:var(--color-text-secondary);font-size:0.875rem;margin-top:0.25rem;">Published Posts</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="card card-gradient text-center" style="cursor:default;">
+            <i class="fa-solid fa-comments" style="font-size:2rem;color:var(--color-warning);margin-bottom:0.75rem;" aria-hidden="true"></i>
+            <div class="h1-hero text-gradient" style="font-size:2rem;">@Model.PendingComments</div>
+            <div style="color:var(--color-text-secondary);font-size:0.875rem;margin-top:0.25rem;">Pending Comments</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="card card-gradient text-center" style="cursor:default;">
+            <i class="fa-solid fa-envelope" style="font-size:2rem;color:var(--color-danger);margin-bottom:0.75rem;" aria-hidden="true"></i>
+            <div class="h1-hero text-gradient" style="font-size:2rem;">@Model.UnreadMessages</div>
+            <div style="color:var(--color-text-secondary);font-size:0.875rem;margin-top:0.25rem;">Unread Messages</div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick actions -->
+<div class="card" style="cursor:default;">
+    <h2 style="font-size:1.1rem;margin-bottom:1.25rem;">
+        <i class="fa-solid fa-bolt me-2" style="color:var(--color-primary);" aria-hidden="true"></i>Quick Actions
+    </h2>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;">
+        <a asp-area="Admin" asp-controller="TeamMembers" asp-action="Create" class="btn-primary" style="cursor:pointer;">
+            <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Add Member
+        </a>
+        <a asp-area="Admin" asp-controller="Portfolio" asp-action="Create" class="btn-secondary" style="cursor:pointer;">
+            <i class="fa-solid fa-folder-plus" aria-hidden="true"></i> Add Project
+        </a>
+        <a asp-area="Admin" asp-controller="Blog" asp-action="Create" class="btn-secondary" style="cursor:pointer;">
+            <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Write Post
+        </a>
+        <a asp-area="Admin" asp-controller="Comments" asp-action="Index" class="btn-ghost" style="cursor:pointer;">
+            <i class="fa-solid fa-comments" aria-hidden="true"></i> Review Comments
+        </a>
+    </div>
+</div>

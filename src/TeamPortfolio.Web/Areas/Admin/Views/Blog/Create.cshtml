@@ -1,0 +1,62 @@
+@model TeamPortfolio.Web.ViewModels.Admin.BlogPostFormViewModel
+@{ ViewData["Title"] = "Write Post"; }
+
+<div class="d-flex align-items-center gap-3 mb-4">
+    <a asp-action="Index" class="btn-ghost" style="cursor:pointer;" aria-label="Back to list">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    <h1 style="font-size:1.5rem;margin:0;">Write Post</h1>
+</div>
+
+<div class="card" style="cursor:default;max-width:800px;">
+    <form asp-action="Create" method="post" enctype="multipart/form-data" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"
+                   style="font-size:0.875rem;color:var(--color-text-secondary);">Title *</label>
+            <input asp-for="Title" class="form-control" placeholder="Post title..." />
+            <span asp-validation-for="Title" style="color:var(--color-danger);font-size:0.8rem;"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CategoryName" class="form-label"
+                   style="font-size:0.875rem;color:var(--color-text-secondary);">Category</label>
+            <input asp-for="CategoryName" class="form-control"
+                   placeholder="e.g. Technology, Design, Tutorial" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Body" class="form-label"
+                   style="font-size:0.875rem;color:var(--color-text-secondary);">Content *</label>
+            <textarea asp-for="Body" class="form-control" rows="14"
+                      placeholder="Write your post content here..."></textarea>
+            <span asp-validation-for="Body" style="color:var(--color-danger);font-size:0.8rem;"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CoverImage" class="form-label"
+                   style="font-size:0.875rem;color:var(--color-text-secondary);">
+                Cover Image
+                <span style="color:var(--color-text-muted);font-weight:400;">(JPEG / PNG / WebP, max 5 MB)</span>
+            </label>
+            <input asp-for="CoverImage" type="file" class="form-control"
+                   accept="image/jpeg,image/png,image/webp" />
+            <span asp-validation-for="CoverImage" style="color:var(--color-danger);font-size:0.8rem;"></span>
+        </div>
+
+        <div class="mb-4">
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button type="submit" class="btn-primary" style="cursor:pointer;">
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Create Post
+            </button>
+            <a asp-action="Index" class="btn-secondary" style="cursor:pointer;">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

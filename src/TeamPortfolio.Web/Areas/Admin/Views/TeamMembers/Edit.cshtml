@@ -1,0 +1,88 @@
+@model TeamPortfolio.Web.ViewModels.Admin.TeamMemberFormViewModel
+@{ ViewData["Title"] = "Edit Member"; }
+
+<div class="d-flex align-items-center gap-3 mb-4">
+    <a asp-action="Index" class="btn-ghost" style="cursor:pointer;" aria-label="Back to list">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    <h1 style="font-size:1.5rem;margin:0;">Edit Team Member</h1>
+</div>
+
+<div class="card" style="cursor:default;max-width:640px;">
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label"
+                       style="font-size:0.875rem;color:var(--color-text-secondary);">First Name *</label>
+                <input asp-for="FirstName" class="form-control" autocomplete="given-name" />
+                <span asp-validation-for="FirstName" style="color:var(--color-danger);font-size:0.8rem;"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="LastName" class="form-label"
+                       style="font-size:0.875rem;color:var(--color-text-secondary);">Last Name *</label>
+                <input asp-for="LastName" class="form-control" autocomplete="family-name" />
+                <span asp-validation-for="LastName" style="color:var(--color-danger);font-size:0.8rem;"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Role" class="form-label"
+                   style="font-size:0.875rem;color:var(--color-text-secondary);">Role *</label>
+            <input asp-for="Role" class="form-control" placeholder="e.g. Senior Developer" />
+            <span asp-validation-for="Role" style="color:var(--color-danger);font-size:0.8rem;"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Biography" class="form-label"
+                   style="font-size:0.875rem;color:var(--color-text-secondary);">Biography</label>
+            <textarea asp-for="Biography" class="form-control" rows="4"
+                      placeholder="Short bio for the public profile..."></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" style="font-size:0.875rem;color:var(--color-text-secondary);">Profile Photo</label>
+
+            @if (!string.IsNullOrEmpty(Model.ProfilePhotoPath))
+            {
+                <div style="margin-bottom:10px;display:flex;align-items:center;gap:12px;">
+                    <img src="@Model.ProfilePhotoPath" alt="Current profile photo"
+                         style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--color-border);" />
+                    <div>
+                        <p style="margin:0;font-size:0.8rem;color:var(--color-text-muted);">Current photo</p>
+                        <p style="margin:0;font-size:0.8rem;color:var(--color-text-muted);">Upload a new one to replace it.</p>
+                    </div>
+                </div>
+            }
+
+            <label asp-for="ProfilePhoto" class="form-label"
+                   style="font-size:0.875rem;color:var(--color-text-secondary);">
+                @(string.IsNullOrEmpty(Model.ProfilePhotoPath) ? "Upload photo" : "Replace photo")
+                <span style="color:var(--color-text-muted);font-weight:400;">(JPEG / PNG / WebP, max 5 MB)</span>
+            </label>
+            <input asp-for="ProfilePhoto" type="file" class="form-control" accept="image/jpeg,image/png,image/webp" />
+            <span asp-validation-for="ProfilePhoto" style="color:var(--color-danger);font-size:0.8rem;"></span>
+        </div>
+
+        <div class="mb-4">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <input asp-for="IsActive" type="checkbox" style="width:18px;height:18px;cursor:pointer;" />
+                <label asp-for="IsActive" style="font-size:0.9rem;cursor:pointer;margin:0;">
+                    Active <span style="color:var(--color-text-muted);font-size:0.8rem;">(visible on site)</span>
+                </label>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button type="submit" class="btn-primary" style="cursor:pointer;">
+                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Update Member
+            </button>
+            <a asp-action="Index" class="btn-secondary" style="cursor:pointer;">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

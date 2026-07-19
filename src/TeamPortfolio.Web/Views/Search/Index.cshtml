@@ -1,0 +1,154 @@
+@using TeamPortfolio.Application.DTOs
+@{
+    ViewData["Title"] = "Search";
+    var query = ViewBag.Query as string ?? "";
+    var result = ViewBag.Result as SearchResultDto;
+    var tooShort = (bool)(ViewBag.TooShort ?? false);
+}
+
+<section class="section-wrapper">
+    <div class="container-main">
+        <div class="text-center mb-5">
+            <p class="section-eyebrow"><i class="fa-solid fa-magnifying-glass me-2" aria-hidden="true"></i>Search</p>
+            <h1 class="section-title">Search Results</h1>
+        </div>
+
+        <!-- Search bar -->
+        <form asp-action="Index" method="get" class="d-flex justify-content-center mb-5" role="search">
+            <div style="position:relative;width:100%;max-width:540px;display:flex;gap:8px;">
+                <input type="text" name="q" value="@query" class="form-control"
+                       placeholder="Search for members, projects, articles..."
+                       aria-label="Search query"
+                       style="flex:1;" />
+                <button type="submit" class="btn-primary" style="cursor:pointer;white-space:nowrap;">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Search
+                </button>
+            </div>
+        </form>
+
+        @if (tooShort)
+        {
+            <div class="text-center" style="color:var(--color-warning);padding:2rem;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem;display:block;margin-bottom:0.75rem;" aria-hidden="true"></i>
+                <p>Please enter at least 2 characters to search.</p>
+            </div>
+        }
+        else if (result == null && !string.IsNullOrEmpty(query))
+        {
+            <div class="text-center" style="padding:3rem;color:var(--color-text-muted);">
+                <i class="fa-solid fa-circle-info" style="font-size:2.5rem;display:block;margin-bottom:0.75rem;" aria-hidden="true"></i>
+                <p>Search service unavailable. Try again later.</p>
+            </div>
+        }
+        else if (result != null)
+        {
+            if (result.TotalCount == 0)
+            {
+                <div class="text-center" style="padding:3rem;color:var(--color-text-muted);">
+                    <i class="fa-solid fa-magnifying-glass" style="font-size:2.5rem;display:block;margin-bottom:0.75rem;" aria-hidden="true"></i>
+                    <h3 style="margin-bottom:0.5rem;">No results for "@query"</h3>
+                    <p>Try different keywords, check your spelling, or search for something more general.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:1.5rem;">
+                        <a asp-controller="Team" asp-action="Index" class="badge badge-accent" style="padding:8px 16px;text-decoration:none;cursor:pointer;">Browse Team</a>
+                        <a asp-controller="Portfolio" asp-action="Index" class="badge badge-accent" style="padding:8px 16px;text-decoration:none;cursor:pointer;">Browse Portfolio</a>
+                        <a asp-controller="Blog" asp-action="Index" class="badge badge-accent" style="padding:8px 16px;text-decoration:none;cursor:pointer;">Browse Blog</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p style="color:var(--color-text-muted);margin-bottom:2.5rem;">
+                    Found <strong style="color:var(--color-text);">@result.TotalCount</strong> results for "@query"
+                </p>
+
+                <!-- Members -->
+                @if (result.Members.Any())
+                {
+                    <div style="margin-bottom:3rem;">
+                        <h2 style="font-size:1.1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;">
+                            <i class="fa-solid fa-users" style="color:var(--color-primary);" aria-hidden="true"></i>
+                            Team Members <span class="badge badge-primary ms-2">@result.Members.Count()</span>
+                        </h2>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                            @foreach (var m in result.Members)
+                            {
+                                <div class="col">
+                                    <a asp-controller="Team" asp-action="Profile" asp-route-slug="@m.Slug"
+                                       class="card d-flex flex-row align-items-center gap-3 text-decoration-none"
+                                       style="cursor:pointer;padding:1rem;">
+                                        <div style="width:48px;height:48px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;flex-shrink:0;">
+                                            @m.FirstName[0]@m.LastName[0]
+                                        </div>
+                                        <div>
+                                            <div style="font-weight:600;">@m.FullName</div>
+                                            <div style="font-size:0.8rem;color:var(--color-text-muted);">@m.Role</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Projects -->
+                @if (result.Projects.Any())
+                {
+                    <div style="margin-bottom:3rem;">
+                        <h2 style="font-size:1.1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;">
+                            <i class="fa-solid fa-briefcase" style="color:var(--color-accent);" aria-hidden="true"></i>
+                            Projects <span class="badge badge-accent ms-2">@result.Projects.Count()</span>
+                        </h2>
+                        <div class="row row-cols-1 row-cols-md-2 g-3">
+                            @foreach (var p in result.Projects)
+                            {
+                                <div class="col">
+                                    <a asp-controller="Portfolio" asp-action="Detail" asp-route-slug="@p.Slug"
+                                       class="card d-block text-decoration-none" style="cursor:pointer;">
+                                        <h3 style="font-size:1rem;margin-bottom:0.5rem;">@p.Title</h3>
+                                        <p style="color:var(--color-text-secondary);font-size:0.875rem;margin:0;">
+                                            @(p.Description.Length > 80 ? p.Description[..80] + "…" : p.Description)
+                                        </p>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Articles -->
+                @if (result.Articles.Any())
+                {
+                    <div>
+                        <h2 style="font-size:1.1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;">
+                            <i class="fa-solid fa-newspaper" style="color:var(--color-success);" aria-hidden="true"></i>
+                            Articles <span class="badge badge-primary ms-2">@result.Articles.Count()</span>
+                        </h2>
+                        <div class="row row-cols-1 row-cols-md-2 g-3">
+                            @foreach (var a in result.Articles)
+                            {
+                                <div class="col">
+                                    <a asp-controller="Blog" asp-action="Post" asp-route-slug="@a.Slug"
+                                       class="card d-block text-decoration-none" style="cursor:pointer;">
+                                        <h3 style="font-size:1rem;margin-bottom:0.5rem;">@a.Title</h3>
+                                        <div style="font-size:0.8rem;color:var(--color-text-muted);">
+                                            <i class="fa-solid fa-user fa-fw" aria-hidden="true"></i> @a.AuthorName
+                                            &nbsp;&middot;&nbsp;
+                                            <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i> @a.ViewCount
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        }
+        else if (string.IsNullOrEmpty(query))
+        {
+            <div class="text-center" style="padding:3rem;color:var(--color-text-muted);">
+                <i class="fa-solid fa-magnifying-glass" style="font-size:2.5rem;display:block;margin-bottom:0.75rem;" aria-hidden="true"></i>
+                <p>Enter a search term above to get started.</p>
+            </div>
+        }
+    </div>
+</section>

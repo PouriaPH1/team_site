@@ -1,0 +1,136 @@
+@model TeamPortfolio.Web.ViewModels.Portfolio.PortfolioIndexViewModel
+@{
+    ViewData["Title"] = "Portfolio";
+}
+
+<section class="section-wrapper">
+    <div class="container-main">
+        <div class="text-center mb-5">
+            <p class="section-eyebrow"><i class="fa-solid fa-briefcase me-2" aria-hidden="true"></i>Our Work</p>
+            <h1 class="section-title">Portfolio</h1>
+            <p class="section-subtitle">Browse our projects and see what we've built.</p>
+        </div>
+
+        <!-- Tag filter bar -->
+        @if (Model.AllTags.Any())
+        {
+            <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:2.5rem;" role="navigation" aria-label="Filter by technology">
+                <a asp-action="Index" asp-route-tag=""
+                   class="badge @(string.IsNullOrEmpty(Model.ActiveTag) ? "badge-primary" : "badge-accent")"
+                   style="padding:8px 16px;font-size:0.875rem;cursor:pointer;text-decoration:none;"
+                   aria-current="@(string.IsNullOrEmpty(Model.ActiveTag) ? "true" : "false")">
+                    All
+                </a>
+                @foreach (var tag in Model.AllTags)
+                {
+                    <a asp-action="Index" asp-route-tag="@tag"
+                       class="badge @(Model.ActiveTag == tag ? "badge-primary" : "badge-accent")"
+                       style="padding:8px 16px;font-size:0.875rem;cursor:pointer;text-decoration:none;"
+                       aria-current="@(Model.ActiveTag == tag ? "true" : "false")">
+                        @tag
+                    </a>
+                }
+            </div>
+        }
+
+        <!-- Skeleton loading placeholders (hidden once content loads) -->
+        <div id="skeleton-grid" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="display:none!important;" aria-hidden="true">
+            @for (int i = 0; i < 9; i++)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="skeleton skeleton-image" style="height:180px;margin-bottom:1rem;"></div>
+                        <div class="skeleton skeleton-line" style="width:70%;margin-bottom:0.5rem;"></div>
+                        <div class="skeleton skeleton-line" style="width:90%;margin-bottom:0.25rem;"></div>
+                        <div class="skeleton skeleton-line" style="width:60%;margin-bottom:1rem;"></div>
+                        <div style="display:flex;gap:6px;">
+                            <div class="skeleton skeleton-line" style="width:60px;height:22px;border-radius:99px;"></div>
+                            <div class="skeleton skeleton-line" style="width:60px;height:22px;border-radius:99px;"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (Model.Items.Any())
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="col">
+                        <a asp-action="Detail" asp-route-slug="@item.Slug"
+                           class="card d-block text-decoration-none"
+                           style="height:100%;cursor:pointer;"
+                           aria-label="View project: @item.Title">
+                            @if (!string.IsNullOrEmpty(item.CoverImagePath))
+                            {
+                                <img src="@item.CoverImagePath" alt="@item.Title"
+                                     style="width:100%;height:180px;object-fit:cover;border-radius:var(--radius-md);margin-bottom:1rem;"
+                                     loading="lazy" />
+                            }
+                            else
+                            {
+                                <div style="width:100%;height:180px;background:var(--color-surface-raised);border-radius:var(--radius-md);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;">
+                                    <i class="fa-solid fa-image" style="font-size:2rem;color:var(--color-text-muted);" aria-hidden="true"></i>
+                                </div>
+                            }
+                            <h3 style="font-size:1.05rem;margin-bottom:0.5rem;">@item.Title</h3>
+                            <p style="color:var(--color-text-secondary);font-size:0.875rem;line-height:1.6;margin-bottom:1rem;">
+                                @(item.Description.Length > 100 ? item.Description[..100] + "…" : item.Description)
+                            </p>
+                            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;">
+                                @foreach (var tech in item.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Take(4))
+                                {
+                                    <span class="badge badge-primary">@tech</span>
+                                }
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+
+            <!-- Pagination -->
+            @if (Model.TotalPages > 1)
+            {
+                <nav aria-label="Portfolio pagination" class="mt-5 d-flex justify-content-center align-items-center gap-2">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-tag="@Model.ActiveTag"
+                           class="btn-ghost" style="cursor:pointer;">
+                            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Prev
+                        </a>
+                    }
+                    <span style="display:flex;align-items:center;color:var(--color-text-muted);font-size:0.875rem;">
+                        Page @Model.Page of @Model.TotalPages
+                    </span>
+                    @if (Model.HasNextPage)
+                    {
+                        <a asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-tag="@Model.ActiveTag"
+                           class="btn-ghost" style="cursor:pointer;">
+                            Next <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                        </a>
+                    }
+                </nav>
+            }
+        }
+        else
+        {
+            <!-- Empty State -->
+            <div class="text-center" style="padding:4rem;color:var(--color-text-muted);">
+                <i class="fa-solid fa-folder-open" style="font-size:3rem;display:block;margin-bottom:1rem;" aria-hidden="true"></i>
+                <h3 style="margin-bottom:0.5rem;">No projects found</h3>
+                @if (!string.IsNullOrEmpty(Model.ActiveTag))
+                {
+                    <p>No projects match the tag "<strong>@Model.ActiveTag</strong>".</p>
+                    <a asp-action="Index" class="btn-secondary mt-3" style="cursor:pointer;">
+                        <i class="fa-solid fa-xmark me-1" aria-hidden="true"></i> Clear filter
+                    </a>
+                }
+                else
+                {
+                    <p>Projects coming soon.</p>
+                }
+            </div>
+        }
+    </div>
+</section>
