@@ -1,488 +1,250 @@
-/* ============================================================
-   TEAM PORTFOLIO — DESIGN SYSTEM
-   Source of Truth: design-system/team-portfolio/MASTER.md
-   ============================================================ */
+/* ==========================================================================
+   Van Gogh × Code — Design System Token Source of Truth
+   design-system.css — Load order: FIRST
 
-/* ── Google Fonts ─────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap');
+   Philosophy: Technology living INSIDE the painting, not ON TOP of it.
+   Warm oil-paint palette — no neon, no cyberpunk, no glassmorphism excess.
+   ========================================================================== */
 
-/* ── Color Tokens: Dark Mode (Default) ───────────────────── */
+/* --------------------------------------------------------------------------
+   1. Google Fonts
+   Manrope: warm, humanist sans-serif (heading)
+   IBM Plex Sans: readable, slightly warm (body)
+   JetBrains Mono: code (keep — matches the VS Code aesthetic)
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* --------------------------------------------------------------------------
+   2. Color Tokens — Oil Painting Palette
+   Inspired by Van Gogh's actual pigment colors, not digital neon.
+   -------------------------------------------------------------------------- */
 :root {
-  --color-bg: #0A0F1E;
-  --color-surface: #111827;
-  --color-surface-raised: #1A2235;
-  --color-border: #1E2D40;
-  --color-border-subtle: #162032;
-  --color-primary: #3B82F6;
-  --color-primary-hover: #2563EB;
-  --color-accent: #8B5CF6;
-  --color-accent-hover: #7C3AED;
-  --color-text: #F9FAFB;
-  --color-text-secondary: #9CA3AF;
-  --color-text-muted: #6B7280;
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-danger: #EF4444;
-  --gradient-primary: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  /* Deep backgrounds — like the dark corners of Starry Night */
+  --color-canvas-black:  #0A0B0F;   /* absolute darkest — almost black */
+  --color-night-deep:    #0D1117;   /* deep night sky base */
+  --color-night-mid:     #0F1923;   /* slightly lighter night */
+  --color-prussian:      #1A2744;   /* Prussian blue — Van Gogh used this */
+  --color-cobalt:        #1E3A5F;   /* cobalt blue — oil paint */
+  --color-ultramarine:   #2B4B8C;   /* ultramarine — the swirls */
 
-  /* Typography */
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  /* Warm light colors — candlelight, stars, moon glow */
+  --color-moon-white:    #F8F4E8;   /* warm white — moon light, not LED white */
+  --color-parchment:     #E8DFC8;   /* warm parchment — like old paper */
+  --color-straw:         #D4B87A;   /* warm straw yellow */
+  --color-chrome-yellow: #F5C842;   /* Van Gogh's chrome yellow */
+  --color-ochre:         #C8903A;   /* yellow ochre — warm gold */
+  --color-amber-deep:    #A0621A;   /* deep amber — candlelight shadow */
 
-  /* Spacing */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
+  /* Accent tones — subtle, not neon */
+  --color-viridian:      #3D7A6B;   /* viridian green — subtle accent */
+  --color-cerulean:      #4A9BB5;   /* cerulean blue — for code highlights */
+  --color-muted-cyan:    #6BAFC5;   /* muted, warm cyan — not electric */
 
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  /* --------------------------------------------------------------------------
+     3. Gradient Tokens — painterly, not digital
+     -------------------------------------------------------------------------- */
+  --gradient-night-sky:    linear-gradient(180deg, #0A0B0F 0%, #0D1117 40%, #1A2744 100%);
+  --gradient-warm-gold:    linear-gradient(135deg, var(--color-chrome-yellow), var(--color-ochre));
+  --gradient-hero-text:    linear-gradient(135deg,
+                              var(--color-moon-white) 0%,
+                              var(--color-parchment) 40%,
+                              var(--color-chrome-yellow) 100%);
+  --gradient-create-text:  linear-gradient(135deg,
+                              var(--color-chrome-yellow) 0%,
+                              var(--color-ochre) 100%);
+  --gradient-nav-bg:       linear-gradient(180deg,
+                              rgba(10,11,15,0.92) 0%,
+                              rgba(13,17,23,0.88) 100%);
+  --gradient-btn-primary:  linear-gradient(135deg,
+                              var(--color-cobalt) 0%,
+                              var(--color-ultramarine) 100%);
+  --gradient-overlay-left: linear-gradient(90deg,
+                              rgba(10,11,15,0.88) 0%,
+                              rgba(10,11,15,0.72) 40%,
+                              rgba(10,11,15,0.15) 70%,
+                              transparent 100%);
+
+  /* --------------------------------------------------------------------------
+     4. Glow Tokens — soft, warm, like candlelight (not LED)
+     -------------------------------------------------------------------------- */
+  --glow-gold:   0 0 30px rgba(245,200,66,0.25), 0 0 60px rgba(245,200,66,0.08);
+  --glow-moon:   0 0 40px rgba(248,244,232,0.20), 0 0 80px rgba(248,244,232,0.06);
+  --glow-cobalt: 0 0 20px rgba(74,155,181,0.20), 0 0 40px rgba(74,155,181,0.08);
+  --glow-warm:   0 0 24px rgba(200,144,58,0.20);
+
+  /* --------------------------------------------------------------------------
+     5. Typography Tokens
+     -------------------------------------------------------------------------- */
+  --font-heading: 'Manrope', 'IBM Plex Sans', sans-serif;
+  --font-body:    'IBM Plex Sans', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --text-hero:      clamp(3rem, 7vw, 6rem);     /* H1 main — weight 800 */
+  --text-hero-lg:   clamp(3.5rem, 8vw, 7rem);   /* "Create." — larger */
+  --text-eyebrow:   0.8rem;                      /* WE ARE label */
+  --text-section:   clamp(2rem, 4vw, 3rem);
+  --text-card:      1.2rem;
+  --text-body:      1rem;
+  --text-code:      0.85rem;
+
+  /* --------------------------------------------------------------------------
+     6. Spacing Tokens
+     -------------------------------------------------------------------------- */
+  --space-1:  4px;   --space-2:  8px;   --space-3:  12px;
+  --space-4:  16px;  --space-6:  24px;  --space-8:  32px;
+  --space-12: 48px;  --space-16: 64px;  --space-24: 96px;
+
+  /* --------------------------------------------------------------------------
+     7. Border Radius — softer, less sharp than glassmorphism
+     -------------------------------------------------------------------------- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   20px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
-  --glow-primary: 0 0 20px rgba(59, 130, 246, 0.25);
-  --glow-accent: 0 0 20px rgba(139, 92, 246, 0.25);
+  /* --------------------------------------------------------------------------
+     8. Animation Tokens — slow, breathing, painterly
+     -------------------------------------------------------------------------- */
+  --dur-fast:    200ms;
+  --dur-base:    400ms;
+  --dur-slow:    800ms;
+  --dur-breath:  4s;    /* slow breathing animation */
+  --dur-swirl:   60s;   /* very slow sky rotation */
+  --dur-drift:   30s;   /* cloud/brush drift */
+
+  --ease-out-soft:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in-out:    cubic-bezier(0.37, 0, 0.63, 1);
+
+  /* --------------------------------------------------------------------------
+     9. Surface Tokens — very minimal, for code card only
+     -------------------------------------------------------------------------- */
+  --surface-code:        rgba(10, 11, 15, 0.82);
+  --surface-code-border: rgba(245, 200, 66, 0.12);
+  --surface-nav:         rgba(10, 11, 15, 0.90);
+
+  /* --------------------------------------------------------------------------
+     10. Focus Ring
+     -------------------------------------------------------------------------- */
+  --focus-ring:        2px solid var(--color-chrome-yellow);
+  --focus-ring-offset: 3px;
+
+  /* --------------------------------------------------------------------------
+     11. Backward-compat remaps (keeps site.css working)
+     -------------------------------------------------------------------------- */
+  --color-navy:           var(--color-night-deep);
+  --color-midnight:       var(--color-prussian);
+  --color-dark-blue:      var(--color-night-mid);
+  --color-royal-blue:     var(--color-cobalt);
+  --color-indigo:         var(--color-ultramarine);
+  --color-gold:           var(--color-chrome-yellow);
+  --color-soft-yellow:    var(--color-straw);
+  --color-amber:          var(--color-ochre);
+  --color-cyan:           var(--color-muted-cyan);
+  --color-turquoise:      var(--color-viridian);
+  --color-purple:         #6B5CE7;
+  --color-star-white:     var(--color-moon-white);
+  --color-bg:             var(--color-canvas-black);
+  --color-surface:        var(--color-night-mid);
+  --color-surface-raised: var(--color-prussian);
+  --color-primary:        var(--color-cobalt);
+  --color-accent:         var(--color-chrome-yellow);
+  --color-text:           var(--color-moon-white);
+  --color-text-secondary: var(--color-parchment);
+  --color-text-muted:     var(--color-straw);
+  --color-border:         rgba(245,200,66,0.12);
+  --color-danger:         #E05C5C;
+  --color-success:        #4CAF7D;
+  --color-warning:        var(--color-chrome-yellow);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.6);
+  --glow-primary: var(--glow-cobalt);
+  --glow-accent:  var(--glow-gold);
+  /* glassmorphism compat */
+  --glass-bg:     rgba(10,11,15,0.70);
+  --glass-border: rgba(245,200,66,0.12);
+  --glass-blur:   blur(16px);
 }
 
-/* ── Color Tokens: Light Mode ─────────────────────────────── */
-[data-theme="light"] {
-  --color-bg: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-surface-raised: #F1F5F9;
-  --color-border: #E2E8F0;
-  --color-border-subtle: #F1F5F9;
-  --color-primary: #2563EB;
-  --color-primary-hover: #1D4ED8;
-  --color-accent: #7C3AED;
-  --color-accent-hover: #6D28D9;
-  --color-text: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
-  --gradient-primary: linear-gradient(135deg, #2563EB, #7C3AED);
-
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --glow-primary: 0 0 20px rgba(37, 99, 235, 0.15);
-  --glow-accent: 0 0 20px rgba(124, 58, 237, 0.15);
+/* ==========================================================================
+   12. Global Resets
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-
-/* ── Base Reset ───────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: var(--text-body);
+  color: var(--color-moon-white);
+  background: var(--color-canvas-black);
   line-height: 1.7;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  color: var(--color-text);
+  color: var(--color-moon-white);
   line-height: 1.2;
 }
 
-/* ── Typography Scale ─────────────────────────────────────── */
-/* H1 Hero — used for primary landing headings */
-.h1-hero, h1.hero {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  line-height: 1.1;
-}
+h1 { font-size: var(--text-hero);    font-weight: 800; line-height: 1.05; }
+h2 { font-size: var(--text-section); font-weight: 700; }
+h3 { font-size: var(--text-card);    font-weight: 600; }
+h4, h5, h6 { font-weight: 600; }
 
-/* H1 Page — used for page-level titles */
-h1 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  line-height: 1.2;
-}
+a { color: inherit; text-decoration: none; }
 
-/* H2 Section */
-h2 {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-/* H3 Card */
-h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-/* H4–H6 sensible defaults */
-h4 { font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
-h5 { font-size: 1rem;     font-weight: 600; line-height: 1.4; }
-h6 { font-size: 0.875rem; font-weight: 600; line-height: 1.4; }
-
-a { color: var(--color-primary); text-decoration: none; transition: color 150ms ease; }
-a:hover { color: var(--color-primary-hover); }
-
-code, pre { font-family: var(--font-mono); }
+code, pre { font-family: var(--font-mono); font-size: var(--text-code); }
 
 img { max-width: 100%; height: auto; }
 
-/* ── Gradient Text ────────────────────────────────────────── */
+/* ==========================================================================
+   13. Utility Classes
+   ========================================================================== */
 .text-gradient {
-  background: var(--gradient-primary);
+  background: var(--gradient-hero-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ── Buttons ──────────────────────────────────────────────── */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  background: var(--gradient-primary);
-  color: white;
-  padding: 10px 24px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition: opacity 200ms ease, transform 200ms ease, box-shadow 200ms ease;
-}
-.btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: var(--glow-primary);
-  color: white;
-}
-.btn-primary:active { transform: translateY(0); }
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  background: transparent;
-  color: var(--color-text);
-  padding: 10px 24px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 200ms ease;
-}
-.btn-secondary:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  background: rgba(59, 130, 246, 0.05);
+.text-gold {
+  color: var(--color-chrome-yellow);
 }
 
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: transparent;
-  color: var(--color-text-secondary);
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: all 150ms ease;
-}
-.btn-ghost:hover {
-  background: var(--color-surface-raised);
-  color: var(--color-text);
-}
-
-/* ── Cards ────────────────────────────────────────────────── */
-.card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
-  cursor: pointer;
-}
-.card:hover {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.card-gradient {
-  background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
-  border: 1px solid rgba(59, 130, 246, 0.2);
-}
-.card-gradient:hover {
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: var(--glow-primary);
-}
-
-/* ── Badges ───────────────────────────────────────────────── */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-.badge-primary {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60A5FA;
-  border: 1px solid rgba(59, 130, 246, 0.25);
-}
-.badge-accent {
-  background: rgba(139, 92, 246, 0.15);
-  color: #A78BFA;
-  border: 1px solid rgba(139, 92, 246, 0.25);
-}
-[data-theme="light"] .badge-primary {
-  background: rgba(37, 99, 235, 0.08);
-  color: #1D4ED8;
-  border-color: rgba(37, 99, 235, 0.2);
-}
-
-/* ── Form Controls ────────────────────────────────────────── */
-.form-control {
-  background: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-text);
-  padding: 10px 14px;
-  font-size: 1rem;
-  font-family: var(--font-body);
-  transition: border-color 200ms ease, box-shadow 200ms ease;
-  width: 100%;
-}
-.form-control::placeholder { color: var(--color-text-muted); }
-.form-control:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-[data-theme="light"] .form-control {
-  background: #FFFFFF;
-  border-color: #E2E8F0;
-  color: #0F172A;
-}
-
-/* ── Skill Progress Bar ───────────────────────────────────── */
-.skill-bar {
-  background: var(--color-border);
-  border-radius: var(--radius-full);
-  height: 6px;
+.visually-hidden, .sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
-}
-.skill-bar-fill {
-  height: 100%;
-  background: var(--gradient-primary);
-  border-radius: var(--radius-full);
-  transition: width 1s ease-in-out;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* ── Section Helpers ──────────────────────────────────────── */
-.section-eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-primary);
+/* ==========================================================================
+   14. Focus Ring
+   ========================================================================== */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
-.section-title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 700;
-  color: var(--color-text);
-  margin-top: 8px;
-}
-.section-subtitle {
-  font-size: 1.0625rem;
-  color: var(--color-text-secondary);
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
+:focus:not(:focus-visible) { outline: none; }
 
-/* ── Navbar ───────────────────────────────────────────────── */
-.navbar {
-  background: rgba(10, 15, 30, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  height: 64px;
-  display: flex;
-  align-items: center;
-}
-[data-theme="light"] .navbar {
-  background: rgba(248, 250, 252, 0.9);
-  border-bottom: 1px solid var(--color-border);
-}
-
-/* ── Section Wrappers ─────────────────────────────────────── */
-.section-wrapper {
-  padding: var(--space-24) 0;
-}
-.container-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-4);
-}
-
-/* ── Auth Pages ───────────────────────────────────────────── */
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-8) var(--space-4);
-  background: var(--color-bg);
-}
-.auth-card {
-  width: 100%;
-  max-width: 440px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
-}
-.auth-header { text-align: center; margin-bottom: var(--space-8); }
-.auth-title { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; }
-.auth-subtitle { color: var(--color-text-secondary); margin-top: var(--space-2); }
-.auth-footer { text-align: center; margin-top: var(--space-6); color: var(--color-text-secondary); font-size: 0.9rem; }
-
-/* ── Toast Notifications ──────────────────────────────────── */
-.toast-container {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 9998;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  pointer-events: none;
-}
-.toast {
-  min-width: 280px;
-  max-width: 400px;
-  background: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 14px 18px;
-  box-shadow: var(--shadow-lg);
-  pointer-events: all;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  animation: toast-in 300ms ease-out forwards;
-}
-.toast.toast-hide {
-  animation: toast-out 300ms ease-in forwards;
-}
-.toast.success { border-left: 4px solid var(--color-success); }
-.toast.error   { border-left: 4px solid var(--color-danger);  }
-.toast.warning { border-left: 4px solid var(--color-warning); }
-.toast-message { flex: 1; font-size: 0.9375rem; color: var(--color-text); line-height: 1.5; }
-.toast-close {
-  background: none;
-  border: none;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  padding: 0;
-  font-size: 1rem;
-  line-height: 1;
-  transition: color 150ms ease;
-  flex-shrink: 0;
-}
-.toast-close:hover { color: var(--color-text); }
-
-@keyframes toast-in {
-  from { transform: translateX(120%); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-}
-@keyframes toast-out {
-  from { transform: translateX(0);    opacity: 1; }
-  to   { transform: translateX(120%); opacity: 0; }
-}
-
-/* ── Skeleton Loading ─────────────────────────────────────── */
-.skeleton {
-  background: linear-gradient(90deg,
-    var(--color-surface) 25%,
-    var(--color-surface-raised) 50%,
-    var(--color-surface) 75%);
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s infinite;
-  border-radius: var(--radius-md);
-}
-@keyframes skeleton-shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-.skeleton-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  overflow: hidden;
-}
-.skeleton-line  { height: 16px; margin-bottom: 12px; border-radius: var(--radius-sm); }
-.skeleton-title { height: 24px; width: 60%; margin-bottom: 16px; border-radius: var(--radius-sm); }
-.skeleton-image { height: 200px; width: 100%; margin-bottom: 16px; border-radius: var(--radius-md); }
-
-/* ── Page Loader ──────────────────────────────────────────── */
-#page-loader {
-  position: fixed;
-  inset: 0;
-  background: var(--color-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 400ms ease;
-}
-#page-loader .loader-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--color-border);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: loader-spin 0.8s linear infinite;
-}
-@keyframes loader-spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ── Accessibility: Reduced Motion ───────────────────────── */
+/* ==========================================================================
+   15. Reduced Motion
+   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

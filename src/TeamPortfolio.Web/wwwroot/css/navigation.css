@@ -1,0 +1,376 @@
+/* ==========================================================================
+   navigation.css — Van Gogh Navigation (Phase 1)
+   Load order: 3rd
+
+   Full-width fixed bar, NOT a floating pill.
+   Transparent dark background blends with the painting.
+   ========================================================================== */
+
+/* ── Nav Header Wrapper ───────────────────────────────────── */
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ── Main Navbar ──────────────────────────────────────────── */
+#main-navbar {
+  pointer-events: all;
+  background: rgba(10, 11, 15, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(245, 200, 66, 0.08);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-8);
+  height: 72px;
+  border-radius: 0;
+}
+
+/* ── Logo / Brand ─────────────────────────────────────────── */
+.nav-logo-dots {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* Logo dots pulse slowly — like stars */
+.nav-logo-dot {
+  fill: var(--color-chrome-yellow);
+  animation: logo-pulse 4s ease-in-out infinite alternate;
+  will-change: opacity;
+}
+.nav-logo-dot:nth-child(2) { animation-delay: -1s; }
+.nav-logo-dot:nth-child(3) { animation-delay: -2s; }
+.nav-logo-dot:nth-child(4) { animation-delay: -0.5s; }
+.nav-logo-dot:nth-child(5) { animation-delay: -1.5s; }
+.nav-logo-dot:nth-child(6) { animation-delay: -2.5s; }
+
+@keyframes logo-pulse {
+  from { opacity: 0.5; }
+  to   { opacity: 1.0; }
+}
+
+.nav-logo-line {
+  stroke: rgba(245, 200, 66, 0.30);
+  stroke-width: 1;
+}
+
+/* ── Desktop Nav Links ────────────────────────────────────── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  /* warm white at 72% — exactly like reference image */
+  color: rgba(248, 244, 232, 0.72);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  transition: color var(--dur-base) var(--ease-out-soft);
+  cursor: pointer;
+}
+
+.nav-link-item:hover {
+  color: var(--color-moon-white);
+}
+
+/* Gradient underline — subtle warm glow on hover/active */
+.nav-link-item::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: var(--space-3);
+  right: var(--space-3);
+  height: 1px;
+  background: var(--color-chrome-yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out-soft);
+  opacity: 0.6;
+}
+
+.nav-link-item:hover::after { transform: scaleX(1); }
+.nav-link-item.active::after { transform: scaleX(1); opacity: 0.9; }
+
+/* Active state — chrome yellow — override site.css blue */
+#main-navbar .nav-link-item.active,
+#main-navbar .nav-link-item.active:link,
+#main-navbar .nav-link-item.active:visited,
+#main-navbar .nav-link-item.active:hover {
+  color: var(--color-chrome-yellow) !important;
+  background: rgba(245, 200, 66, 0.06) !important;
+  -webkit-text-fill-color: var(--color-chrome-yellow) !important;
+}
+
+/* Override site.css active::after blue gradient */
+#main-navbar .nav-link-item.active::after {
+  background: var(--color-chrome-yellow) !important;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: 2px;
+  height: 1px;
+  transform: scaleX(1);
+}
+
+/* Active dot above link — like reference image */
+.nav-link-item.active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: var(--color-chrome-yellow);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 8px rgba(245, 200, 66, 0.60);
+}
+
+/* ── "Let's Talk" CTA ─────────────────────────────────────── */
+.nav-cta-magnetic {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  color: var(--color-moon-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(248, 244, 232, 0.30);
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  will-change: transform;
+  transition:
+    border-color var(--dur-base),
+    box-shadow var(--dur-base);
+}
+
+.nav-cta-magnetic:hover {
+  border-color: var(--color-chrome-yellow);
+  box-shadow: 0 0 16px rgba(245, 200, 66, 0.20);
+  color: var(--color-moon-white);
+}
+
+.nav-cta-magnetic:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Theme Toggle ─────────────────────────────────────────── */
+.nav-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(248, 244, 232, 0.15);
+  border-radius: var(--radius-full);
+  color: rgba(248, 244, 232, 0.60);
+  cursor: pointer;
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+
+.nav-theme-toggle:hover {
+  border-color: rgba(248, 244, 232, 0.40);
+  color: var(--color-moon-white);
+}
+
+/* ── Auth/Dashboard Button ────────────────────────────────── */
+.nav-auth-btn {
+  display: none;
+}
+
+/* ── Hamburger ────────────────────────────────────────────── */
+.nav-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid rgba(248, 244, 232, 0.20);
+  border-radius: var(--radius-sm);
+  color: var(--color-moon-white);
+  cursor: pointer;
+  transition: background var(--dur-fast);
+}
+
+.nav-hamburger:hover {
+  background: rgba(248, 244, 232, 0.06);
+}
+
+/* ── Nav Brand / Logo ─────────────────────────────────────── */
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  /* warm gold gradient text */
+  background: linear-gradient(135deg, var(--color-moon-white) 0%, var(--color-chrome-yellow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Nav Actions Container ────────────────────────────────── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-search-btn {
+  display: none;
+  color: rgba(248, 244, 232, 0.60);
+  padding: 8px;
+}
+
+/* ── Mobile Drawer ────────────────────────────────────────── */
+#mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 85vw);
+  height: 100vh;
+  background: rgba(10, 11, 15, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(245, 200, 66, 0.10);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform var(--dur-base) var(--ease-out-soft),
+    visibility 0s linear var(--dur-base);
+  overflow-y: auto;
+}
+
+#mobile-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  transition:
+    transform var(--dur-base) var(--ease-out-soft),
+    visibility 0s linear 0s;
+}
+
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid rgba(245, 200, 66, 0.10);
+}
+
+.mobile-nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  color: rgba(248, 244, 232, 0.72);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: background var(--dur-fast), color var(--dur-fast);
+  margin-bottom: var(--space-1);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  background: rgba(245, 200, 66, 0.06);
+  color: var(--color-chrome-yellow);
+}
+
+.mobile-drawer-footer {
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(245, 200, 66, 0.10);
+}
+
+/* Overlay */
+#mobile-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 11, 15, 0.60);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base);
+}
+
+#mobile-drawer-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 767px) {
+  #main-navbar {
+    height: 64px;
+    padding: 0 var(--space-4);
+  }
+
+  .nav-links,
+  .nav-cta-magnetic,
+  .nav-theme-toggle {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .nav-hamburger { display: none; }
+  .nav-auth-btn  { display: inline-flex; }
+  .nav-search-btn { display: inline-flex; }
+}
+
+/* ── Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .nav-logo-dot { animation: none; opacity: 0.7; }
+  #mobile-drawer { transition: none; }
+  .nav-link-item::after { transition: none; }
+}

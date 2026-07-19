@@ -1,0 +1,100 @@
+/* ==========================================================================
+   motion.css — Van Gogh Motion (Phase 1)
+   Load order: 5th (last CSS)
+
+   GPU promotions, scroll reveal states, skip nav, reduced motion.
+   ========================================================================== */
+
+/* ── Hero full-viewport fix ──────────────────────────────── */
+/* Remove any Bootstrap/container padding that clips the hero */
+#main-content {
+  padding: 0;
+  margin: 0;
+}
+
+#hero-section {
+  /* Ensure hero breaks out of any parent constraints */
+  position: relative;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ── Skip Nav ────────────────────────────────────────────── */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  display: inline-block;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-canvas-black);
+  color: var(--color-chrome-yellow);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 2px solid var(--color-chrome-yellow);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top var(--dur-fast);
+}
+
+.skip-nav:focus-visible {
+  top: var(--space-4);
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Hero BG GPU Promotion ───────────────────────────────── */
+.hero-bg {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* ── Scroll Reveal — Initial State ──────────────────────── */
+html[data-js-ready] [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* JS fallback */
+html:not([data-js-ready]) [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ── Scroll Reveal — Final State ────────────────────────── */
+[data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Stagger Delays ──────────────────────────────────────── */
+[data-reveal-group] > [data-reveal] {
+  transition-delay: calc(var(--stagger-index, 0) * 80ms);
+}
+
+/* ── Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg {
+    animation: none !important;
+    will-change: auto !important;
+  }
+
+  html[data-js-ready] [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .skip-nav { transition: none; }
+}
+
+/* ── Drawer open — body scroll lock ─────────────────────── */
+body.drawer-open {
+  overflow: hidden;
+}

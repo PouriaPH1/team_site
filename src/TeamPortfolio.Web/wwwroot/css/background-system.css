@@ -1,0 +1,14 @@
+/* ==========================================================================
+   background-system.css — Phase 1: Disabled
+   
+   Phase 1 uses raw-vangogh-without-text.png as hero background-image.
+   The 8-layer CSS background system is disabled.
+   
+   Phase 2 will add: character layer, desk layer, moon-glow layer.
+   Phase 3 will add: particle canvas, animated stars.
+   ========================================================================== */
+
+/* Phase 1: background-system container is empty and hidden */
+#background-system {
+  display: none;
+}

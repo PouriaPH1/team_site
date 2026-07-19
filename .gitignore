@@ -43,6 +43,9 @@ wwwroot/uploads/
 Thumbs.db
 desktop.ini
 
+## Node / JS tooling (test infrastructure — packages installed locally)
+node_modules/
+
 ## Logs
 *.log
 Serilog/

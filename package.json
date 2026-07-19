@@ -1,0 +1,22 @@
+{
+  "name": "team-portfolio-design-system",
+  "version": "1.0.0",
+  "description": "Starry Night Design System — test infrastructure for the Team Portfolio visual redesign",
+  "private": true,
+  "scripts": {
+    "test": "vitest --run",
+    "test:unit": "vitest --run tests/unit/",
+    "test:pbt": "vitest --run tests/pbt/",
+    "test:integration": "vitest --run tests/integration/",
+    "test:e2e": "playwright test",
+    "test:all": "vitest --run && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "fast-check": "4.9.0",
+    "postcss": "8.5.20",
+    "postcss-value-parser": "4.2.0",
+    "vitest": "4.1.10",
+    "wcag-contrast": "3.0.0"
+  }
+}

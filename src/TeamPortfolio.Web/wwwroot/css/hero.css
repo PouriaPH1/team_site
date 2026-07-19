@@ -1,0 +1,414 @@
+/* ==========================================================================
+   hero.css — Van Gogh Hero Section (Phase 1)
+   Load order: 4th
+
+   Background: raw-vangogh-without-text.png (1536x1024)
+   Left gradient overlay makes text readable while keeping
+   the Van Gogh character visible on the right side.
+   ========================================================================== */
+
+/* ── Hero Section Container ───────────────────────────────── */
+#hero-section {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;          /* Force full viewport height */
+  width: 100vw;           /* Full viewport width */
+  margin-left: calc(-50vw + 50%);  /* Break out of any container */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Layer 0: Background Image ────────────────────────────── */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/raw-vangogh-without-text.png');
+  background-size: cover;
+  background-position: center 65%;  /* Keep character + desk in view */
+  background-repeat: no-repeat;
+  z-index: 0;
+  transform-origin: center center;
+  /* Ken Burns — painting breathes slowly */
+  animation: ken-burns 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes ken-burns {
+  from { transform: scale(1.0) translate(0, 0); }
+  to   { transform: scale(1.06) translate(-1%, -0.5%); }
+}
+
+/* ── Layer 1: Gradient Overlays ───────────────────────────── */
+/* Main overlay — dark left, transparent right */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 11, 15, 0.88) 0%,
+    rgba(10, 11, 15, 0.75) 30%,
+    rgba(10, 11, 15, 0.40) 55%,
+    rgba(10, 11, 15, 0.10) 75%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* Bottom overlay — for code snippet area readability */
+.hero-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    0deg,
+    rgba(10, 11, 15, 0.82) 0%,
+    rgba(10, 11, 15, 0.45) 40%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* ── Hero Content Wrapper ─────────────────────────────────── */
+.hero-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 0 6% 0 8vw;
+  padding-top: 120px;
+}
+
+/* ── Right Column ─────────────────────────────────────────── */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-4);
+  padding-top: clamp(60px, 12vh, 120px);
+  min-width: 160px;
+}
+
+/* Constellation SVG */
+.hero-constellation-right {
+  display: block;
+  margin-top: var(--space-4);
+  filter: drop-shadow(0 0 6px rgba(245,200,66,0.25));
+}
+
+/* ── Left Content Column ──────────────────────────────────── */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 520px;
+  padding-top: clamp(40px, 8vh, 80px);
+}
+
+/* ── Eyebrow: "WE ARE" ────────────────────────────────────── */
+.hero-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-chrome-yellow);
+  margin: 0;
+}
+
+/* ── Headline Block ───────────────────────────────────────── */
+.hero-headline-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.0;
+}
+
+/* "Code. Design." — warm white */
+.hero-line-main {
+  font-family: var(--font-heading);
+  font-size: clamp(2.6rem, 5.5vw, 5.2rem);
+  font-weight: 800;
+  color: var(--color-moon-white);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.65);
+}
+
+/* "Create." — gold, larger, focal point */
+.hero-line-create {
+  font-family: var(--font-heading);
+  font-size: clamp(3.2rem, 7.5vw, 7rem);
+  font-weight: 800;
+  color: var(--color-chrome-yellow);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  text-shadow:
+    0 2px 24px rgba(0, 0, 0, 0.65),
+    0 0 60px rgba(245, 200, 66, 0.30);
+  animation: create-glow 4s ease-in-out infinite alternate;
+  will-change: text-shadow;
+}
+
+@keyframes create-glow {
+  from {
+    text-shadow:
+      0 2px 24px rgba(0, 0, 0, 0.65),
+      0 0 40px rgba(245, 200, 66, 0.25);
+  }
+  to {
+    text-shadow:
+      0 2px 24px rgba(0, 0, 0, 0.65),
+      0 0 80px rgba(245, 200, 66, 0.50),
+      0 0 120px rgba(245, 200, 66, 0.15);
+  }
+}
+
+/* ── Subtitle ─────────────────────────────────────────────── */
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+  font-weight: 400;
+  color: var(--color-parchment);
+  max-width: 400px;
+  line-height: 1.65;
+  opacity: 0.88;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  margin: 0;
+  /* min-height prevents layout shift during typewriter */
+  min-height: 3.3em;
+}
+
+/* ── CTA Row ──────────────────────────────────────────────── */
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+}
+
+/* Primary button — cobalt blue, solid */
+.hero-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-cobalt);
+  color: var(--color-moon-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 13px 26px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition:
+    background var(--dur-base) var(--ease-out-soft),
+    box-shadow var(--dur-base) var(--ease-out-soft),
+    transform var(--dur-base) var(--ease-out-soft);
+}
+
+.hero-cta-primary:hover {
+  background: var(--color-ultramarine);
+  box-shadow: var(--glow-cobalt);
+  transform: translateY(-2px);
+  color: var(--color-moon-white);
+}
+
+.hero-cta-primary:active { transform: translateY(0); }
+
+.hero-cta-primary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.hero-cta-primary svg {
+  transition: transform var(--dur-base) var(--ease-out-soft);
+}
+.hero-cta-primary:hover svg {
+  transform: translateX(3px);
+}
+
+/* Secondary button — ghost, transparent */
+.hero-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  color: rgba(248, 244, 232, 0.80);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 12px 22px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(248, 244, 232, 0.25);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    border-color var(--dur-base),
+    color var(--dur-base);
+}
+
+.hero-cta-secondary:hover {
+  border-color: rgba(248, 244, 232, 0.55);
+  color: var(--color-moon-white);
+}
+
+.hero-cta-secondary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Right Side Comments (inside .hero-right) ────────────── */
+.hero-comments-right {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+}
+
+.hero-comments-right p {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: rgba(248, 244, 232, 0.75);
+  line-height: 1.9;
+  font-style: italic;
+  margin: 0;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
+}
+
+/* ── Code Snippet — bottom left ───────────────────────────── */
+.hero-code-block {
+  position: absolute;
+  bottom: 72px;
+  left: 8vw;
+  z-index: 10;
+  max-width: 340px;
+}
+
+.hero-code-inner {
+  background: rgba(10, 11, 15, 0.82);
+  border: 1px solid rgba(245, 200, 66, 0.12);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+}
+
+.hero-code-snippet {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: var(--color-parchment);
+  margin: 0;
+  white-space: pre;
+  overflow: hidden;
+}
+
+/* Syntax colors — warm oil palette, not neon */
+.code-line-num  { color: rgba(200, 144, 58, 0.50); user-select: none; }
+.code-keyword   { color: #6BAFC5; }                /* muted cerulean */
+.code-string    { color: var(--color-straw); }      /* warm straw */
+.code-function  { color: var(--color-parchment); }  /* parchment */
+.code-variable  { color: var(--color-moon-white); } /* moon white */
+.code-comment   { color: rgba(200, 180, 140, 0.55); font-style: italic; }
+
+/* ── Scroll Indicator ─────────────────────────────────────── */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(248, 244, 232, 0.50);
+  pointer-events: none;
+  animation: scroll-bounce 2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateX(-50%) translateY(6px);
+    opacity: 0.75;
+  }
+}
+
+.hero-scroll-indicator span {
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.hero-scroll-indicator.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .hero-wrapper {
+    padding: 90px var(--space-6) 0 var(--space-6);
+    flex-direction: column;
+  }
+
+  .hero-left {
+    padding-top: 20px;
+    max-width: 100%;
+  }
+
+  .hero-right { display: none; }
+
+  .hero-line-main  { font-size: clamp(2rem, 9vw, 3.2rem); }
+  .hero-line-create { font-size: clamp(2.4rem, 11vw, 4.5rem); }
+
+  .hero-code-block {
+    left: var(--space-6);
+    right: var(--space-6);
+    max-width: 100%;
+    bottom: 64px;
+  }
+
+  /* Mobile: slide right to show character */
+  .hero-bg {
+    background-position: 70% 65%;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(10, 11, 15, 0.90) 0%,
+      rgba(10, 11, 15, 0.65) 55%,
+      rgba(10, 11, 15, 0.15) 100%
+    );
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero-wrapper { padding-left: 6vw; padding-right: 4%; }
+  .hero-comments-right { right: 3%; }
+}
+
+/* ── Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg            { animation: none; }
+  .hero-line-create   { animation: none; }
+  .hero-scroll-indicator { animation: none; opacity: 0.5; }
+  .hero-cta-primary:hover { transform: none; }
+  .hero-cta-primary:hover svg { transform: none; }
+}
