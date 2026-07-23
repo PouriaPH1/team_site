@@ -1,0 +1,155 @@
+/* ==========================================================================
+   cosmic-decorations.css — SVG Decorative Elements
+   
+   Adds static + animated SVG decorations throughout the page:
+   - Glowing stars (different sizes)
+   - Constellation connection lines
+   - Flowing curves inspired by Starry Night
+   - Subtle radial glows
+   
+   These are VISUAL ONLY — no interaction, pure atmosphere.
+   ========================================================================== */
+
+/* ── Floating Star Decorations ─────────────────────────────── */
+.cosmic-star {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: star-fade-in 1.2s ease-out forwards;
+}
+
+@keyframes star-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Star glow pulse */
+.cosmic-star--pulse {
+  animation: star-fade-in 1.2s ease-out forwards,
+             star-pulse 4s ease-in-out infinite;
+}
+
+@keyframes star-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 4px rgba(245, 200, 66, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(245, 200, 66, 0.8));
+  }
+}
+
+/* ── Constellation Line Groups ─────────────────────────────── */
+.constellation-group {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.25;
+  animation: constellation-float 30s ease-in-out infinite alternate;
+}
+
+@keyframes constellation-float {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-15px, 10px);
+  }
+}
+
+/* ── Flowing Curves ────────────────────────────────────────── */
+.cosmic-curve {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+  animation: curve-flow 40s ease-in-out infinite;
+}
+
+@keyframes curve-flow {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(-20px) translateY(15px);
+  }
+}
+
+/* ── Radial Glow Spots ─────────────────────────────────────── */
+.cosmic-glow {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.08;
+  animation: glow-breathe 8s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% {
+    opacity: 0.05;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.12;
+    transform: scale(1.1);
+  }
+}
+
+/* ── Specific Positioning (Manual Art Direction) ─────────── */
+/* These are placed strategically to enhance visual flow */
+
+/* Top-right golden glow */
+.cosmic-glow--gold {
+  top: 10%;
+  right: 15%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(245, 200, 66, 0.15) 0%, transparent 70%);
+}
+
+/* Mid-left blue glow */
+.cosmic-glow--blue {
+  top: 45%;
+  left: 8%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+}
+
+/* Bottom-right purple glow */
+.cosmic-glow--purple {
+  bottom: 20%;
+  right: 10%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.10) 0%, transparent 70%);
+}
+
+/* ── Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-star--pulse,
+  .constellation-group,
+  .cosmic-curve,
+  .cosmic-glow {
+    animation: none !important;
+  }
+}
+
+/* ── Responsive — Hide decorations on mobile ────────────── */
+@media (max-width: 767px) {
+  .cosmic-glow,
+  .constellation-group,
+  .cosmic-curve {
+    display: none;
+  }
+}

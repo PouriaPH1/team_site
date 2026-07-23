@@ -45,6 +45,7 @@
     var elements = document.querySelectorAll('[data-reveal]');
     if (!elements.length) return;
 
+    // Higher threshold = reveals later (more dramatic entrance)
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -53,14 +54,17 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { 
+      threshold: 0.25,  // Was 0.15, now 0.25 (25% visible before reveal)
+      rootMargin: '-50px 0px' // Element must be 50px into viewport
+    });
 
     activeObservers.push(observer);
 
     // Stagger index for groups
     document.querySelectorAll('[data-reveal-group]').forEach(function (group) {
       group.querySelectorAll('[data-reveal]').forEach(function (child, idx) {
-        child.style.setProperty('--stagger-index', Math.min(idx, 6));
+        child.style.setProperty('--stagger-index', Math.min(idx, 8));
       });
     });
 

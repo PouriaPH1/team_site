@@ -38,17 +38,19 @@
     <!-- ═══ CSS Load Order (critical — do not reorder) ═══════════════════ -->
     <!-- 1. Design System — token source of truth -->
     <link rel="stylesheet" href="~/css/design-system.css" asp-append-version="true" />
-    <!-- 2. Background System — 8-layer animated background -->
+    <!-- 2. Background System — cosmic starry night atmosphere -->
     <link rel="stylesheet" href="~/css/background-system.css" asp-append-version="true" />
-    <!-- 3. Navigation — floating glass nav + mobile drawer -->
+    <!-- 3. Cosmic Decorations — SVG stars, curves, glows -->
+    <link rel="stylesheet" href="~/css/cosmic-decorations.css" asp-append-version="true" />
+    <!-- 4. Navigation — floating glass nav + mobile drawer -->
     <link rel="stylesheet" href="~/css/navigation.css" asp-append-version="true" />
-    <!-- 4. Hero — full-viewport hero section -->
+    <!-- 5. Hero — full-viewport hero section -->
     <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" />
-    <!-- 5. Motion — GPU promotions + scroll reveal + reduced-motion -->
+    <!-- 6. Motion — GPU promotions + scroll reveal + reduced-motion -->
     <link rel="stylesheet" href="~/css/motion.css" asp-append-version="true" />
-    <!-- 6. Skills — constellation grid section -->
+    <!-- 7. Skills — constellation grid section -->
     <link rel="stylesheet" href="~/css/skills.css" asp-append-version="true" />
-    <!-- 7. Terminal — terminal team explorer section -->
+    <!-- 8. Terminal — terminal team explorer section -->
     <link rel="stylesheet" href="~/css/terminal.css" asp-append-version="true" />
 
     <!-- Bootstrap 5 -->
@@ -56,7 +58,7 @@
 
     <!-- Site-specific styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <!-- 8. Sections — transparent sections + Bootstrap dark overrides -->
+    <!-- 9. Sections — transparent sections + Bootstrap dark overrides -->
     <link rel="stylesheet" href="~/css/sections.css" asp-append-version="true" />
 
     @await RenderSectionAsync("Head", required: false)
@@ -66,6 +68,37 @@
     <!-- Canvas star field — fixed behind all content (Req 2) -->
     <canvas id="star-canvas" aria-hidden="true"
             style="position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0.75"></canvas>
+
+    <!-- Van Gogh Moon/Sun — fixed decorative element -->
+    <div id="vangogh-moon" aria-hidden="true" style="position:fixed;top:8%;right:15%;z-index:-2;pointer-events:none;width:200px;height:200px;">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;filter:blur(2px);">
+            <!-- Outer halo -->
+            <circle cx="100" cy="100" r="95" fill="url(#moon-gradient-outer)" opacity="0.25" />
+            <!-- Mid glow -->
+            <circle cx="100" cy="100" r="70" fill="url(#moon-gradient-mid)" opacity="0.45" />
+            <!-- Core -->
+            <circle cx="100" cy="100" r="45" fill="url(#moon-gradient-core)" opacity="0.85" />
+            <!-- Inner bright core -->
+            <circle cx="100" cy="100" r="25" fill="#FFF9E3" opacity="1" />
+            
+            <!-- Gradients -->
+            <defs>
+                <radialGradient id="moon-gradient-outer">
+                    <stop offset="0%" style="stop-color:#F5C842;stop-opacity:0.5" />
+                    <stop offset="100%" style="stop-color:#F5C842;stop-opacity:0" />
+                </radialGradient>
+                <radialGradient id="moon-gradient-mid">
+                    <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.7" />
+                    <stop offset="100%" style="stop-color:#F5C842;stop-opacity:0.1" />
+                </radialGradient>
+                <radialGradient id="moon-gradient-core">
+                    <stop offset="0%" style="stop-color:#FFF9E3;stop-opacity:1" />
+                    <stop offset="80%" style="stop-color:#FFD700;stop-opacity:0.8" />
+                    <stop offset="100%" style="stop-color:#F5C842;stop-opacity:0.3" />
+                </radialGradient>
+            </defs>
+        </svg>
+    </div>
 
     <!-- Skip navigation — first focusable element in DOM (Req 12.2) -->
     <a href="#main-content" class="skip-nav">Skip to main content</a>
@@ -241,6 +274,7 @@
     <script src="~/js/motion.js" asp-append-version="true" defer></script>
     <script src="~/js/hero-interactions.js" asp-append-version="true" defer></script>
     <script src="~/js/canvas-stars.js" asp-append-version="true" defer></script>
+    <script src="~/js/cosmic-decorations.js" asp-append-version="true" defer></script>
     <script src="~/js/terminal.js" asp-append-version="true" defer></script>
 
     <!-- Page loader hide script -->

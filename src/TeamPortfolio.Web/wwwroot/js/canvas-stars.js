@@ -23,7 +23,7 @@
   let brushstrokes = [];
   let rafId = null;
 
-  const PALETTE = ['#F5C842', '#F97316', '#38BDF8', '#818CF8', '#FEF08A'];
+  const PALETTE = ['#F1C40F', '#F5C842', '#FFD700', '#FDB813', '#FEF08A'];
 
   // Mouse position — default to off-screen so no attraction on load
   const mouse = { x: -9999, y: -9999 };

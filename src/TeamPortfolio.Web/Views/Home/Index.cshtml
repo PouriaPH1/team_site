@@ -10,33 +10,7 @@
 @* ═══ Terminal Team Explorer (below hero) ═══════════════════ *@
 @await Html.PartialAsync("_TerminalSection")
 
-@* ═══ Stats, Projects, Blog sections below ══════════════════ *@
-
-<!-- ═══════════════════════════════════════════ STATS ═══ -->
-<section class="section-wrapper section-wrapper--stats">
-    <div class="container-main">
-        <div class="stats-panel">
-            <div class="row g-0 text-center">
-                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="1">
-                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalProjects" data-suffix="+">0</div>
-                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Projects Delivered</div>
-                </div>
-                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="2">
-                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalMembers" data-suffix="">0</div>
-                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Team Members</div>
-                </div>
-                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="3">
-                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalTechnologies" data-suffix="">0</div>
-                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Technologies</div>
-                </div>
-                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="4">
-                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.YearsOfExperience" data-suffix="yr">0</div>
-                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Years Experience</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@* ═══ Projects, Blog sections below ══════════════════════════ *@
 
 <!-- ═══════════════════════════════════════════ PROJECTS ═══ -->
 <section class="section-wrapper">
@@ -49,12 +23,12 @@
 
         @if (Model.LatestProjects.Any())
         {
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" data-reveal-group>
                 @{ int projectIdx = 0; }
                 @foreach (var project in Model.LatestProjects)
                 {
                     var delayAttr = (projectIdx % 4) + 1;
-                    <div class="col" data-reveal data-reveal-delay="@delayAttr">
+                    <div class="col" data-reveal data-reveal-scale data-reveal-delay="@delayAttr">
                         <a href="/Portfolio/@project.Slug" class="card d-block text-decoration-none" style="height:100%;">
                             @if (!string.IsNullOrEmpty(project.CoverImagePath))
                             {
@@ -113,12 +87,12 @@
 
         @if (Model.LatestPosts.Any())
         {
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="row row-cols-1 row-cols-md-3 g-4" data-reveal-group>
                 @{ int postIdx = 0; }
                 @foreach (var post in Model.LatestPosts)
                 {
                     var postDelay = (postIdx % 3) + 1;
-                    <div class="col" data-reveal data-reveal-delay="@postDelay">
+                    <div class="col" data-reveal data-reveal-scale data-reveal-delay="@postDelay">
                         <a href="/Blog/@post.Slug" class="card d-block text-decoration-none" style="height:100%;">
                             @if (!string.IsNullOrEmpty(post.CoverImagePath))
                             {
@@ -167,8 +141,8 @@
             <p class="section-eyebrow" data-reveal><i class="fa-solid fa-star me-2" aria-hidden="true"></i>Client Reviews</p>
             <h2 class="section-title" data-reveal data-reveal-delay="1">What People Say</h2>
         </div>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col" data-reveal data-reveal-delay="1">
+        <div class="row row-cols-1 row-cols-md-3 g-4" data-reveal-group>
+            <div class="col" data-reveal data-reveal-from="left" data-reveal-delay="1">
                 <div class="card" style="border-left:4px solid var(--color-primary);cursor:default;">
                     <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-primary);margin-bottom:1rem;" aria-hidden="true"></i>
                     <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
@@ -183,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col" data-reveal data-reveal-delay="2">
+            <div class="col" data-reveal data-reveal-scale data-reveal-delay="2">
                 <div class="card" style="border-left:4px solid var(--color-accent);cursor:default;">
                     <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-accent);margin-bottom:1rem;" aria-hidden="true"></i>
                     <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
@@ -198,7 +172,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col" data-reveal data-reveal-delay="3">
+            <div class="col" data-reveal data-reveal-from="right" data-reveal-delay="3">
                 <div class="card" style="border-left:4px solid var(--color-success);cursor:default;">
                     <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-success);margin-bottom:1rem;" aria-hidden="true"></i>
                     <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
@@ -229,44 +203,4 @@
     </div>
 </section>
 
-@section Scripts {
-<script>
-// Count-up animation for stats
-(function() {
-    'use strict';
-    function animateCounters() {
-        var counters = document.querySelectorAll('[data-count]');
-        counters.forEach(function(el) {
-            var target = parseInt(el.getAttribute('data-count'), 10) || 0;
-            var suffix = el.getAttribute('data-suffix') || '';
-            if (target === 0) { el.textContent = '0' + suffix; return; }
-            var duration = 2000;
-            var startTime = null;
-            function step(timestamp) {
-                if (!startTime) startTime = timestamp;
-                var progress = Math.min((timestamp - startTime) / duration, 1);
-                var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-                el.textContent = Math.floor(eased * target) + suffix;
-                if (progress < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-        });
-    }
 
-    // Use IntersectionObserver to trigger when stats section is visible
-    var statsSection = document.querySelector('[data-count]');
-    if (statsSection && 'IntersectionObserver' in window) {
-        var observed = false;
-        var observer = new IntersectionObserver(function(entries) {
-            if (entries[0].isIntersecting && !observed) {
-                observed = true;
-                animateCounters();
-            }
-        }, { threshold: 0.3 });
-        observer.observe(statsSection.closest('section') || statsSection);
-    } else {
-        animateCounters();
-    }
-})();
-</script>
-}

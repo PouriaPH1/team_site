@@ -55,13 +55,38 @@
 }
 
 /* ── Scroll Reveal — Initial State ──────────────────────── */
-/* :not(.revealed) is required — otherwise html[…] [data-reveal] beats .revealed */
+/* Multiple animation types for variety */
 html[data-js-ready] [data-reveal]:not(.revealed):not([data-revealed="true"]) {
   opacity: 0;
-  transform: translateY(24px);
+  /* Default: slide up */
+  transform: translateY(40px);
   transition:
-    opacity 600ms ease-out,
-    transform 600ms ease-out;
+    opacity 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Slide from left */
+html[data-js-ready] [data-reveal-from="left"]:not(.revealed):not([data-revealed="true"]) {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+/* Slide from right */
+html[data-js-ready] [data-reveal-from="right"]:not(.revealed):not([data-revealed="true"]) {
+  opacity: 0;
+  transform: translateX(60px);
+}
+
+/* Scale fade (for cards) */
+html[data-js-ready] [data-reveal-scale]:not(.revealed):not([data-revealed="true"]) {
+  opacity: 0;
+  transform: scale(0.92) translateY(20px);
+}
+
+/* Rotate fade (for special elements) */
+html[data-js-ready] [data-reveal-rotate]:not(.revealed):not([data-revealed="true"]) {
+  opacity: 0;
+  transform: rotate(-3deg) scale(0.95);
 }
 
 /* JS fallback — show content when motion.js has not run yet */
@@ -74,22 +99,24 @@ html:not([data-js-ready]) [data-reveal] {
 html[data-js-ready] [data-reveal].revealed,
 html[data-js-ready] [data-reveal][data-revealed="true"] {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) translateX(0) scale(1) rotate(0);
   transition:
-    opacity 600ms ease-out,
-    transform 600ms ease-out;
+    opacity 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ── Stagger Delays — group-based (legacy) ───────────────── */
 [data-reveal-group] > [data-reveal] {
-  transition-delay: calc(var(--stagger-index, 0) * 80ms);
+  transition-delay: calc(var(--stagger-index, 0) * 120ms);
 }
 
 /* ── Stagger Delays — explicit data-reveal-delay ─────────── */
-[data-reveal-delay="1"] { transition-delay: 100ms; }
-[data-reveal-delay="2"] { transition-delay: 200ms; }
-[data-reveal-delay="3"] { transition-delay: 300ms; }
-[data-reveal-delay="4"] { transition-delay: 400ms; }
+[data-reveal-delay="1"] { transition-delay: 150ms; }
+[data-reveal-delay="2"] { transition-delay: 300ms; }
+[data-reveal-delay="3"] { transition-delay: 450ms; }
+[data-reveal-delay="4"] { transition-delay: 600ms; }
+[data-reveal-delay="5"] { transition-delay: 750ms; }
+[data-reveal-delay="6"] { transition-delay: 900ms; }
 
 /* ── Reduced Motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
