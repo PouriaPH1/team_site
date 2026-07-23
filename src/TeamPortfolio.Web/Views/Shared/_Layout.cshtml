@@ -28,7 +28,6 @@
 
     <!-- Font Awesome 6 Free -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-          integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uu0qcPxh4Plh7eecsDwtR3PTxyYDAfuZJHoYOPw=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Google Fonts: Manrope (heading) + IBM Plex Sans (body) + JetBrains Mono (code) -->
@@ -47,16 +46,26 @@
     <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" />
     <!-- 5. Motion — GPU promotions + scroll reveal + reduced-motion -->
     <link rel="stylesheet" href="~/css/motion.css" asp-append-version="true" />
+    <!-- 6. Skills — constellation grid section -->
+    <link rel="stylesheet" href="~/css/skills.css" asp-append-version="true" />
+    <!-- 7. Terminal — terminal team explorer section -->
+    <link rel="stylesheet" href="~/css/terminal.css" asp-append-version="true" />
 
     <!-- Bootstrap 5 -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <!-- Site-specific styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- 8. Sections — transparent sections + Bootstrap dark overrides -->
+    <link rel="stylesheet" href="~/css/sections.css" asp-append-version="true" />
 
     @await RenderSectionAsync("Head", required: false)
 </head>
 <body>
+
+    <!-- Canvas star field — fixed behind all content (Req 2) -->
+    <canvas id="star-canvas" aria-hidden="true"
+            style="position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0.75"></canvas>
 
     <!-- Skip navigation — first focusable element in DOM (Req 12.2) -->
     <a href="#main-content" class="skip-nav">Skip to main content</a>
@@ -64,8 +73,7 @@
     <!-- ══════════════════════════════════════════════════════════
          BACKGROUND SYSTEM — Phase 1: empty, reserved for Phase 2 layers
     ══════════════════════════════════════════════════════════ -->
-    <!-- Phase 1: background-system is disabled. Hero uses CSS background-image.
-         Phase 2 will add: vangogh-character.png, desk.png, moon-glow.png as layers here -->
+    <!-- Global starry-night atmosphere — fixed behind canvas + content -->
     <div id="background-system" aria-hidden="true"></div><!-- /#background-system -->
 
     <!-- Page loader: fades out once page is fully loaded -->
@@ -231,6 +239,9 @@
     <!-- Starry Night design system modules (deferred — load after DOM) -->
     <script src="~/js/background.js" asp-append-version="true" defer></script>
     <script src="~/js/motion.js" asp-append-version="true" defer></script>
+    <script src="~/js/hero-interactions.js" asp-append-version="true" defer></script>
+    <script src="~/js/canvas-stars.js" asp-append-version="true" defer></script>
+    <script src="~/js/terminal.js" asp-append-version="true" defer></script>
 
     <!-- Page loader hide script -->
     <script>

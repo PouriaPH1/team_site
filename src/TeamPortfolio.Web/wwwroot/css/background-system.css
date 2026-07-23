@@ -1,14 +1,44 @@
 /* ==========================================================================
-   background-system.css — Phase 1: Disabled
-   
-   Phase 1 uses raw-vangogh-without-text.png as hero background-image.
-   The 8-layer CSS background system is disabled.
-   
-   Phase 2 will add: character layer, desk layer, moon-glow layer.
-   Phase 3 will add: particle canvas, animated stars.
+   background-system.css — Global Starry Night Atmosphere
+   Fixed layer behind canvas stars + all page content.
+   Sections stay transparent so the universe feels continuous.
    ========================================================================== */
 
-/* Phase 1: background-system container is empty and hidden */
 #background-system {
-  display: none;
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    /* Warm moon glow — upper-right, like the painting */
+    radial-gradient(ellipse 55% 45% at 78% 12%,
+      rgba(245, 200, 66, 0.07) 0%,
+      transparent 55%),
+    /* Cobalt swirl — mid-left */
+    radial-gradient(ellipse 70% 55% at 15% 45%,
+      rgba(43, 75, 140, 0.18) 0%,
+      transparent 60%),
+    /* Prussian depth — top center */
+    radial-gradient(ellipse 90% 60% at 50% 0%,
+      rgba(26, 39, 68, 0.65) 0%,
+      transparent 65%),
+    /* Base night sky — matches hero bottom edge */
+    linear-gradient(180deg,
+      #0A0B0F 0%,
+      #0D1117 30%,
+      #0F1923 55%,
+      #0A0B0F 100%);
+}
+
+/* Subtle painterly texture overlay */
+#background-system::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url('/images/raw-vangogh-without-text.png');
+  background-size: cover;
+  background-position: center 70%;
+  mix-blend-mode: soft-light;
 }

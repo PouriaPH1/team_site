@@ -30,8 +30,7 @@
     if (prefersReduced || lowPerf) {
       // Snap all reveal elements immediately
       document.querySelectorAll('[data-reveal]').forEach(function (el) {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
+        el.classList.add('revealed');
         el.setAttribute('data-revealed', 'true');
       });
       activeObservers.forEach(function (obs) { obs.disconnect(); });
@@ -49,8 +48,7 @@
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+          entry.target.classList.add('revealed');
           entry.target.setAttribute('data-revealed', 'true');
           observer.unobserve(entry.target);
         }

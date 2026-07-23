@@ -1,0 +1,50 @@
+@* ═══ Terminal Team Explorer Section — Visual Upgrade V2 Req 4 ═══ *@
+
+<section id="terminal" class="terminal-section" aria-label="Team Explorer Terminal">
+    <div class="container-main">
+
+        <!-- Ambient glow blob -->
+        <div class="section-glow-amber" style="top:-50px;right:0" aria-hidden="true"></div>
+
+        <!-- Section header -->
+        <div data-reveal class="section-eyebrow">Team Explorer</div>
+        <h2 data-reveal>Meet the Team</h2>
+
+        <!-- Terminal window -->
+        <div class="terminal-window glass-card" data-reveal>
+
+            <!-- macOS-style titlebar -->
+            <div class="terminal-titlebar" aria-hidden="true">
+                <div class="terminal-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <span class="terminal-title">team&commat;starry:~$</span>
+            </div>
+
+            <!-- Output area — screen-reader live region -->
+            <div class="terminal-body"
+                 id="terminal-output"
+                 role="log"
+                 aria-live="polite"
+                 aria-label="Terminal output"></div>
+
+            <!-- Input row -->
+            <div class="terminal-input-row">
+                <span class="terminal-prompt" aria-hidden="true">$</span>
+                <input type="text"
+                       id="terminal-input"
+                       class="terminal-input"
+                       autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       spellcheck="false"
+                       aria-label="Terminal command input"
+                       placeholder="Type a command (try 'help')..." />
+            </div>
+
+        </div><!-- /.terminal-window -->
+
+    </div><!-- /.container-main -->
+</section>

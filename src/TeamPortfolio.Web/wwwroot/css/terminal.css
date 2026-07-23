@@ -1,0 +1,223 @@
+/* ═══════════════════════════════════════════════════════════
+   terminal.css — Terminal Team Explorer Section
+   Visual Upgrade V2 — Req 4
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Section Layout ──────────────────────────────────────── */
+.terminal-section {
+  position: relative;
+  margin-top: -72px;
+  padding: calc(6rem + 72px) 0 6rem;
+  overflow: hidden;
+  background: transparent;
+}
+
+.terminal-section .container-main {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.terminal-section h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-moon-white, #F8F4E8);
+  margin-bottom: 2.5rem;
+  line-height: 1.2;
+}
+
+/* ── Terminal Window ─────────────────────────────────────── */
+.terminal-window {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Titlebar ────────────────────────────────────────────── */
+.terminal-titlebar {
+  background: rgba(10, 11, 15, 0.95);
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  gap: 12px;
+  border-bottom: 1px solid rgba(245, 200, 66, 0.12);
+  flex-shrink: 0;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dot-red    { background: #FF5F57; box-shadow: 0 0 0 1px rgba(255,95,87,0.4); }
+.dot-yellow { background: #FEBC2E; box-shadow: 0 0 0 1px rgba(254,188,46,0.4); }
+.dot-green  { background: #28C840; box-shadow: 0 0 0 1px rgba(40,200,64,0.4); }
+
+.terminal-title {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.78rem;
+  color: rgba(232, 223, 200, 0.6);
+  letter-spacing: 0.02em;
+  user-select: none;
+  flex: 1;
+  text-align: center;
+}
+
+/* ── Terminal Body ───────────────────────────────────────── */
+.terminal-body {
+  min-height: 280px;
+  padding: 16px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  overflow-y: auto;
+  max-height: 400px;
+  background: rgba(7, 10, 18, 0.92);
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+.terminal-body::-webkit-scrollbar {
+  width: 4px;
+}
+.terminal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(245, 200, 66, 0.25);
+  border-radius: 2px;
+}
+.terminal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 200, 66, 0.45);
+}
+
+/* ── Output Lines ────────────────────────────────────────── */
+.terminal-output-line {
+  color: #E8DFC8;
+  margin: 2px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-output-line.line-command {
+  color: #F5C842;
+}
+
+.terminal-output-line.line-error {
+  color: #FF7B7B;
+}
+
+.terminal-output-line.line-success {
+  color: #28C840;
+}
+
+.terminal-output-line.line-muted {
+  color: rgba(232, 223, 200, 0.45);
+}
+
+/* ── Cursor Blink ────────────────────────────────────────── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: #F5C842;
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s step-end infinite;
+  border-radius: 1px;
+}
+
+/* ── Input Row ───────────────────────────────────────────── */
+.terminal-input-row {
+  display: flex;
+  border-top: 1px solid rgba(245, 200, 66, 0.10);
+  padding: 8px 16px;
+  align-items: center;
+  background: rgba(7, 10, 18, 0.92);
+  gap: 0;
+}
+
+.terminal-prompt {
+  color: #F5C842;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  margin-right: 8px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #E8DFC8;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  caret-color: #F5C842;
+  min-width: 0;
+}
+
+.terminal-input::placeholder {
+  color: rgba(232, 223, 200, 0.30);
+}
+
+.terminal-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* ── Mobile Friendliness ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .terminal-section {
+    padding: 4rem 0;
+  }
+
+  .terminal-body {
+    min-height: 220px;
+    max-height: 320px;
+    font-size: 0.78rem;
+    padding: 12px;
+  }
+
+  .terminal-input {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+
+  .terminal-prompt {
+    font-size: 16px;
+  }
+
+  .terminal-input-row {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-title {
+    font-size: 0.68rem;
+  }
+}
+
+/* ── Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .terminal-cursor {
+    animation: none;
+    opacity: 1;
+  }
+}

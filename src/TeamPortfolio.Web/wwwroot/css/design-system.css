@@ -58,6 +58,7 @@
   --gradient-btn-primary:  linear-gradient(135deg,
                               var(--color-cobalt) 0%,
                               var(--color-ultramarine) 100%);
+  --gradient-primary:      var(--gradient-btn-primary);
   --gradient-overlay-left: linear-gradient(90deg,
                               rgba(10,11,15,0.88) 0%,
                               rgba(10,11,15,0.72) 40%,
@@ -188,6 +189,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  background: transparent;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   color: var(--color-moon-white);
@@ -247,4 +252,57 @@ img { max-width: 100%; height: auto; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ==========================================================================
+   16. Glass Components
+   Additive classes — do NOT override Bootstrap card styles.
+   Apply alongside existing classes: class="card glass-card"
+   ========================================================================== */
+
+/* ── Glass Panel ─────────────────────────────────────────────────────────── */
+.glass-panel {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  background: rgba(10,16,35,0.55);
+  border: 1px solid rgba(245,200,66,0.15);
+}
+
+/* ── Glass Card ──────────────────────────────────────────────────────────── */
+.glass-card {
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  background: linear-gradient(135deg, rgba(12,19,43,0.65), rgba(22,33,62,0.45));
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(245,200,66,0.35);
+  box-shadow: 0 12px 35px -10px rgba(245,200,66,0.22);
+}
+
+/* ==========================================================================
+   17. Section Glow Blobs
+   Position blobs inside position:relative sections.
+   z-index: 0 keeps them behind all content (content should be z-index: 1+).
+   ========================================================================== */
+
+.section-glow-amber,
+.section-glow-blue {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.section-glow-amber {
+  background: radial-gradient(circle, rgba(245,158,11,0.12), transparent 70%);
+}
+
+.section-glow-blue {
+  background: radial-gradient(circle, rgba(56,189,248,0.10), transparent 70%);
 }

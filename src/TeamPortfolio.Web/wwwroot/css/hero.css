@@ -19,6 +19,25 @@
   flex-direction: column;
 }
 
+/* Gradient bridge — painting fades into the shared night-sky universe */
+#hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(10, 11, 15, 0.45) 35%,
+    rgba(10, 11, 15, 0.82) 70%,
+    var(--color-canvas-black) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
 /* ── Layer 0: Background Image ────────────────────────────── */
 .hero-bg {
   position: absolute;
@@ -46,10 +65,10 @@
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(10, 11, 15, 0.88) 0%,
-    rgba(10, 11, 15, 0.75) 30%,
-    rgba(10, 11, 15, 0.40) 55%,
-    rgba(10, 11, 15, 0.10) 75%,
+    rgba(10, 11, 15, 0.90) 0%,
+    rgba(10, 11, 15, 0.60) 35%,
+    rgba(10, 11, 15, 0.20) 55%,
+    rgba(10, 11, 15, 0.05) 70%,
     transparent 100%
   );
   z-index: 1;
@@ -61,11 +80,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 50%;
+  height: 40%;
   background: linear-gradient(
     0deg,
-    rgba(10, 11, 15, 0.82) 0%,
-    rgba(10, 11, 15, 0.45) 40%,
+    rgba(10, 11, 15, 0.75) 0%,
+    rgba(10, 11, 15, 0.35) 40%,
     transparent 100%
   );
   z-index: 1;
@@ -79,8 +98,9 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  /* Scroll if content exceeds viewport — no overlap */
   min-height: 100vh;
-  padding: 0 6% 0 8vw;
+  padding: 0 6% 80px 8vw;   /* bottom padding replaces old code block spacing */
   padding-top: 120px;
 }
 
@@ -284,13 +304,29 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
 }
 
-/* ── Code Snippet — bottom left ───────────────────────────── */
+/* ── Code Snippet — inside hero-left (NOT absolute) ──────── */
+/* Sits below CTA row in normal flex flow — never overlaps headline */
 .hero-code-block {
-  position: absolute;
-  bottom: 72px;
-  left: 8vw;
+  position: relative;   /* static flow — no overlap possible */
   z-index: 10;
-  max-width: 340px;
+  max-width: 300px;
+  margin-top: var(--space-4);
+}
+
+/* Remove old absolute/height-based overrides */
+@media (max-height: 700px) {
+  .hero-code-block {
+    display: none;
+  }
+}
+
+@media (min-height: 701px) and (max-height: 800px) {
+  .hero-code-block {
+    max-width: 260px;
+  }
+  .hero-code-snippet {
+    font-size: 0.70rem;
+  }
 }
 
 .hero-code-inner {
@@ -411,4 +447,219 @@
   .hero-scroll-indicator { animation: none; opacity: 0.5; }
   .hero-cta-primary:hover { transform: none; }
   .hero-cta-primary:hover svg { transform: none; }
+}
+
+/* ── Hero Stats Row ───────────────────────────────────────── */
+.hero-stats-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(248,244,232,0.12);
+  margin-top: 8px;
+  max-width: 400px;
+}
+
+.hero-stat { text-align: center; }
+
+.hero-stat-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-chrome-yellow);
+}
+
+.hero-stat-label {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--color-parchment);
+  opacity: 0.8;
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(248,244,232,0.15);
+  margin: 0 12px;
+}
+
+/* ── Code Snippet Titlebar ────────────────────────────────── */
+.hero-code-inner {
+  /* Remove old padding — titlebar now provides top padding */
+  padding: 0;
+}
+
+.hero-code-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(245, 200, 66, 0.10);
+  background: rgba(10, 11, 15, 0.60);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.hero-code-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-red    { background: #FF5F57; }
+.dot-yellow { background: #FEBC2E; }
+.dot-green  { background: #28C840; }
+
+.hero-code-filename {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: rgba(248, 244, 232, 0.50);
+  margin-left: 8px;
+  letter-spacing: 0.02em;
+}
+
+.hero-code-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Copy button */
+.hero-code-copy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(248, 244, 232, 0.18);
+  border-radius: 6px;
+  color: rgba(248, 244, 232, 0.55);
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 150ms, color 150ms, background 150ms;
+}
+
+.hero-code-copy:hover {
+  border-color: rgba(248, 244, 232, 0.45);
+  color: var(--color-parchment);
+  background: rgba(248, 244, 232, 0.06);
+}
+
+.hero-code-copy:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* "Copied!" tooltip */
+.hero-code-copy::after {
+  content: 'Copied!';
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(16, 185, 129, 0.92);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 3px 7px;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms, transform 150ms;
+}
+
+.hero-code-copy.copied::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Run button */
+.hero-code-run {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(245, 200, 66, 0.20);
+  border: 1px solid rgba(245, 200, 66, 0.45);
+  border-radius: 6px;
+  color: var(--color-chrome-yellow);
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 150ms, border-color 150ms, color 150ms;
+}
+
+.hero-code-run:hover {
+  background: rgba(245, 200, 66, 0.32);
+  border-color: rgba(245, 200, 66, 0.70);
+}
+
+.hero-code-run:active {
+  background: rgba(245, 200, 66, 0.18);
+}
+
+.hero-code-run:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Code pre padding — now sits below titlebar */
+.hero-code-snippet {
+  padding: var(--space-4) var(--space-6);
+  margin: 0;
+}
+
+/* ── Output Panel ─────────────────────────────────────────── */
+.hero-code-output {
+  background: rgba(10, 11, 15, 0.95);
+  border-top: 1px solid rgba(16, 185, 129, 0.20);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.8;
+  color: #10B981;
+  white-space: pre-wrap;
+  word-break: break-word;
+  /* Slide-down reveal */
+  overflow: hidden;
+  animation: output-slide-in 200ms ease-out both;
+}
+
+@keyframes output-slide-in {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.hero-code-output[hidden] {
+  display: none;
+}
+
+/* ── Reduced-motion overrides ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-code-output { animation: none; }
 }

@@ -7,27 +7,32 @@
 @* ═══ Starry Night Hero Section ══════════════════════════════ *@
 @await Html.PartialAsync("_HeroSection")
 
+@* ═══ Terminal Team Explorer (below hero) ═══════════════════ *@
+@await Html.PartialAsync("_TerminalSection")
+
 @* ═══ Stats, Projects, Blog sections below ══════════════════ *@
 
 <!-- ═══════════════════════════════════════════ STATS ═══ -->
-<section class="section-wrapper" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
+<section class="section-wrapper section-wrapper--stats">
     <div class="container-main">
-        <div class="row g-0 text-center">
-            <div class="col-6 col-md-3" style="padding:2rem 1rem;border-right:1px solid var(--color-border);">
-                <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalProjects" data-suffix="+">0</div>
-                <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Projects Delivered</div>
-            </div>
-            <div class="col-6 col-md-3" style="padding:2rem 1rem;border-right:1px solid var(--color-border);">
-                <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalMembers" data-suffix="">0</div>
-                <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Team Members</div>
-            </div>
-            <div class="col-6 col-md-3" style="padding:2rem 1rem;border-right:1px solid var(--color-border);">
-                <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalTechnologies" data-suffix="">0</div>
-                <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Technologies</div>
-            </div>
-            <div class="col-6 col-md-3" style="padding:2rem 1rem;">
-                <div class="h1-hero text-gradient" data-count="@Model.Statistics.YearsOfExperience" data-suffix="yr">0</div>
-                <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Years Experience</div>
+        <div class="stats-panel">
+            <div class="row g-0 text-center">
+                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="1">
+                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalProjects" data-suffix="+">0</div>
+                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Projects Delivered</div>
+                </div>
+                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="2">
+                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalMembers" data-suffix="">0</div>
+                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Team Members</div>
+                </div>
+                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="3">
+                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.TotalTechnologies" data-suffix="">0</div>
+                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Technologies</div>
+                </div>
+                <div class="col-6 col-md-3 stats-col" data-reveal data-reveal-delay="4">
+                    <div class="h1-hero text-gradient" data-count="@Model.Statistics.YearsOfExperience" data-suffix="yr">0</div>
+                    <div style="color:var(--color-text-secondary);font-size:0.9rem;margin-top:0.5rem;">Years Experience</div>
+                </div>
             </div>
         </div>
     </div>
@@ -37,17 +42,19 @@
 <section class="section-wrapper">
     <div class="container-main">
         <div class="text-center mb-5">
-            <p class="section-eyebrow"><i class="fa-solid fa-folder-open me-2" aria-hidden="true"></i>Our Work</p>
-            <h2 class="section-title">Latest Projects</h2>
-            <p class="section-subtitle">A selection of our most recent work across web, API, and cloud platforms.</p>
+            <p class="section-eyebrow" data-reveal><i class="fa-solid fa-folder-open me-2" aria-hidden="true"></i>Our Work</p>
+            <h2 class="section-title" data-reveal data-reveal-delay="1">Latest Projects</h2>
+            <p class="section-subtitle" data-reveal data-reveal-delay="2">A selection of our most recent work across web, API, and cloud platforms.</p>
         </div>
 
         @if (Model.LatestProjects.Any())
         {
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @{ int projectIdx = 0; }
                 @foreach (var project in Model.LatestProjects)
                 {
-                    <div class="col">
+                    var delayAttr = (projectIdx % 4) + 1;
+                    <div class="col" data-reveal data-reveal-delay="@delayAttr">
                         <a href="/Portfolio/@project.Slug" class="card d-block text-decoration-none" style="height:100%;">
                             @if (!string.IsNullOrEmpty(project.CoverImagePath))
                             {
@@ -73,10 +80,11 @@
                             </div>
                         </a>
                     </div>
+                    projectIdx++;
                 }
             </div>
             <div class="text-center mt-5">
-                <a href="/Portfolio" class="btn-secondary">
+                <a href="/Portfolio" class="btn-secondary" data-reveal>
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> View All Projects
                 </a>
             </div>
@@ -91,36 +99,26 @@
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════ TECHNOLOGIES ═══ -->
-<section class="section-wrapper" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
-    <div class="container-main text-center">
-        <p class="section-eyebrow"><i class="fa-solid fa-microchip me-2" aria-hidden="true"></i>Our Stack</p>
-        <h2 class="section-title">Technologies We Use</h2>
-        <p class="section-subtitle mb-5">We work with modern, battle-tested technologies to build reliable software.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-            @foreach (var tech in Model.Technologies)
-            {
-                <span class="badge badge-accent" style="padding:8px 16px;font-size:0.875rem;">@tech</span>
-            }
-        </div>
-    </div>
-</section>
+<!-- ═══════════════════════════════════════════ SKILLS / TECH STACK ═══ -->
+@await Html.PartialAsync("_SkillsSection")
 
 <!-- ═══════════════════════════════════════════ BLOG ═══ -->
 <section class="section-wrapper">
     <div class="container-main">
         <div class="text-center mb-5">
-            <p class="section-eyebrow"><i class="fa-solid fa-newspaper me-2" aria-hidden="true"></i>Knowledge Base</p>
-            <h2 class="section-title">Latest Blog Posts</h2>
-            <p class="section-subtitle">Technical articles, tutorials, and insights from our team.</p>
+            <p class="section-eyebrow" data-reveal><i class="fa-solid fa-newspaper me-2" aria-hidden="true"></i>Knowledge Base</p>
+            <h2 class="section-title" data-reveal data-reveal-delay="1">Latest Blog Posts</h2>
+            <p class="section-subtitle" data-reveal data-reveal-delay="2">Technical articles, tutorials, and insights from our team.</p>
         </div>
 
         @if (Model.LatestPosts.Any())
         {
             <div class="row row-cols-1 row-cols-md-3 g-4">
+                @{ int postIdx = 0; }
                 @foreach (var post in Model.LatestPosts)
                 {
-                    <div class="col">
+                    var postDelay = (postIdx % 3) + 1;
+                    <div class="col" data-reveal data-reveal-delay="@postDelay">
                         <a href="/Blog/@post.Slug" class="card d-block text-decoration-none" style="height:100%;">
                             @if (!string.IsNullOrEmpty(post.CoverImagePath))
                             {
@@ -143,10 +141,11 @@
                             </div>
                         </a>
                     </div>
+                    postIdx++;
                 }
             </div>
             <div class="text-center mt-5">
-                <a href="/Blog" class="btn-secondary">
+                <a href="/Blog" class="btn-secondary" data-reveal>
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> Read All Posts
                 </a>
             </div>
@@ -162,14 +161,14 @@
 </section>
 
 <!-- ═══════════════════════════════════════════ TESTIMONIALS ═══ -->
-<section class="section-wrapper" style="background:var(--color-surface);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
+<section class="section-wrapper">
     <div class="container-main">
         <div class="text-center mb-5">
-            <p class="section-eyebrow"><i class="fa-solid fa-star me-2" aria-hidden="true"></i>Client Reviews</p>
-            <h2 class="section-title">What People Say</h2>
+            <p class="section-eyebrow" data-reveal><i class="fa-solid fa-star me-2" aria-hidden="true"></i>Client Reviews</p>
+            <h2 class="section-title" data-reveal data-reveal-delay="1">What People Say</h2>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
+            <div class="col" data-reveal data-reveal-delay="1">
                 <div class="card" style="border-left:4px solid var(--color-primary);cursor:default;">
                     <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-primary);margin-bottom:1rem;" aria-hidden="true"></i>
                     <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
@@ -184,7 +183,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col" data-reveal data-reveal-delay="2">
                 <div class="card" style="border-left:4px solid var(--color-accent);cursor:default;">
                     <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-accent);margin-bottom:1rem;" aria-hidden="true"></i>
                     <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
@@ -199,7 +198,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col" data-reveal data-reveal-delay="3">
                 <div class="card" style="border-left:4px solid var(--color-success);cursor:default;">
                     <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-success);margin-bottom:1rem;" aria-hidden="true"></i>
                     <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
@@ -221,10 +220,10 @@
 <!-- ═══════════════════════════════════════════ CONTACT CTA ═══ -->
 <section class="section-wrapper text-center">
     <div class="container-main">
-        <p class="section-eyebrow"><i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>Get In Touch</p>
-        <h2 class="section-title">Ready to Work Together?</h2>
-        <p class="section-subtitle mb-5">Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you.</p>
-        <a href="/Contact" class="btn-primary" style="font-size:1rem;padding:14px 32px;">
+        <p class="section-eyebrow" data-reveal><i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>Get In Touch</p>
+        <h2 class="section-title" data-reveal data-reveal-delay="1">Ready to Work Together?</h2>
+        <p class="section-subtitle mb-5" data-reveal data-reveal-delay="2">Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you.</p>
+        <a href="/Contact" class="btn-primary" data-reveal data-reveal-delay="3" style="font-size:1rem;padding:14px 32px;">
             <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Start a Conversation
         </a>
     </div>

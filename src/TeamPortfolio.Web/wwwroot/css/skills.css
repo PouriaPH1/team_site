@@ -1,0 +1,150 @@
+/* ═══════════════════════════════════════════════════════════════
+   SKILLS CONSTELLATION GRID — Visual Upgrade V2 (Req 5)
+   Dependencies: design-system.css (.glass-card, .section-glow-blue)
+                 motion.css ([data-reveal] / .revealed)
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ──────────────────────────────────────────── */
+.skills-section {
+  padding: var(--space-section, 6rem) 0;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* ── Responsive Grid ──────────────────────────────────────────── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Skill Card ───────────────────────────────────────────────── */
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 12px;
+  border-radius: 14px;
+  cursor: default;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  text-align: center;
+}
+
+.skill-card:hover {
+  transform: translateY(-3px);
+}
+
+/* ── Per-category hover glow (Req 5.5) ───────────────────────── */
+.skill-card[data-cat="frontend"]:hover {
+  border-color: rgba(56, 189, 248, 0.40) !important;
+  box-shadow: 0 10px 30px -8px rgba(56, 189, 248, 0.25);
+}
+
+.skill-card[data-cat="backend"]:hover {
+  border-color: rgba(139, 92, 246, 0.40) !important;
+  box-shadow: 0 10px 30px -8px rgba(139, 92, 246, 0.25);
+}
+
+.skill-card[data-cat="mobile"]:hover {
+  border-color: rgba(245, 158, 11, 0.40) !important;
+  box-shadow: 0 10px 30px -8px rgba(245, 158, 11, 0.25);
+}
+
+.skill-card[data-cat="devops"]:hover {
+  border-color: rgba(16, 185, 129, 0.40) !important;
+  box-shadow: 0 10px 30px -8px rgba(16, 185, 129, 0.25);
+}
+
+.skill-card[data-cat="design"]:hover {
+  border-color: rgba(244, 63, 94, 0.40) !important;
+  box-shadow: 0 10px 30px -8px rgba(244, 63, 94, 0.25);
+}
+
+/* ── Icon & Name ──────────────────────────────────────────────── */
+.skill-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.skill-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.skill-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-moon-white, #F8F4E8);
+  line-height: 1.2;
+}
+
+/* ── Skill Badge base ─────────────────────────────────────────── */
+.skill-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+/* ── Category badge variants ──────────────────────────────────── */
+.badge-frontend {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38BDF8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.badge-backend {
+  background: rgba(139, 92, 246, 0.15);
+  color: #A78BFA;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.badge-mobile {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F5C842;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-devops {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-design {
+  background: rgba(244, 63, 94, 0.15);
+  color: #FB7185;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+/* ── Reduced-motion: disable hover transform ─────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .skill-card {
+    transition: none;
+  }
+  .skill-card:hover {
+    transform: none;
+  }
+}
