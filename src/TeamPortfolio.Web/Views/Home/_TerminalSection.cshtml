@@ -1,50 +1,155 @@
-@* ═══ Terminal Team Explorer Section — Visual Upgrade V2 Req 4 ═══ *@
+@* ═══ Terminal Team Explorer — IDE Split-Panel Redesign ═══ *@
 
 <section id="terminal" class="terminal-section" aria-label="Team Explorer Terminal">
-    <div class="container-main">
 
-        <!-- Ambient glow blob -->
-        <div class="section-glow-amber" style="top:-50px;right:0" aria-hidden="true"></div>
+    <!-- Starfield canvas — live background -->
+    <canvas id="terminal-starfield" class="terminal-starfield" aria-hidden="true"></canvas>
+
+    <div class="container-main" style="position:relative;z-index:1;">
 
         <!-- Section header -->
-        <div data-reveal class="section-eyebrow">Team Explorer</div>
-        <h2 data-reveal>Meet the Team</h2>
+        <div data-reveal class="section-eyebrow terminal-eyebrow">
+            <i class="fa-solid fa-terminal" aria-hidden="true"></i>
+            Team Explorer
+        </div>
+        <h2 data-reveal class="terminal-section-title">Meet the <span class="terminal-title-accent">Team</span></h2>
+        <p data-reveal class="terminal-section-subtitle">
+            Explore our team like a real developer — type commands, discover people.
+        </p>
 
-        <!-- Terminal window -->
-        <div class="terminal-window glass-card" data-reveal>
+        <!-- ─── VS Code-style status bar ─────────────────────────────── -->
+        <div class="terminal-statusbar" aria-hidden="true">
+            <div class="statusbar-left">
+                <span class="statusbar-item statusbar-branch">
+                    <i class="fa-solid fa-code-branch"></i>
+                    main
+                </span>
+                <span class="statusbar-item">
+                    <i class="fa-solid fa-user-astronaut" style="font-size:10px;"></i>
+                    <span id="statusbar-current-member">No profile loaded</span>
+                </span>
+            </div>
+            <div class="statusbar-right">
+                <span class="statusbar-item" id="statusbar-last-cmd">Ready</span>
+                <span class="statusbar-item statusbar-encoding">UTF-8</span>
+                <span class="statusbar-item statusbar-time" id="statusbar-time"></span>
+            </div>
+        </div>
 
-            <!-- macOS-style titlebar -->
-            <div class="terminal-titlebar" aria-hidden="true">
-                <div class="terminal-dots">
-                    <span class="dot dot-red"></span>
-                    <span class="dot dot-yellow"></span>
-                    <span class="dot dot-green"></span>
+        <!-- ─── Main split layout ─────────────────────────────────────── -->
+        <div class="terminal-split" data-reveal>
+
+            <!-- ── LEFT: Terminal Panel ────────────────────────────── -->
+            <div class="terminal-panel terminal-panel-left">
+
+                <!-- macOS-style titlebar -->
+                <div class="terminal-titlebar" aria-hidden="true">
+                    <div class="terminal-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <span class="terminal-title">team&#64;starry:~$</span>
+                    <div class="terminal-titlebar-actions">
+                        <button class="terminal-btn-icon" id="terminal-clear-btn" title="Clear terminal" aria-label="Clear terminal">
+                            <i class="fa-solid fa-trash-can" style="font-size:10px;"></i>
+                        </button>
+                    </div>
                 </div>
-                <span class="terminal-title">team&commat;starry:~$</span>
-            </div>
 
-            <!-- Output area — screen-reader live region -->
-            <div class="terminal-body"
-                 id="terminal-output"
-                 role="log"
-                 aria-live="polite"
-                 aria-label="Terminal output"></div>
+                <!-- Output area -->
+                <div class="terminal-body"
+                     id="terminal-output"
+                     role="log"
+                     aria-live="polite"
+                     aria-label="Terminal output"></div>
 
-            <!-- Input row -->
-            <div class="terminal-input-row">
-                <span class="terminal-prompt" aria-hidden="true">$</span>
-                <input type="text"
-                       id="terminal-input"
-                       class="terminal-input"
-                       autocomplete="off"
-                       autocorrect="off"
-                       autocapitalize="off"
-                       spellcheck="false"
-                       aria-label="Terminal command input"
-                       placeholder="Type a command (try 'help')..." />
-            </div>
+                <!-- Smart suggestions bar (shows when input is empty) -->
+                <div class="terminal-suggestions" id="terminal-suggestions" aria-label="Command suggestions">
+                    <span class="suggestions-label">Try:</span>
+                    <button class="suggestion-chip" data-cmd="ls" tabindex="0">ls</button>
+                    <button class="suggestion-chip" data-cmd="tree" tabindex="0">tree</button>
+                    <button class="suggestion-chip" data-cmd="cat leon" tabindex="0">cat leon</button>
+                    <button class="suggestion-chip" data-cmd="neofetch" tabindex="0">neofetch</button>
+                    <button class="suggestion-chip" data-cmd="top" tabindex="0">top</button>
+                </div>
 
-        </div><!-- /.terminal-window -->
+                <!-- Autocomplete dropdown -->
+                <div class="terminal-autocomplete" id="terminal-autocomplete" role="listbox" aria-label="Autocomplete suggestions"></div>
+
+                <!-- Input row -->
+                <div class="terminal-input-row">
+                    <span class="terminal-prompt" aria-hidden="true">
+                        <span class="prompt-user">starry</span><span class="prompt-sep">&#64;</span><span class="prompt-host">team</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                    </span>
+                    <input type="text"
+                           id="terminal-input"
+                           class="terminal-input"
+                           autocomplete="off"
+                           autocorrect="off"
+                           autocapitalize="off"
+                           spellcheck="false"
+                           aria-label="Terminal command input"
+                           aria-autocomplete="list"
+                           aria-controls="terminal-autocomplete"
+                           placeholder="Type a command..." />
+                </div>
+
+            </div><!-- /.terminal-panel-left -->
+
+            <!-- ── RIGHT: Preview Panel ────────────────────────────── -->
+            <div class="terminal-panel terminal-panel-right" id="terminal-preview">
+
+                <!-- Titlebar -->
+                <div class="terminal-titlebar" aria-hidden="true">
+                    <div class="terminal-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <span class="terminal-title" id="preview-title">profile.json</span>
+                </div>
+
+                <!-- Preview body -->
+                <div class="terminal-preview-body" id="preview-body">
+
+                    <!-- Idle state -->
+                    <div class="preview-idle" id="preview-idle">
+                        <div class="preview-idle-icon" aria-hidden="true">
+                            <i class="fa-regular fa-user" style="font-size:3rem;opacity:0.18;color:#F8F4E8;"></i>
+                        </div>
+                        <p class="preview-idle-text">Run <code>cat [name]</code> to load a profile</p>
+                        <p class="preview-idle-hint">Try: <code>ls</code> to see all members</p>
+                    </div>
+
+                    <!-- Profile card — shown when cat [name] runs -->
+                    <div class="preview-profile" id="preview-profile" hidden>
+                        <div class="preview-profile-header">
+                            <div class="preview-avatar" id="preview-avatar" aria-hidden="true"></div>
+                            <div class="preview-meta">
+                                <h3 class="preview-name" id="preview-name"></h3>
+                                <span class="preview-role" id="preview-role"></span>
+                                <span class="preview-exp" id="preview-exp"></span>
+                            </div>
+                        </div>
+                        <p class="preview-bio" id="preview-bio"></p>
+                        <div class="preview-skills" id="preview-skills"></div>
+                        <div class="preview-links" id="preview-links"></div>
+                    </div>
+
+                    <!-- Loading state -->
+                    <div class="preview-loading" id="preview-loading" hidden>
+                        <div class="preview-loading-bar">
+                            <div class="preview-loading-fill" id="preview-loading-fill"></div>
+                        </div>
+                        <p class="preview-loading-text" id="preview-loading-text">Loading profile...</p>
+                    </div>
+
+                </div><!-- /.terminal-preview-body -->
+
+            </div><!-- /.terminal-panel-right -->
+
+        </div><!-- /.terminal-split -->
 
     </div><!-- /.container-main -->
 </section>
