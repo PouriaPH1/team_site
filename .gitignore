@@ -35,8 +35,12 @@ secrets.json
 *.pfx
 *.p12
 
-## Upload files
+## Upload files — user-uploaded content should never be committed
 wwwroot/uploads/
+**/uploads/
+uploads/
+# Keep the placeholder so the uploads folder exists in the repo
+!**/uploads/.gitkeep
 
 ## OS
 .DS_Store
