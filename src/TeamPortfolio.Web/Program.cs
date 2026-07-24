@@ -154,6 +154,28 @@ using (var scope = app.Services.CreateScope())
         }
     }
     
+    // Fix legacy paths in TeamMembers too
+    var members = db.TeamMembers.ToList();
+    foreach (var member in members)
+    {
+        if (!string.IsNullOrEmpty(member.ProfilePhotoPath) &&
+            !member.ProfilePhotoPath.StartsWith("/uploads/") &&
+            !member.ProfilePhotoPath.StartsWith("http"))
+        {
+            var bare = member.ProfilePhotoPath.TrimStart('/');
+            member.ProfilePhotoPath = $"/uploads/profiles/{bare}";
+            changed = true;
+        }
+        if (!string.IsNullOrEmpty(member.BannerPhotoPath) &&
+            !member.BannerPhotoPath.StartsWith("/uploads/") &&
+            !member.BannerPhotoPath.StartsWith("http"))
+        {
+            var bare = member.BannerPhotoPath.TrimStart('/');
+            member.BannerPhotoPath = $"/uploads/profiles/{bare}";
+            changed = true;
+        }
+    }
+    
     if (changed) await db.SaveChangesAsync();
 }
 using (var scope = app.Services.CreateScope())
