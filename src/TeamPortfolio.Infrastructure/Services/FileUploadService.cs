@@ -56,7 +56,7 @@ public class FileUploadService : IFileUploadService
             using var image = await Image.LoadAsync(stream);
             await image.SaveAsync(filePath);
 
-            var relativePath = $"/{folder}/{fileName}";
+            var relativePath = $"/uploads/{folder}/{fileName}";
             return new FileUploadResult(true, relativePath, null);
         }
         catch (Exception ex)

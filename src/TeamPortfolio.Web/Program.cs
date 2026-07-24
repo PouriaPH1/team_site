@@ -96,6 +96,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
+app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -130,7 +131,29 @@ using (var scope = app.Services.CreateScope())
             item.IsPublished = true;
             changed = true;
         }
+        // Fix legacy image paths that were stored without /uploads/ prefix
+        if (!string.IsNullOrEmpty(item.CoverImagePath) &&
+            !item.CoverImagePath.StartsWith("/uploads/") &&
+            !item.CoverImagePath.StartsWith("http"))
+        {
+            item.CoverImagePath = "/uploads" + item.CoverImagePath;
+            changed = true;
+        }
     }
+    
+    // Fix legacy paths in PortfolioImages gallery too
+    var images = db.PortfolioImages.ToList();
+    foreach (var img in images)
+    {
+        if (!string.IsNullOrEmpty(img.ImagePath) &&
+            !img.ImagePath.StartsWith("/uploads/") &&
+            !img.ImagePath.StartsWith("http"))
+        {
+            img.ImagePath = "/uploads" + img.ImagePath;
+            changed = true;
+        }
+    }
+    
     if (changed) await db.SaveChangesAsync();
 }
 using (var scope = app.Services.CreateScope())
