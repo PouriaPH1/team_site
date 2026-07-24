@@ -9,10 +9,17 @@ namespace TeamPortfolio.Application.Services;
 public class BlogService : IBlogService
 {
     private readonly IBlogRepository _repository;
+    private readonly ICategoryRepository _categoryRepository;
+    private readonly ITeamMemberRepository _teamMemberRepository;
 
-    public BlogService(IBlogRepository repository)
+    public BlogService(
+        IBlogRepository repository,
+        ICategoryRepository categoryRepository,
+        ITeamMemberRepository teamMemberRepository)
     {
         _repository = repository;
+        _categoryRepository = categoryRepository;
+        _teamMemberRepository = teamMemberRepository;
     }
 
     public async Task<PagedResult<BlogPostDto>> GetPublishedAsync(int page, int pageSize, int? categoryId = null)
@@ -56,12 +63,41 @@ public class BlogService : IBlogService
         return posts.Select(MapToDto);
     }
 
-    public async Task<BlogPostDto> CreateAsync(BlogPostDto dto, string authorId)
+    public async Task<BlogPostDto> CreateAsync(BlogPostDto dto, string applicationUserId)
     {
+        // Resolve AuthorId from ApplicationUserId (ASP.NET Identity user ID)
+        var allMembers = await _teamMemberRepository.GetAllAsync();
+        var author = allMembers.FirstOrDefault(m => m.ApplicationUserId == applicationUserId);
+        if (author == null)
+            throw new InvalidOperationException(
+                $"No TeamMember is linked to user '{applicationUserId}'. " +
+                "Please link the user to a TeamMember record first.");
+
+        // Resolve or create Category
+        int categoryId;
+        var categoryName = string.IsNullOrWhiteSpace(dto.CategoryName) ? "General" : dto.CategoryName.Trim();
+        var allCategories = await _categoryRepository.GetAllAsync();
+        var category = allCategories.FirstOrDefault(c =>
+            string.Equals(c.Name, categoryName, StringComparison.OrdinalIgnoreCase));
+        if (category == null)
+        {
+            category = await _categoryRepository.AddAsync(new Category
+            {
+                Name = categoryName,
+                CreatedAt = DateTime.UtcNow
+            });
+        }
+        categoryId = category.Id;
+
         var slugHelper = new Slugify.SlugHelper();
         var slug = slugHelper.GenerateSlug(dto.Title);
         if (string.IsNullOrWhiteSpace(slug))
             slug = $"post-{DateTime.UtcNow.Ticks}";
+
+        // Ensure slug is unique
+        var existingSlugs = (await _repository.GetAllAsync()).Select(p => p.Slug).ToHashSet();
+        if (existingSlugs.Contains(slug))
+            slug = $"{slug}-{DateTime.UtcNow.Ticks}";
 
         var post = new BlogPost
         {
@@ -69,6 +105,8 @@ public class BlogService : IBlogService
             Slug = slug,
             Body = dto.Body,
             CoverImagePath = dto.CoverImagePath,
+            AuthorId = author.Id,
+            CategoryId = categoryId,
             Status = BlogPostStatus.Published,
             PublishDate = DateTime.UtcNow,
             ViewCount = 0,

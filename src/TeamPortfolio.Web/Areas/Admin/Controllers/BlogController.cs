@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TeamPortfolio.Application.DTOs;
 using TeamPortfolio.Application.Interfaces.Services;
 using TeamPortfolio.Web.ViewModels.Admin;
@@ -71,11 +72,23 @@ public class BlogController : Controller
         }
 
         if (_service is not null)
-            try { await _service.CreateAsync(dto, User.Identity?.Name ?? ""); }
-            catch (Exception ex) { _logger.LogWarning(ex, "Failed to create blog post"); }
-
-        if (_cache is not null)
-            try { await _cache.RemoveAsync("home_page_data"); } catch { }
+            try
+            {
+                var applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+                await _service.CreateAsync(dto, applicationUserId);
+                if (_cache is not null)
+                    try { await _cache.RemoveAsync("home_page_data"); } catch { }
+                TempData["Success"] = "Post created.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to create blog post");
+                ModelState.AddModelError("", ex.Message.Contains("No TeamMember")
+                    ? ex.Message
+                    : "Failed to save post. Please try again.");
+                return View(model);
+            }
 
         TempData["Success"] = "Post created.";
         return RedirectToAction("Index");
@@ -130,10 +143,19 @@ public class BlogController : Controller
             if (r.Success) dto.CoverImagePath = r.FilePath;
         }
 
-        var isAdmin = User.IsInRole("Admin") || User.IsInRole("Manager");
         if (_service is not null)
-            try { await _service.UpdateAsync(id, dto, User.Identity?.Name ?? "", isAdmin); }
-            catch (Exception ex) { _logger.LogWarning(ex, "Failed to update blog post {Id}", id); }
+            try
+            {
+                var applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+                var isAdmin = User.IsInRole("Admin") || User.IsInRole("Manager");
+                await _service.UpdateAsync(id, dto, applicationUserId, isAdmin);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to update blog post {Id}", id);
+                ModelState.AddModelError("", "Failed to update post. Please try again.");
+                return View(model);
+            }
 
         if (_cache is not null)
             try { await _cache.RemoveAsync("home_page_data"); } catch { }
