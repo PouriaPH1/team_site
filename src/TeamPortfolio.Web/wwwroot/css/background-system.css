@@ -1,15 +1,13 @@
 /* ==========================================================================
-   background-system.css — Van Gogh Starry Night Inspired Background
+   background-system.css — Van Gogh Starry Night Background
    
-   Philosophy:
-   - Continues the Van Gogh painting atmosphere throughout the site
-   - Deep prussian blue base (like the painting)
-   - Golden moon/sun in upper right
-   - Organic blob shapes (like cypress trees/hills)
-   - Swirling brushstroke texture with visible curves
-   - Golden stars throughout
+   ARCHITECTURE:
+   body background  = #0F1E33  (Van Gogh prussian blue — the ground truth)
+   #background-system = fixed, adds ONLY subtle warm glows on top of body
+   #star-canvas = fixed, clearRect every frame — purely for star particles
    
-   This sits BEHIND canvas stars and all content.
+   This way every section sees the SAME consistent Van Gogh atmosphere.
+   The hero's ::after gradient fades to #1A2744 which is close to body #0F1E33.
    ========================================================================== */
 
 #background-system {
@@ -18,61 +16,44 @@
   inset: 0;
   z-index: -3;
   pointer-events: none;
-  
-  /* Van Gogh color palette — prussian blue + ultramarine */
+
+  /* Single consistent Van Gogh night — NO position-dependent blobs
+     that would look different at different scroll positions.
+     body provides the base #0F1E33; we only add warm atmospheric glows. */
   background:
-    /* Large golden moon/sun — upper right (like the painting) */
-    radial-gradient(circle 180px at 85% 12%,
-      rgba(241, 196, 15, 0.45) 0%,
-      rgba(245, 200, 66, 0.35) 20%,
-      rgba(245, 200, 66, 0.15) 40%,
-      rgba(245, 200, 66, 0.05) 60%,
-      transparent 80%),
-    
-    /* Moon halo — soft golden glow */
-    radial-gradient(circle 300px at 85% 12%,
-      rgba(245, 200, 66, 0.08) 0%,
-      transparent 70%),
-    
-    /* Organic blob shape — top left (like cypress tree) */
-    radial-gradient(ellipse 400px 600px at 8% 20%,
-      rgba(21, 32, 43, 0.85) 0%,
-      rgba(26, 39, 68, 0.60) 40%,
-      transparent 70%),
-    
-    /* Organic blob — bottom right */
-    radial-gradient(ellipse 450px 500px at 92% 85%,
-      rgba(21, 32, 43, 0.80) 0%,
-      rgba(26, 39, 68, 0.55) 45%,
+    /* Golden moon glow — upper right, always visible in viewport */
+    radial-gradient(circle 220px at 84% 10%,
+      rgba(241, 196, 15, 0.30) 0%,
+      rgba(245, 200, 66, 0.18) 25%,
+      rgba(245, 200, 66, 0.06) 55%,
       transparent 75%),
-    
-    /* Organic blob — mid left */
-    radial-gradient(ellipse 350px 450px at 5% 55%,
-      rgba(43, 75, 140, 0.25) 0%,
+
+    /* Moon outer halo */
+    radial-gradient(circle 420px at 84% 10%,
+      rgba(245, 200, 66, 0.05) 0%,
       transparent 65%),
-    
-    /* Organic blob — bottom center */
-    radial-gradient(ellipse 500px 400px at 50% 95%,
-      rgba(26, 39, 68, 0.70) 0%,
-      rgba(43, 75, 140, 0.40) 50%,
-      transparent 80%),
-    
-    /* Base Van Gogh night sky — prussian blue gradient */
-    linear-gradient(180deg,
-      #1A2744 0%,
-      #0F1E33 20%,
-      #1C3A5E 45%,
-      #0F1E33 70%,
-      #1A2744 100%);
+
+    /* Warm centre-left atmospheric glow — very soft */
+    radial-gradient(ellipse 60% 50% at 20% 55%,
+      rgba(28, 58, 94, 0.20) 0%,
+      transparent 70%),
+
+    /* Soft warm bottom glow */
+    radial-gradient(ellipse 80% 40% at 50% 100%,
+      rgba(26, 39, 68, 0.35) 0%,
+      transparent 70%),
+
+    /* Base: solid Van Gogh prussian blue — matches body & hero transition end */
+    #0F1E33;
 }
 
-/* Swirling Van Gogh curves — visible spiral lines */
+/* Subtle animated swirl overlay — Van Gogh brushstroke curves */
 #background-system::before {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.35;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080' fill='none'%3E%3C!-- Large swirl top-left --%3E%3Cpath d='M 200 150 Q 250 100, 300 120 T 400 150 T 500 130 T 600 110' stroke='%23D4A145' stroke-width='1.5' opacity='0.4' fill='none' stroke-dasharray='5,3'/%3E%3Cpath d='M 180 180 Q 240 130, 300 150 T 420 180 T 540 160' stroke='%23D4A145' stroke-width='1' opacity='0.3' fill='none' stroke-dasharray='4,2'/%3E%3C!-- Circular swirl top-right --%3E%3Cpath d='M 1500 100 Q 1550 80, 1600 100 T 1700 120 T 1750 100' stroke='%23E8B84D' stroke-width='1.5' opacity='0.45' fill='none' stroke-dasharray='6,4'/%3E%3Ccircle cx='1650' cy='110' r='80' stroke='%23D4A145' stroke-width='1' opacity='0.25' fill='none' stroke-dasharray='8,5'/%3E%3C!-- Mid swirls --%3E%3Cpath d='M 300 500 Q 400 450, 500 480 T 700 500 T 850 480' stroke='%238BA3C7' stroke-width='1' opacity='0.3' fill='none' stroke-dasharray='5,3'/%3E%3Cpath d='M 1200 600 Q 1300 570, 1400 600 T 1600 620' stroke='%236B8AAE' stroke-width='1' opacity='0.25' fill='none' stroke-dasharray='4,3'/%3E%3C!-- Bottom swirls --%3E%3Cpath d='M 400 900 Q 500 870, 600 900 T 800 920 T 1000 900' stroke='%23D4A145' stroke-width='1.5' opacity='0.35' fill='none' stroke-dasharray='7,4'/%3E%3Cpath d='M 1400 950 Q 1500 920, 1600 950' stroke='%238BA3C7' stroke-width='1' opacity='0.3' fill='none' stroke-dasharray='5,3'/%3E%3C!-- Constellation lines --%3E%3Cline x1='350' y1='200' x2='420' y2='180' stroke='%236B8AAE' stroke-width='0.5' opacity='0.4' stroke-dasharray='2,2'/%3E%3Cline x1='420' y1='180' x2='480' y2='210' stroke='%236B8AAE' stroke-width='0.5' opacity='0.4' stroke-dasharray='2,2'/%3E%3Cline x1='1550' y1='120' x2='1620' y2='100' stroke='%236B8AAE' stroke-width='0.5' opacity='0.4' stroke-dasharray='2,2'/%3E%3Ccircle cx='350' cy='200' r='2' fill='%23F5C842'/%3E%3Ccircle cx='420' cy='180' r='2' fill='%23FFD700'/%3E%3Ccircle cx='480' cy='210' r='2' fill='%23F5C842'/%3E%3Ccircle cx='1550' cy='120' r='2' fill='%23FFD700'/%3E%3Ccircle cx='1620' cy='100' r='2' fill='%23F5C842'/%3E%3C/svg%3E");
+  opacity: 0.25;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080' fill='none'%3E%3Cpath d='M 200 150 Q 250 100, 300 120 T 400 150 T 500 130 T 600 110' stroke='%23D4A145' stroke-width='1.5' opacity='0.4' fill='none' stroke-dasharray='5,3'/%3E%3Cpath d='M 180 180 Q 240 130, 300 150 T 420 180 T 540 160' stroke='%23D4A145' stroke-width='1' opacity='0.3' fill='none' stroke-dasharray='4,2'/%3E%3Cpath d='M 1500 100 Q 1550 80, 1600 100 T 1700 120 T 1750 100' stroke='%23E8B84D' stroke-width='1.5' opacity='0.45' fill='none' stroke-dasharray='6,4'/%3E%3Ccircle cx='1650' cy='110' r='80' stroke='%23D4A145' stroke-width='1' opacity='0.20' fill='none' stroke-dasharray='8,5'/%3E%3Cpath d='M 300 500 Q 400 450, 500 480 T 700 500 T 850 480' stroke='%238BA3C7' stroke-width='1' opacity='0.25' fill='none' stroke-dasharray='5,3'/%3E%3Cpath d='M 1200 600 Q 1300 570, 1400 600 T 1600 620' stroke='%236B8AAE' stroke-width='1' opacity='0.20' fill='none' stroke-dasharray='4,3'/%3E%3Cpath d='M 400 900 Q 500 870, 600 900 T 800 920 T 1000 900' stroke='%23D4A145' stroke-width='1.5' opacity='0.30' fill='none' stroke-dasharray='7,4'/%3E%3Ccircle cx='350' cy='200' r='2' fill='%23F5C842'/%3E%3Ccircle cx='420' cy='180' r='2' fill='%23FFD700'/%3E%3Ccircle cx='480' cy='210' r='2' fill='%23F5C842'/%3E%3Ccircle cx='1550' cy='120' r='2' fill='%23FFD700'/%3E%3Ccircle cx='1620' cy='100' r='2' fill='%23F5C842'/%3E%3C/svg%3E");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -81,16 +62,16 @@
 }
 
 @keyframes swirl-breathe {
-  from { opacity: 0.30; }
-  to { opacity: 0.45; }
+  from { opacity: 0.20; }
+  to   { opacity: 0.32; }
 }
 
-/* Subtle Van Gogh painting texture */
+/* Subtle Van Gogh painting texture overlay */
 #background-system::after {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.06;
+  opacity: 0.04;
   background-image: url('/images/raw-vangogh-without-text.png');
   background-size: cover;
   background-position: center;
@@ -105,23 +86,12 @@
 }
 
 @keyframes moon-glow {
-  0%, 100% {
-    opacity: 0.85;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
+  0%, 100% { opacity: 0.80; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.04); }
 }
 
 /* ── Reduced Motion ───────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  #background-system::before {
-    animation: none;
-  }
-  #vangogh-moon {
-    animation: none;
-    opacity: 0.9;
-  }
+  #background-system::before { animation: none; }
+  #vangogh-moon { animation: none; opacity: 0.85; }
 }

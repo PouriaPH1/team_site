@@ -145,27 +145,31 @@
   --color-turquoise:      var(--color-viridian);
   --color-purple:         #6B5CE7;
   --color-star-white:     var(--color-moon-white);
-  --color-bg:             var(--color-canvas-black);
-  --color-surface:        var(--color-night-mid);
-  --color-surface-raised: var(--color-prussian);
+  --color-bg:             #0F1E33;              /* Van Gogh prussian blue — NOT canvas black */
+  --color-surface:        rgba(21, 32, 43, 0.65);
+  --color-surface-raised: rgba(26, 39, 68, 0.70);
   --color-primary:        var(--color-cobalt);
   --color-accent:         var(--color-chrome-yellow);
   --color-text:           var(--color-moon-white);
   --color-text-secondary: var(--color-parchment);
   --color-text-muted:     var(--color-straw);
   --color-border:         rgba(245,200,66,0.12);
+  --color-border-subtle:  rgba(245,200,66,0.06);
   --color-danger:         #E05C5C;
   --color-success:        #4CAF7D;
   --color-warning:        var(--color-chrome-yellow);
   --shadow-sm:  0 1px 3px rgba(0,0,0,0.4);
   --shadow-md:  0 4px 16px rgba(0,0,0,0.5);
   --shadow-lg:  0 8px 32px rgba(0,0,0,0.6);
+  --shadow-xl:  0 16px 64px rgba(0,0,0,0.7);
   --glow-primary: var(--glow-cobalt);
   --glow-accent:  var(--glow-gold);
   /* glassmorphism compat */
-  --glass-bg:     rgba(10,11,15,0.70);
+  --glass-bg:     rgba(21, 32, 43, 0.65);
   --glass-border: rgba(245,200,66,0.12);
-  --glass-blur:   blur(16px);
+  --glass-blur:   blur(18px);
+  /* section spacing */
+  --space-section: 6rem;
 }
 
 /* ==========================================================================
@@ -183,7 +187,8 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-body);
   color: var(--color-moon-white);
-  background: var(--color-canvas-black);
+  /* Van Gogh prussian blue — this is the ground truth color everything fades into */
+  background: #0F1E33;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -258,34 +263,40 @@ img { max-width: 100%; height: auto; }
    16. Glass Components
    Additive classes — do NOT override Bootstrap card styles.
    Apply alongside existing classes: class="card glass-card"
+   Van Gogh atmosphere — prussian blue + warm transparency
    ========================================================================== */
 
 /* ── Glass Panel ─────────────────────────────────────────────────────────── */
 .glass-panel {
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  background: rgba(10,16,35,0.55);
-  border: 1px solid rgba(245,200,66,0.15);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  background: rgba(21, 32, 43, 0.50); /* Van Gogh dark blue */
+  border: 1px solid rgba(245, 200, 66, 0.12);
 }
 
 /* ── Glass Card ──────────────────────────────────────────────────────────── */
 .glass-card {
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  background: linear-gradient(135deg, rgba(12,19,43,0.65), rgba(22,33,62,0.45));
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: border-color 200ms ease, box-shadow 200ms ease;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  background: linear-gradient(135deg, 
+    rgba(21, 32, 43, 0.60), 
+    rgba(26, 39, 68, 0.45)); /* Van Gogh gradient */
+  border: 1px solid rgba(245, 200, 66, 0.10);
+  transition: border-color 250ms ease, box-shadow 250ms ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(245,200,66,0.35);
-  box-shadow: 0 12px 35px -10px rgba(245,200,66,0.22);
+  border-color: rgba(245, 200, 66, 0.40);
+  box-shadow: 
+    0 12px 35px -10px rgba(245, 200, 66, 0.25),
+    0 0 40px rgba(245, 200, 66, 0.08);
 }
 
 /* ==========================================================================
    17. Section Glow Blobs
    Position blobs inside position:relative sections.
    z-index: 0 keeps them behind all content (content should be z-index: 1+).
+   Colors match Van Gogh night palette.
    ========================================================================== */
 
 .section-glow-amber,
@@ -295,14 +306,16 @@ img { max-width: 100%; height: auto; }
   height: 500px;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(60px);
+  filter: blur(80px); /* More diffuse — softer atmosphere */
   z-index: 0;
 }
 
 .section-glow-amber {
-  background: radial-gradient(circle, rgba(245,158,11,0.12), transparent 70%);
+  /* Warm golden glow — Van Gogh chrome yellow */
+  background: radial-gradient(circle, rgba(245, 200, 66, 0.10), transparent 70%);
 }
 
 .section-glow-blue {
-  background: radial-gradient(circle, rgba(56,189,248,0.10), transparent 70%);
+  /* Cool blue glow — Van Gogh prussian/cobalt */
+  background: radial-gradient(circle, rgba(28, 58, 94, 0.18), transparent 70%);
 }

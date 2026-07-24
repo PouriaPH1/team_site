@@ -1,12 +1,12 @@
 /**
  * canvas-stars.js — Animated star field canvas (Visual Upgrade V2, Req 2)
  *
- * - Fixed canvas behind all content (z-index: 0)
+ * - Fixed canvas behind all content (z-index: -1)
  * - 150–300 star particles depending on viewport size
- * - Orbit + alpha pulse animation per star
+ * - Alpha pulse animation per star — NO background fill
  * - Mouse attraction (max 12px within 180px)
- * - 6 slow-rotating ambient brushstroke shapes at opacity 0.06
- * - Trail effect: semi-transparent clear each frame
+ * - 6 slow-rotating ambient brushstroke shapes at opacity 0.05
+ * - Canvas stays fully transparent — Van Gogh atmosphere from CSS shows through
  * - Resize-safe — recalculates on window.resize
  */
 (function () {
@@ -33,13 +33,13 @@
     return {
       x: Math.random() * w,
       y: Math.random() * h,
-      radius: 0.5 + Math.random() * 2.5,          // 0.5–3px
+      radius: 0.5 + Math.random() * 2.0,
       baseAngle: Math.random() * Math.PI * 2,
-      orbitRadius: 5 + Math.random() * 25,          // 5–30px
-      speed: (0.002 + Math.random() * 0.008) * (Math.random() < 0.5 ? 1 : -1),
+      orbitRadius: 3 + Math.random() * 18,
+      speed: (0.002 + Math.random() * 0.007) * (Math.random() < 0.5 ? 1 : -1),
       color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-      alpha: 0.3 + Math.random() * 0.7,            // 0.3–1.0
-      pulseSpeed: 0.005 + Math.random() * 0.015,
+      alpha: 0.3 + Math.random() * 0.7,
+      pulseSpeed: 0.004 + Math.random() * 0.012,
       pulseDir: Math.random() < 0.5 ? 1 : -1
     };
   }
@@ -49,10 +49,10 @@
     return {
       x: Math.random() * w,
       y: Math.random() * h,
-      rx: 80 + Math.random() * 160,               // ellipse x-radius
-      ry: 20 + Math.random() * 60,                // ellipse y-radius
+      rx: 80 + Math.random() * 160,
+      ry: 20 + Math.random() * 60,
       angle: Math.random() * Math.PI * 2,
-      rotSpeed: (0.0002 + Math.random() * 0.0006) * (Math.random() < 0.5 ? 1 : -1),
+      rotSpeed: (0.0002 + Math.random() * 0.0005) * (Math.random() < 0.5 ? 1 : -1),
       color: PALETTE[Math.floor(Math.random() * PALETTE.length)]
     };
   }
@@ -62,20 +62,16 @@
     W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
 
-    // Recalculate star count clamped 150–300
     const count = Math.min(300, Math.max(150, Math.floor(W * H / 12000)));
 
-    // Rebuild stars preserving count change
     stars = Array.from({ length: count }, () => createStar(W, H));
-
-    // Rebuild 6 brushstrokes
     brushstrokes = Array.from({ length: 6 }, () => createBrushstroke(W, H));
   }
 
   // ── Render Brushstrokes ───────────────────────────────────
   function drawBrushstrokes() {
     ctx.save();
-    ctx.globalAlpha = 0.06;
+    ctx.globalAlpha = 0.05; // Very subtle — Van Gogh background CSS is primary
     brushstrokes.forEach(b => {
       b.angle += b.rotSpeed;
       ctx.save();
@@ -94,19 +90,16 @@
   // ── Render Stars ──────────────────────────────────────────
   function drawStars() {
     stars.forEach(star => {
-      // Advance orbit angle
       star.baseAngle += star.speed;
 
-      // Pulse alpha
       star.alpha += star.pulseSpeed * star.pulseDir;
       if (star.alpha >= 1.0) { star.alpha = 1.0; star.pulseDir = -1; }
-      if (star.alpha <= 0.3) { star.alpha = 0.3; star.pulseDir = 1; }
+      if (star.alpha <= 0.25) { star.alpha = 0.25; star.pulseDir = 1; }
 
-      // Orbit position
       let x = star.x + Math.cos(star.baseAngle) * star.orbitRadius;
       let y = star.y + Math.sin(star.baseAngle) * star.orbitRadius;
 
-      // Mouse attraction offset (max 12px within 180px)
+      // Mouse attraction
       const dx = mouse.x - star.x;
       const dy = mouse.y - star.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -116,29 +109,33 @@
         y += Math.sin(star.baseAngle) * pull * 12;
       }
 
-      // Radial gradient glow
-      const glowRadius = star.radius * 4;
+      // Radial glow
+      const glowRadius = star.radius * 3.5;
       const g = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
       g.addColorStop(0, star.color);
       g.addColorStop(1, 'transparent');
       ctx.fillStyle = g;
+      ctx.globalAlpha = star.alpha * 0.6;
       ctx.beginPath();
       ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
       ctx.fill();
 
       // White core
+      ctx.globalAlpha = star.alpha;
       ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
       ctx.beginPath();
       ctx.arc(x, y, star.radius, 0, Math.PI * 2);
       ctx.fill();
+
+      ctx.globalAlpha = 1;
     });
   }
 
   // ── Main Render Loop ──────────────────────────────────────
   function render() {
-    // Trail effect — semi-transparent clear
-    ctx.fillStyle = 'rgba(7,11,25,0.25)';
-    ctx.fillRect(0, 0, W, H);
+    // Clear completely each frame — CSS background-system.css provides
+    // the Van Gogh prussian blue atmosphere. Canvas is purely for stars.
+    ctx.clearRect(0, 0, W, H);
 
     drawBrushstrokes();
     drawStars();

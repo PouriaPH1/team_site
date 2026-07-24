@@ -4,6 +4,7 @@
 
    Philosophy: sections float inside one continuous starry-night universe.
    No opaque blocks, no harsh horizontal dividers.
+   All sections transparent — Van Gogh atmosphere flows through everything.
    ========================================================================== */
 
 /* ── Layout ─────────────────────────────────────────────────── */
@@ -16,7 +17,7 @@
 .section-wrapper {
   position: relative;
   padding: var(--space-section, 5rem) 0;
-  background: transparent;
+  background: transparent; /* NO solid background — atmosphere flows through */
   z-index: 1;
 }
 
@@ -30,17 +31,17 @@
 }
 
 .section-wrapper--stats .stats-panel {
-  background: rgba(10, 11, 15, 0.28);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(245, 200, 66, 0.08);
+  background: rgba(21, 32, 43, 0.35); /* Van Gogh dark blue, very transparent */
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(245, 200, 66, 0.10);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
 .stats-col {
   padding: 2rem 1rem;
-  border-right: 1px solid rgba(245, 200, 66, 0.06);
+  border-right: 1px solid rgba(245, 200, 66, 0.08);
 }
 
 .stats-col:last-child {
@@ -53,7 +54,7 @@
   }
   .stats-col:nth-child(1),
   .stats-col:nth-child(3) {
-    border-bottom: 1px solid rgba(245, 200, 66, 0.06);
+    border-bottom: 1px solid rgba(245, 200, 66, 0.08);
   }
 }
 
@@ -161,40 +162,48 @@
 
 /* ── Cards (override Bootstrap white default) ─────────────────── */
 .card {
-  background: rgba(15, 22, 35, 0.70);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  border: 2px solid rgba(0, 0, 0, 0.45);
+  background: rgba(21, 32, 43, 0.65); /* Van Gogh dark blue — semi-transparent */
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(26, 39, 68, 0.60); /* Prussian blue border */
   border-radius: var(--radius-lg);
   padding: var(--space-7, 1.75rem);
   color: var(--color-moon-white);
   transition:
-    border-color 250ms ease,
-    box-shadow 250ms ease,
-    transform 250ms ease,
-    background 250ms ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease,
+    background 300ms ease;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(245, 200, 66, 0.03) inset; /* Subtle golden inner rim */
 }
 
 .card:hover {
-  border-color: rgba(245, 200, 66, 0.40);
-  background: rgba(20, 28, 42, 0.80);
-  box-shadow: 0 12px 40px rgba(245, 200, 66, 0.15), 0 4px 20px rgba(0, 0, 0, 0.35);
+  border-color: rgba(245, 200, 66, 0.45); /* Golden glow border */
+  background: rgba(26, 39, 68, 0.75); /* Slightly more opaque Van Gogh blue */
+  box-shadow: 
+    0 12px 40px rgba(245, 200, 66, 0.18), 
+    0 4px 20px rgba(0, 0, 0, 0.45),
+    0 0 60px rgba(245, 200, 66, 0.08); /* Soft golden aura */
   transform: translateY(-4px);
 }
 
 .card-gradient {
   background: linear-gradient(
     135deg,
-    rgba(21, 32, 43, 0.75) 0%,
-    rgba(26, 39, 68, 0.65) 100%
-  );
-  border: 2px solid rgba(245, 200, 66, 0.18);
+    rgba(21, 32, 43, 0.70) 0%,
+    rgba(26, 39, 68, 0.60) 100%
+  ); /* Van Gogh gradient — matches atmosphere */
+  border: 1.5px solid rgba(245, 200, 66, 0.15);
 }
 
 .card-gradient:hover {
-  border-color: rgba(245, 200, 66, 0.45);
-  box-shadow: 0 12px 40px rgba(245, 200, 66, 0.20), 0 4px 20px rgba(0, 0, 0, 0.35);
+  border-color: rgba(245, 200, 66, 0.50);
+  box-shadow: 
+    0 12px 40px rgba(245, 200, 66, 0.22), 
+    0 4px 20px rgba(0, 0, 0, 0.45),
+    0 0 60px rgba(245, 200, 66, 0.10);
 }
 
 /* ── Badges ─────────────────────────────────────────────────── */

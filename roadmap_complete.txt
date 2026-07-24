@@ -1,0 +1,249 @@
+======================================================
+CRITICAL DESIGN REVIEW (VERY IMPORTANT)
+======================================================
+
+Before writing any HTML, CSS or JavaScript, first analyze the current visual design.
+
+The Hero section already exists and is inspired by Van Gogh's Starry Night.
+
+Its dominant characteristics are:
+
+- Rich deep navy blue sky
+- Cobalt blue gradients
+- Warm golden highlights
+- Soft atmospheric lighting
+- Organic flowing movement
+- Large artistic composition
+- Strong cinematic mood
+
+Now compare the Hero with the rest of the website.
+
+The current design has a major visual problem:
+
+There is a noticeable color and atmosphere break between the Hero section and the following sections.
+
+As soon as the user scrolls below the Hero, it feels like they have entered a completely different website.
+
+The Hero belongs to one visual world.
+
+The remaining sections belong to another.
+
+This visual discontinuity destroys immersion and weakens the premium feeling of the entire landing page.
+
+This issue MUST be solved before anything else.
+
+======================================================
+
+YOUR RESPONSIBILITY
+
+You are NOT required to preserve the current design.
+
+You are encouraged to redesign the website if necessary.
+
+If some sections, shapes, decorations, colors or layout decisions create visual inconsistency:
+
+Remove them.
+
+Replace them.
+
+Redesign them.
+
+Completely rethink them.
+
+Do not hesitate to make fundamental visual changes if they improve the overall harmony.
+
+The goal is NOT to preserve the current implementation.
+
+The goal is to create the best possible design.
+
+======================================================
+
+BACKGROUND TRANSITION
+
+The Hero should never visually "end".
+
+Instead:
+
+The illustration should slowly dissolve into an abstract version of itself.
+
+Imagine the painting gradually losing detail while keeping its atmosphere.
+
+As the user scrolls:
+
+The painting disappears.
+
+The atmosphere remains.
+
+The colors remain.
+
+The lighting remains.
+
+The movement remains.
+
+Only the complexity decreases.
+
+The user should never perceive a hard border between sections.
+
+======================================================
+
+COLOR ANALYSIS
+
+The Hero image is NOT black.
+
+Its dominant colors are:
+
+Deep Midnight Navy
+
+Dark Cobalt Blue
+
+Muted Indigo
+
+Warm Golden Light
+
+Very Dark Blue Shadows
+
+The following sections MUST continue using exactly this color family.
+
+Do NOT introduce neutral black backgrounds.
+
+Do NOT switch to generic dark UI colors.
+
+Do NOT change to another palette.
+
+Instead keep the same atmosphere across the entire page.
+
+Recommended palette:
+
+Hero Transition:
+#0B1C34
+
+Main Background:
+#081728
+
+Secondary Background:
+#091B31
+
+Cards:
+#102540
+
+Card Hover:
+#143052
+
+Borders:
+#23466E
+
+Golden Accent:
+#E7BE57
+
+Blue Glow:
+#2E6CCB
+
+Footer:
+#050D18
+
+======================================================
+
+BACKGROUND EVOLUTION
+
+Do NOT change colors.
+
+Reduce details instead.
+
+Hero
+100% detail
+
+↓
+
+About
+90%
+
+↓
+
+Team
+75%
+
+↓
+
+Portfolio
+60%
+
+↓
+
+Blog
+45%
+
+↓
+
+Testimonials
+35%
+
+↓
+
+Footer
+20%
+
+The color palette remains almost identical.
+
+Only decorative density changes.
+
+======================================================
+
+REMOVE THESE IF NECESSARY
+
+If these elements break the harmony, remove them entirely:
+
+• Random colorful blobs
+
+• Random abstract ovals
+
+• Generic dark background patterns
+
+• Unrelated floating shapes
+
+• Heavy glassmorphism
+
+• Neon cyberpunk effects
+
+• Pure black sections
+
+Replace them with visual elements inspired by the Hero itself.
+
+======================================================
+
+BACKGROUND ELEMENTS
+
+Instead use:
+
+Large soft flowing curves inspired by Starry Night.
+
+Subtle constellation lines.
+
+Small warm glowing stars.
+
+Large radial blue glows.
+
+Very soft cosmic movement.
+
+Organic flowing composition.
+
+Large empty spaces.
+
+Premium visual hierarchy.
+
+The website should feel calm, elegant and immersive.
+
+======================================================
+
+FINAL GOAL
+
+The user should never think:
+
+"I reached another section."
+
+Instead they should feel:
+
+"I am still inside the same world."
+
+Scrolling should feel like traveling deeper into the same night rather than entering another interface.
+
+Think of the entire landing page as one continuous cinematic scene instead of multiple independent sections.

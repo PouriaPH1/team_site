@@ -13,8 +13,10 @@
 @* ═══ Projects, Blog sections below ══════════════════════════ *@
 
 <!-- ═══════════════════════════════════════════ PROJECTS ═══ -->
-<section class="section-wrapper">
-    <div class="container-main">
+<section class="section-wrapper" style="position:relative;overflow:hidden;">
+    <!-- Subtle Van Gogh atmosphere glow -->
+    <div aria-hidden="true" style="position:absolute;top:-80px;right:5%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(28,58,94,0.20),transparent 70%);filter:blur(80px);pointer-events:none;z-index:0;"></div>
+    <div class="container-main" style="position:relative;z-index:1;">
         <div class="text-center mb-5">
             <p class="section-eyebrow" data-reveal><i class="fa-solid fa-folder-open me-2" aria-hidden="true"></i>Our Work</p>
             <h2 class="section-title" data-reveal data-reveal-delay="1">Latest Projects</h2>
@@ -29,7 +31,7 @@
                 {
                     var delayAttr = (projectIdx % 4) + 1;
                     <div class="col" data-reveal data-reveal-scale data-reveal-delay="@delayAttr">
-                        <a href="/Portfolio/@project.Slug" class="card d-block text-decoration-none" style="height:100%;">
+                        <a href="/Portfolio/@project.Slug" class="card glass-card d-block text-decoration-none" style="height:100%;cursor:pointer;">
                             @if (!string.IsNullOrEmpty(project.CoverImagePath))
                             {
                                 <img src="@project.CoverImagePath" alt="@project.Title"
@@ -38,12 +40,12 @@
                             }
                             else
                             {
-                                <div style="width:100%;height:180px;background:var(--color-surface-raised);border-radius:var(--radius-md);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;">
-                                    <i class="fa-solid fa-image" style="font-size:2rem;color:var(--color-text-muted);" aria-hidden="true"></i>
+                                <div style="width:100%;height:180px;background:rgba(26,39,68,0.40);border-radius:var(--radius-md);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;border:1px solid rgba(245,200,66,0.08);">
+                                    <i class="fa-solid fa-image" style="font-size:2rem;color:var(--color-straw);opacity:0.5;" aria-hidden="true"></i>
                                 </div>
                             }
                             <h3 style="font-size:1.1rem;margin-bottom:0.5rem;">@project.Title</h3>
-                            <p style="color:var(--color-text-secondary);font-size:0.875rem;margin-bottom:1rem;line-height:1.6;">
+                            <p style="color:var(--color-parchment);font-size:0.875rem;margin-bottom:1rem;line-height:1.6;opacity:0.85;">
                                 @(project.Description.Length > 100 ? project.Description[..100] + "…" : project.Description)
                             </p>
                             <div style="display:flex;flex-wrap:wrap;gap:6px;">
@@ -65,7 +67,7 @@
         }
         else
         {
-            <div class="text-center" style="padding:4rem;color:var(--color-text-muted);">
+            <div class="text-center" style="padding:4rem;color:var(--color-straw);opacity:0.7;">
                 <i class="fa-solid fa-folder-open" style="font-size:3rem;margin-bottom:1rem;display:block;" aria-hidden="true"></i>
                 <p>Projects coming soon.</p>
             </div>
@@ -77,8 +79,10 @@
 @await Html.PartialAsync("_SkillsSection")
 
 <!-- ═══════════════════════════════════════════ BLOG ═══ -->
-<section class="section-wrapper">
-    <div class="container-main">
+<section class="section-wrapper" style="position:relative;overflow:hidden;">
+    <!-- Subtle warm glow — bottom left -->
+    <div aria-hidden="true" style="position:absolute;bottom:-60px;left:3%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(245,200,66,0.07),transparent 70%);filter:blur(80px);pointer-events:none;z-index:0;"></div>
+    <div class="container-main" style="position:relative;z-index:1;">
         <div class="text-center mb-5">
             <p class="section-eyebrow" data-reveal><i class="fa-solid fa-newspaper me-2" aria-hidden="true"></i>Knowledge Base</p>
             <h2 class="section-title" data-reveal data-reveal-delay="1">Latest Blog Posts</h2>
@@ -93,7 +97,7 @@
                 {
                     var postDelay = (postIdx % 3) + 1;
                     <div class="col" data-reveal data-reveal-scale data-reveal-delay="@postDelay">
-                        <a href="/Blog/@post.Slug" class="card d-block text-decoration-none" style="height:100%;">
+                        <a href="/Blog/@post.Slug" class="card glass-card d-block text-decoration-none" style="height:100%;cursor:pointer;">
                             @if (!string.IsNullOrEmpty(post.CoverImagePath))
                             {
                                 <img src="@post.CoverImagePath" alt="@post.Title"
@@ -102,14 +106,14 @@
                             }
                             <span class="badge badge-primary mb-2">@post.CategoryName</span>
                             <h3 style="font-size:1.05rem;margin-bottom:0.5rem;">@post.Title</h3>
-                            <p style="color:var(--color-text-secondary);font-size:0.875rem;line-height:1.6;flex:1;">
+                            <p style="color:var(--color-parchment);font-size:0.875rem;line-height:1.6;flex:1;opacity:0.85;">
                                 @(post.Body.Length > 120 ? System.Text.RegularExpressions.Regex.Replace(post.Body, "<[^>]+>", "")[..Math.Min(120, post.Body.Length)] + "…" : post.Body)
                             </p>
-                            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--color-border);display:flex;justify-content:space-between;align-items:center;">
-                                <span style="font-size:0.8rem;color:var(--color-text-muted);">
+                            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(245,200,66,0.10);display:flex;justify-content:space-between;align-items:center;">
+                                <span style="font-size:0.8rem;color:var(--color-straw);opacity:0.80;">
                                     <i class="fa-solid fa-user fa-fw" aria-hidden="true"></i> @post.AuthorName
                                 </span>
-                                <span style="font-size:0.8rem;color:var(--color-text-muted);">
+                                <span style="font-size:0.8rem;color:var(--color-straw);opacity:0.80;">
                                     <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i> @post.ViewCount
                                 </span>
                             </div>
@@ -126,7 +130,7 @@
         }
         else
         {
-            <div class="text-center" style="padding:4rem;color:var(--color-text-muted);">
+            <div class="text-center" style="padding:4rem;color:var(--color-straw);opacity:0.7;">
                 <i class="fa-solid fa-newspaper" style="font-size:3rem;margin-bottom:1rem;display:block;" aria-hidden="true"></i>
                 <p>Blog posts coming soon.</p>
             </div>
@@ -135,54 +139,56 @@
 </section>
 
 <!-- ═══════════════════════════════════════════ TESTIMONIALS ═══ -->
-<section class="section-wrapper">
-    <div class="container-main">
+<section class="section-wrapper" style="position:relative;overflow:hidden;">
+    <!-- Radial blue glow — center -->
+    <div aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;border-radius:50%;background:radial-gradient(ellipse,rgba(28,58,94,0.18),transparent 70%);filter:blur(80px);pointer-events:none;z-index:0;"></div>
+    <div class="container-main" style="position:relative;z-index:1;">
         <div class="text-center mb-5">
             <p class="section-eyebrow" data-reveal><i class="fa-solid fa-star me-2" aria-hidden="true"></i>Client Reviews</p>
             <h2 class="section-title" data-reveal data-reveal-delay="1">What People Say</h2>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4" data-reveal-group>
             <div class="col" data-reveal data-reveal-from="left" data-reveal-delay="1">
-                <div class="card" style="border-left:4px solid var(--color-primary);cursor:default;">
-                    <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-primary);margin-bottom:1rem;" aria-hidden="true"></i>
-                    <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
+                <div class="card glass-card" style="border-left:3px solid rgba(74,155,181,0.55);cursor:default;">
+                    <i class="fa-solid fa-quote-left" style="font-size:1.4rem;color:var(--color-muted-cyan);margin-bottom:1rem;opacity:0.70;" aria-hidden="true"></i>
+                    <p style="color:var(--color-parchment);line-height:1.7;margin-bottom:1.25rem;opacity:0.90;">
                         "Outstanding quality and professionalism. The team delivered a scalable solution that exceeded our expectations."
                     </p>
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:40px;height:40px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.875rem;">AK</div>
+                        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--color-cobalt),var(--color-ultramarine));display:flex;align-items:center;justify-content:center;color:var(--color-moon-white);font-weight:700;font-size:0.875rem;flex-shrink:0;">AK</div>
                         <div>
-                            <div style="font-weight:600;font-size:0.9rem;">Alex Kim</div>
-                            <div style="font-size:0.8rem;color:var(--color-text-muted);">CTO, TechCorp</div>
+                            <div style="font-weight:600;font-size:0.9rem;color:var(--color-moon-white);">Alex Kim</div>
+                            <div style="font-size:0.8rem;color:var(--color-straw);opacity:0.75;">CTO, TechCorp</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col" data-reveal data-reveal-scale data-reveal-delay="2">
-                <div class="card" style="border-left:4px solid var(--color-accent);cursor:default;">
-                    <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-accent);margin-bottom:1rem;" aria-hidden="true"></i>
-                    <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
+                <div class="card glass-card" style="border-left:3px solid rgba(245,200,66,0.45);cursor:default;">
+                    <i class="fa-solid fa-quote-left" style="font-size:1.4rem;color:var(--color-chrome-yellow);margin-bottom:1rem;opacity:0.60;" aria-hidden="true"></i>
+                    <p style="color:var(--color-parchment);line-height:1.7;margin-bottom:1.25rem;opacity:0.90;">
                         "Fast, reliable, and communicative. They built our entire API platform in record time with clean, maintainable code."
                     </p>
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:40px;height:40px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.875rem;">SM</div>
+                        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--color-cobalt),var(--color-ultramarine));display:flex;align-items:center;justify-content:center;color:var(--color-moon-white);font-weight:700;font-size:0.875rem;flex-shrink:0;">SM</div>
                         <div>
-                            <div style="font-weight:600;font-size:0.9rem;">Sara Moradi</div>
-                            <div style="font-size:0.8rem;color:var(--color-text-muted);">Product Manager, StartupX</div>
+                            <div style="font-weight:600;font-size:0.9rem;color:var(--color-moon-white);">Sara Moradi</div>
+                            <div style="font-size:0.8rem;color:var(--color-straw);opacity:0.75;">Product Manager, StartupX</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col" data-reveal data-reveal-from="right" data-reveal-delay="3">
-                <div class="card" style="border-left:4px solid var(--color-success);cursor:default;">
-                    <i class="fa-solid fa-quote-left" style="font-size:1.5rem;color:var(--color-success);margin-bottom:1rem;" aria-hidden="true"></i>
-                    <p style="color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;">
+                <div class="card glass-card" style="border-left:3px solid rgba(61,122,107,0.50);cursor:default;">
+                    <i class="fa-solid fa-quote-left" style="font-size:1.4rem;color:var(--color-viridian);margin-bottom:1rem;opacity:0.65;" aria-hidden="true"></i>
+                    <p style="color:var(--color-parchment);line-height:1.7;margin-bottom:1.25rem;opacity:0.90;">
                         "The best engineering team we've worked with. Deep technical expertise combined with a strong sense of ownership."
                     </p>
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:40px;height:40px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.875rem;">MR</div>
+                        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--color-cobalt),var(--color-ultramarine));display:flex;align-items:center;justify-content:center;color:var(--color-moon-white);font-weight:700;font-size:0.875rem;flex-shrink:0;">MR</div>
                         <div>
-                            <div style="font-weight:600;font-size:0.9rem;">Mike Ramirez</div>
-                            <div style="font-size:0.8rem;color:var(--color-text-muted);">CEO, BuildFast</div>
+                            <div style="font-weight:600;font-size:0.9rem;color:var(--color-moon-white);">Mike Ramirez</div>
+                            <div style="font-size:0.8rem;color:var(--color-straw);opacity:0.75;">CEO, BuildFast</div>
                         </div>
                     </div>
                 </div>
@@ -192,8 +198,10 @@
 </section>
 
 <!-- ═══════════════════════════════════════════ CONTACT CTA ═══ -->
-<section class="section-wrapper text-center">
-    <div class="container-main">
+<section class="section-wrapper text-center" style="position:relative;overflow:hidden;padding-bottom:7rem;">
+    <!-- Golden warm glow — center -->
+    <div aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;border-radius:50%;background:radial-gradient(ellipse,rgba(245,200,66,0.10),transparent 65%);filter:blur(80px);pointer-events:none;z-index:0;"></div>
+    <div class="container-main" style="position:relative;z-index:1;">
         <p class="section-eyebrow" data-reveal><i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>Get In Touch</p>
         <h2 class="section-title" data-reveal data-reveal-delay="1">Ready to Work Together?</h2>
         <p class="section-subtitle mb-5" data-reveal data-reveal-delay="2">Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you.</p>

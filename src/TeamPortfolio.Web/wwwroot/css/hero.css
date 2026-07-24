@@ -19,22 +19,24 @@
   flex-direction: column;
 }
 
-/* Gradient bridge — painting fades smoothly into Van Gogh blue background */
+/* Gradient bridge — painting fades seamlessly into body background #0F1E33 */
 #hero-section::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 280px;
+  height: 340px;
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(26, 39, 68, 0.25) 20%,
-    rgba(26, 39, 68, 0.55) 45%,
-    rgba(15, 30, 51, 0.85) 70%,
-    #1A2744 95%,
-    #1A2744 100%
+    rgba(15, 30, 51, 0.06) 15%,
+    rgba(15, 28, 48, 0.18) 30%,
+    rgba(14, 26, 45, 0.40) 48%,
+    rgba(13, 24, 43, 0.65) 65%,
+    rgba(13, 23, 40, 0.85) 80%,
+    #0F1E33 96%,
+    #0F1E33 100%
   );
   z-index: 2;
   pointer-events: none;
@@ -61,33 +63,33 @@
 }
 
 /* ── Layer 1: Gradient Overlays ───────────────────────────── */
-/* Main overlay — dark left, transparent right */
+/* Main overlay — moderate dark left for text readability, painting visible right */
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(10, 11, 15, 0.90) 0%,
-    rgba(10, 11, 15, 0.60) 35%,
-    rgba(10, 11, 15, 0.20) 55%,
-    rgba(10, 11, 15, 0.05) 70%,
+    rgba(10, 11, 15, 0.78) 0%,
+    rgba(10, 11, 15, 0.50) 30%,
+    rgba(10, 11, 15, 0.18) 52%,
+    rgba(10, 11, 15, 0.04) 68%,
     transparent 100%
   );
   z-index: 1;
 }
 
-/* Bottom overlay — for better transition to next section */
+/* Bottom overlay — subtle fade into body background, painting still visible */
 .hero-overlay-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 45%;  /* Increased from 40% */
+  height: 50%;
   background: linear-gradient(
     0deg,
-    rgba(7, 10, 18, 0.85) 0%,
-    rgba(7, 10, 18, 0.50) 35%,
-    rgba(7, 10, 18, 0.20) 65%,
+    rgba(15, 30, 51, 0.48) 0%,
+    rgba(15, 30, 51, 0.28) 30%,
+    rgba(15, 30, 51, 0.10) 60%,
     transparent 100%
   );
   z-index: 1;
