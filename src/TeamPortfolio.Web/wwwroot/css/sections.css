@@ -160,6 +160,37 @@
   transform: translateY(0);
 }
 
+/* ── Ghost Button ─────────────────────────────────────────────── */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast, 150ms) ease,
+    color var(--dur-fast, 150ms) ease,
+    border-color var(--dur-fast, 150ms) ease;
+}
+
+.btn-ghost:hover {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:active {
+  background: rgba(255,255,255,0.08);
+}
+
 /* ── Cards (override Bootstrap white default) ─────────────────── */
 .card {
   background: rgba(21, 32, 43, 0.65); /* Van Gogh dark blue — semi-transparent */

@@ -51,15 +51,15 @@
                     </td>
                     <td style="padding:12px 16px;color:var(--color-text-secondary);">@item.StartDate.ToString("MMM yyyy")</td>
                     <td style="padding:12px 16px;text-align:right;">
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn-ghost"
-                           style="cursor:pointer;margin-right:4px;" aria-label="Edit @item.Title">
-                            <i class="fa-solid fa-pen fa-fw" aria-hidden="true"></i>
+                        <a asp-action="Edit" asp-route-id="@item.Id"
+                           style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:6px 14px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface-raised);color:var(--color-text);text-decoration:none;font-size:0.85rem;font-weight:500;margin-right:6px;transition:background 150ms,border-color 150ms;"
+                           aria-label="Edit @item.Title">
+                            <i class="fa-solid fa-pen fa-fw" aria-hidden="true"></i> Edit
                         </a>
-                        <button class="btn-ghost"
-                                onclick="confirmDelete(@item.Id, '@Html.Raw(item.Title.Replace("'", "\\'"))')"
-                                style="cursor:pointer;color:var(--color-danger);"
+                        <button onclick="confirmDelete(@item.Id, '@Html.Raw(item.Title.Replace("'", "\\'"))')"
+                                style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:6px 14px;border-radius:var(--radius-md);border:1px solid rgba(239,68,68,0.4);background:rgba(239,68,68,0.08);color:var(--color-danger);font-size:0.85rem;font-weight:500;transition:background 150ms,border-color 150ms;"
                                 aria-label="Delete @item.Title">
-                            <i class="fa-solid fa-trash fa-fw" aria-hidden="true"></i>
+                            <i class="fa-solid fa-trash fa-fw" aria-hidden="true"></i> Delete
                         </button>
                         <form id="del-@item.Id" asp-action="Delete" asp-route-id="@item.Id"
                               method="post" style="display:none;">
