@@ -12,8 +12,7 @@
   position: relative;
   min-height: 100vh;
   height: 100vh;          /* Force full viewport height */
-  width: 100vw;           /* Full viewport width */
-  margin-left: calc(-50vw + 50%);  /* Break out of any container */
+  width: 100%;            /* Fit parent — avoids 100vw overflow from scrollbar */
   overflow: hidden;
   display: flex;
   flex-direction: column;
