@@ -229,6 +229,9 @@
   gap: var(--space-2);
   text-decoration: none;
   flex-shrink: 0;
+  /* Prevent brand text from pushing hamburger off-screen on narrow devices */
+  min-width: 0;
+  overflow: hidden;
 }
 
 .nav-brand-name {
@@ -240,6 +243,10 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  /* Truncate gracefully instead of pushing layout */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Nav Actions Container ────────────────────────────────── */
@@ -326,6 +333,30 @@
 .mobile-drawer-footer {
   padding-top: var(--space-6);
   border-top: 1px solid rgba(245, 200, 66, 0.10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Theme toggle inside drawer */
+.mobile-drawer-theme-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(248, 244, 232, 0.12);
+  background: transparent;
+  color: rgba(248, 244, 232, 0.60);
+  cursor: pointer;
+  height: auto;
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+}
+
+.mobile-drawer-theme-toggle:hover {
+  background: rgba(248, 244, 232, 0.06);
+  border-color: rgba(248, 244, 232, 0.25);
 }
 
 /* Overlay */

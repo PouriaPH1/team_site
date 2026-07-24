@@ -317,3 +317,41 @@
   .btn-primary:hover { transform: none; }
   .btn-secondary:hover { transform: none; }
 }
+
+/* ── Mobile Responsive Overrides ───────────────────────────── */
+@media (max-width: 767px) {
+  .section-wrapper {
+    padding: var(--space-16, 4rem) 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 6.5vw, 2rem);
+  }
+
+  .section-subtitle {
+    font-size: 0.9375rem;
+    max-width: 100%;
+  }
+
+  /* Constrain inline background glow blobs on mobile — they're decorative only */
+  .section-wrapper > div[aria-hidden="true"][style*="width:600"],
+  .section-wrapper > div[aria-hidden="true"][style*="width:700"] {
+    /* Can't override inline style with class alone — handled via .section-bg-glow */
+  }
+
+  /* Button sizing — ensure CTAs are tappable (44px min) */
+  .btn-primary,
+  .btn-secondary {
+    min-height: 44px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Accessible tap targets — minimum 44x44 on mobile per WCAG 2.5.5 */
+@media (max-width: 767px) {
+  .footer-social-link {
+    width: 44px;
+    height: 44px;
+  }
+}

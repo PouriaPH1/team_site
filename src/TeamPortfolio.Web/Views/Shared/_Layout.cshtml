@@ -70,7 +70,7 @@
             style="position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:1"></canvas>
 
     <!-- Van Gogh Moon/Sun — fixed decorative element -->
-    <div id="vangogh-moon" aria-hidden="true" style="position:fixed;top:8%;right:15%;z-index:-2;pointer-events:none;width:200px;height:200px;">
+    <div id="vangogh-moon" aria-hidden="true" style="position:fixed;top:8%;right:15%;z-index:-2;pointer-events:none;width:clamp(100px,25vw,200px);height:clamp(100px,25vw,200px);">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;filter:blur(2px);">
             <!-- Outer halo -->
             <circle cx="100" cy="100" r="95" fill="url(#moon-gradient-outer)" opacity="0.25" />
