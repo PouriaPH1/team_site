@@ -753,10 +753,19 @@
     padding: 3.5rem 0 4rem;
   }
 
+  /* Prevent terminal output lines from overflowing container */
   .terminal-body {
-    font-size: 0.75rem;
-    padding: 10px 12px;
-    max-height: 300px;
+    font-size: 0.72rem;
+    padding: 10px 10px;
+    max-height: 280px;
+    overflow-x: hidden;
+  }
+
+  /* Break long unbreakable strings (commit hashes, paths, etc.) */
+  .terminal-output-line {
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-wrap: break-word;
   }
 
   .terminal-input,
@@ -766,6 +775,16 @@
 
   .terminal-input-row {
     padding: 8px 10px;
+    /* Ensure prompt + input don't overflow */
+    overflow: hidden;
+  }
+
+  /* Shorten prompt on very small screens: hide host, keep user + $ */
+  .prompt-sep,
+  .prompt-host,
+  .prompt-colon,
+  .prompt-path {
+    display: none;
   }
 
   .terminal-statusbar {
@@ -780,6 +799,26 @@
 
   .suggestions-label {
     display: none;
+  }
+
+  /* Suggestion chips — smaller and wrappable */
+  .suggestion-chip {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+  }
+
+  /* Terminal panel min-height — less on mobile */
+  .terminal-panel {
+    min-height: 320px;
+  }
+
+  .terminal-panel-right {
+    min-height: 200px;
+  }
+
+  .terminal-preview-body {
+    min-height: 200px;
+    padding: 14px;
   }
 }
 
