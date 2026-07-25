@@ -34,9 +34,6 @@ jobs:
               -o "$APP_DIR" \
               --no-self-contained
 
-            echo "==> Fixing permissions..."
-            chown -R teamportfolio:teamportfolio "$APP_DIR"
-
             echo "==> Restarting service..."
             systemctl restart teamportfolio
 
