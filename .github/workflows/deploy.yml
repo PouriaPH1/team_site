@@ -1,0 +1,47 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: SSH Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            set -e
+
+            SOURCE_DIR="${{ secrets.SOURCE_DIR }}"
+            APP_DIR="${{ secrets.APP_DIR }}"
+
+            echo "==> Pulling latest changes..."
+            cd "$SOURCE_DIR"
+            git pull origin master
+
+            echo "==> Building & publishing..."
+            dotnet publish src/TeamPortfolio.Web/TeamPortfolio.Web.csproj \
+              -c Release \
+              -o "$APP_DIR" \
+              --no-self-contained
+
+            echo "==> Fixing permissions..."
+            chown -R teamportfolio:teamportfolio "$APP_DIR"
+
+            echo "==> Restarting service..."
+            systemctl restart teamportfolio
+
+            echo "==> Verifying service is running..."
+            systemctl is-active --quiet teamportfolio && echo "Service is UP" || (echo "Service FAILED" && exit 1)
+
+            echo ""
+            echo "Deploy complete at $(date)"
