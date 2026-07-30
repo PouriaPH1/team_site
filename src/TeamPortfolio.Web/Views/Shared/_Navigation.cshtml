@@ -111,7 +111,7 @@
                 </svg>
             </button>
 
-            <!-- Dashboard / Login (authenticated state) -->
+            <!-- Dashboard (admin only — login link is intentionally hidden from public UI) -->
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
@@ -119,15 +119,6 @@
                    style="padding:7px 16px;font-size:0.875rem;">
                     <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
                     <span>Dashboard</span>
-                </a>
-            }
-            else
-            {
-                <a asp-area="" asp-controller="Account" asp-action="Login"
-                   class="btn-secondary nav-auth-btn"
-                   style="padding:7px 16px;font-size:0.875rem;">
-                    <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
-                    <span>Login</span>
                 </a>
             }
 
@@ -236,14 +227,6 @@
                class="btn-primary w-100 justify-content-center">
                 <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
                 <span>Dashboard</span>
-            </a>
-        }
-        else
-        {
-            <a asp-area="" asp-controller="Account" asp-action="Login"
-               class="btn-secondary w-100 justify-content-center">
-                <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
-                <span>Login</span>
             </a>
         }
         <!-- Theme toggle — available on mobile too -->
