@@ -18,27 +18,9 @@
   flex-direction: column;
 }
 
-/* Gradient bridge — painting fades seamlessly into body background #0F1E33 */
+/* Wave bridge — crisp SVG wave replaces gradient fade for a clean edge */
 #hero-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 340px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(15, 30, 51, 0.06) 15%,
-    rgba(15, 28, 48, 0.18) 30%,
-    rgba(14, 26, 45, 0.40) 48%,
-    rgba(13, 24, 43, 0.65) 65%,
-    rgba(13, 23, 40, 0.85) 80%,
-    #0F1E33 96%,
-    #0F1E33 100%
-  );
-  z-index: 2;
-  pointer-events: none;
+  content: none;
 }
 
 /* ── Layer 0: Background Image ────────────────────────────── */
@@ -77,23 +59,27 @@
   z-index: 1;
 }
 
-/* Bottom overlay — subtle fade into body background, painting still visible */
+/* Bottom overlay — removed; wave SVG handles the edge transition */
 .hero-overlay-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(
-    0deg,
-    rgba(15, 30, 51, 0.48) 0%,
-    rgba(15, 30, 51, 0.28) 30%,
-    rgba(15, 30, 51, 0.10) 60%,
-    transparent 100%
-  );
-  z-index: 1;
+  display: none;
 }
 
+/* ── Wave Edge ─────────────────────────────────────────────── */
+.hero-wave-edge {
+  position: absolute;
+  bottom: -1px;   /* -1px prevents 1px gap on some screens */
+  left: 0;
+  right: 0;
+  z-index: 3;
+  pointer-events: none;
+  line-height: 0; /* remove inline SVG gap */
+}
+
+.hero-wave-edge svg {
+  display: block;
+  width: 100%;
+  height: 80px;
+}
 /* ── Hero Content Wrapper ─────────────────────────────────── */
 .hero-wrapper {
   position: relative;
