@@ -18,7 +18,12 @@
   flex-direction: column;
 }
 
-/* Wave bridge — crisp SVG wave replaces gradient fade for a clean edge */
+/* Clean white border separates hero from next section */
+#hero-section {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+/* No ::after pseudo-element needed */
 #hero-section::after {
   content: none;
 }
@@ -59,26 +64,18 @@
   z-index: 1;
 }
 
-/* Bottom overlay — removed; wave SVG handles the edge transition */
+/* Bottom overlay — removed; border-bottom handles edge separation */
 .hero-overlay-bottom {
   display: none;
 }
 
-/* ── Wave Edge ─────────────────────────────────────────────── */
+/* ── Wave Edge — removed in favour of clean border-bottom ─── */
 .hero-wave-edge {
-  position: absolute;
-  bottom: -1px;   /* -1px prevents 1px gap on some screens */
-  left: 0;
-  right: 0;
-  z-index: 3;
-  pointer-events: none;
-  line-height: 0; /* remove inline SVG gap */
+  display: none;
 }
 
 .hero-wave-edge svg {
-  display: block;
-  width: 100%;
-  height: 80px;
+  display: none;
 }
 /* ── Hero Content Wrapper ─────────────────────────────────── */
 .hero-wrapper {
