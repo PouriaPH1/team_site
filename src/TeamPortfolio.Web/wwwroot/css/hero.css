@@ -442,7 +442,7 @@
     line-height: 1.55;
   }
 
-  /* Buttons: side-by-side if they fit, stacked otherwise */
+  /* Buttons: compact side-by-side like desktop — do NOT stretch full width */
   .hero-cta-row {
     flex-direction: row;
     flex-wrap: wrap;
@@ -452,10 +452,10 @@
 
   .hero-cta-primary,
   .hero-cta-secondary {
-    flex: 1 1 140px;   /* grow to fill, min 140px each */
-    justify-content: center;
+    flex: 0 0 auto;   /* natural size — no stretching */
+    width: auto;
     font-size: 0.875rem;
-    padding: 11px 16px;
+    padding: 10px 20px;
   }
 
   .hero-stat-num  { font-size: 1.1rem; }
@@ -468,17 +468,18 @@
   .hero-bg {
     background-image: url('/images/raw-vangogh-without-text (7681200).png');
     background-size: cover;
-    background-position: center center;
+    background-position: center 30%;
   }
 
-  /* Stronger top-down overlay so text (top half) stays readable */
+  /* Light overlay — only top ~35% gets dark enough for text readability,
+     rest of painting stays fully visible */
   .hero-overlay {
     background: linear-gradient(
       180deg,
-      rgba(10, 11, 15, 0.82) 0%,
-      rgba(10, 11, 15, 0.55) 45%,
-      rgba(10, 11, 15, 0.10) 75%,
-      transparent 100%
+      rgba(10, 11, 15, 0.72) 0%,
+      rgba(10, 11, 15, 0.45) 30%,
+      rgba(10, 11, 15, 0.08) 55%,
+      transparent 75%
     );
   }
 }
@@ -493,16 +494,13 @@
   .hero-line-main   { font-size: clamp(1.5rem,  7.5vw, 2rem); }
   .hero-line-create { font-size: clamp(1.85rem, 9vw,   2.8rem); }
 
-  /* Stack buttons vertically on very small screens */
-  .hero-cta-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
+  /* Keep buttons compact even on very small screens */
   .hero-cta-primary,
   .hero-cta-secondary {
-    width: 100%;
-    flex: unset;
+    flex: 0 0 auto;
+    width: auto;
+    padding: 9px 16px;
+    font-size: 0.82rem;
   }
 }
 
